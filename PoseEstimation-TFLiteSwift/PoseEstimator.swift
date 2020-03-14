@@ -8,38 +8,24 @@
 
 import CoreVideo
 
-enum PoseEstimationResult {
-    case success(keypoints: [Keypoint], heatmaps: Heatmaps)
-    case fail
+struct PoseEstimationKeypoint {
+    let position: CGPoint
+    let score: CGFloat
+}
+
+struct PoseEstimationHeatmaps {
+    let keypoints: [PoseEstimationKeypoint]
     
-    struct Keypoint {
-        let position: CGPoint
-        let score: CGFloat
-    }
-    struct Heatmaps {
+    init(tfliteResult: TFLiteResult) {
         // <#TODO#>
-        
-        init(tfliteResult: TFLiteResult) {
-            // <#TODO#>
-        }
-        
-        var keypointsAndScore: [(position: CGPoint, score: CGFloat)] {
-            // <#TODO#>
-            return []
-        }
+        keypoints = []
     }
 }
 
-/// for TensorFlowLite model
-extension PoseEstimationResult {
-    init(tfliteResult: TFLiteResult) {
-        let heatmaps = Heatmaps(tfliteResult: tfliteResult)
-        let keypoints = heatmaps.keypointsAndScore.map { Keypoint(position: $0.position, score: $0.score) }
-        // <#TODO#>
-        self = .success(keypoints: keypoints, heatmaps: heatmaps)
-    }
+enum PoseEstimationError: Error {
+    case commonFail
 }
 
 protocol PoseEstimator {
-    func inference(with pixelBuffer: CVPixelBuffer) -> PoseEstimationResult
+    func inference(with pixelBuffer: CVPixelBuffer) -> Result<PoseEstimationHeatmaps, PoseEstimationError>
 }
