@@ -41,5 +41,5 @@ extension PoseEstimationResult {
 }
 
 protocol PoseEstimator {
-    func predict(with pixelBuffer: CVPixelBuffer) -> PoseEstimationResult
+    func inference(with pixelBuffer: CVPixelBuffer) -> PoseEstimationResult
 }

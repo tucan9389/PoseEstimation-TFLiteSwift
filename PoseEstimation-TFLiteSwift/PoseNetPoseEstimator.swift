@@ -11,7 +11,7 @@ import CoreVideo
 class PoseNetPoseEstimator: PoseEstimator {
     let poseInterpretor = TFLiteImageInterpretor()
     
-    func predict(with pixelBuffer: CVPixelBuffer) -> PoseEstimationResult {
+    func inference(with pixelBuffer: CVPixelBuffer) -> PoseEstimationResult {
         guard let tfliteResult = poseInterpretor.predict(with: pixelBuffer) else { return .fail }
         return PoseEstimationResult(tfliteResult: tfliteResult)
     }
