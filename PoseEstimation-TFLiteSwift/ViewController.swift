@@ -9,12 +9,11 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    let poseEstimator: PoseEstimator = PoseNetPoseEstimator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
-
-
 }
 
