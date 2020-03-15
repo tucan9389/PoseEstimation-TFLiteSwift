@@ -16,6 +16,7 @@
 		7105C933241D0651001A4325 /* TFLiteImageInterpretor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C932241D0651001A4325 /* TFLiteImageInterpretor.swift */; };
 		7105C935241D0821001A4325 /* PoseNetPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */; };
 		7105C937241D29B8001A4325 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C936241D29B8001A4325 /* VideoCapture.swift */; };
+		7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */; };
 		E0C93A920161DEF82C2B75E0 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		7105C932241D0651001A4325 /* TFLiteImageInterpretor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteImageInterpretor.swift; sourceTree = "<group>"; };
 		7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseNetPoseEstimator.swift; sourceTree = "<group>"; };
 		7105C936241D29B8001A4325 /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite; sourceTree = "<group>"; };
 		8C8112449130BEE4072F1385 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,9 +73,6 @@
 			children = (
 				7105C915241CE9B5001A4325 /* AppDelegate.swift */,
 				7105C919241CE9B6001A4325 /* ViewController.swift */,
-				7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */,
-				7105C92E241D0235001A4325 /* PoseEstimator.swift */,
-				7105C932241D0651001A4325 /* TFLiteImageInterpretor.swift */,
 				7105C92B241D0150001A4325 /* MLModel */,
 				7105C92A241D0144001A4325 /* Extension */,
 				7105C929241D011F001A4325 /* View */,
@@ -103,6 +102,10 @@
 		7105C92B241D0150001A4325 /* MLModel */ = {
 			isa = PBXGroup;
 			children = (
+				7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */,
+				7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */,
+				7105C92E241D0235001A4325 /* PoseEstimator.swift */,
+				7105C932241D0651001A4325 /* TFLiteImageInterpretor.swift */,
 			);
 			name = MLModel;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 				7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */,
 				7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */,
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
+				7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +386,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5WXJ4Z4H69;
 				INFOPLIST_FILE = "PoseEstimation-TFLiteSwift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -401,6 +406,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5WXJ4Z4H69;
 				INFOPLIST_FILE = "PoseEstimation-TFLiteSwift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
