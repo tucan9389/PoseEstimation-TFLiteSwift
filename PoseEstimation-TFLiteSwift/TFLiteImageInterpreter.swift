@@ -14,6 +14,7 @@ struct TFLiteResult {
 
 class TFLiteImageInterpreter {
     let interpreter: Interpreter
+    let options: Options
     
     init(options: Options) {
         guard let modelPath = Bundle.main.path(forResource: options.modelName, ofType: "tflite") else {
@@ -38,6 +39,7 @@ class TFLiteImageInterpreter {
         }
         
         self.interpreter = interpreter
+        self.options = options
         
         do {
             try setupTensor(with: interpreter, options: options)
@@ -56,9 +58,31 @@ class TFLiteImageInterpreter {
         // <#TODO#> - check quantization or not
     }
     
-    func preprocess(with pixelBuffer: CVPixelBuffer) -> Data? {
-        // <#TODO#>
-        return nil
+    func preprocessMiddleSquareArea(with pixelBuffer: CVPixelBuffer) -> Data? {
+        let imageSize = pixelBuffer.size
+        let minLength = min(imageSize.width, imageSize.height)
+        let targetSquare = CGRect(x: (imageSize.width - minLength) / 2,
+                                  y: (imageSize.height - minLength) / 2,
+                                  width: minLength, height: minLength)
+        return preprocess(with: pixelBuffer, from: targetSquare)
+    }
+    
+    func preprocess(with pixelBuffer: CVPixelBuffer, from targetSquare: CGRect) -> Data? {
+        let sourcePixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer)
+        assert(sourcePixelFormat == kCVPixelFormatType_32BGRA)
+        
+        // Resize `targetSquare` of input image to `modelSize`.
+        let modelSize = CGSize(width: options.inputWidth, height: options.inputHeight)
+        guard let thumbnail = pixelBuffer.resize(from: targetSquare, to: modelSize) else { return nil }
+        
+        // Remove the alpha component from the image buffer to get the initialized `Data`.
+        let byteCount = 1 * options.inputHeight * options.inputWidth * options.inputChannel
+        guard let inputData = thumbnail.rgbData(byteCount: byteCount, isModelQuantized: options.isQuantized) else {
+            print("Failed to convert the image buffer to RGB data.")
+            return nil
+        }
+        
+        return inputData
     }
     
     func inference(with inputData: Data) -> TFLiteResult? {
@@ -73,12 +97,19 @@ extension TFLiteImageInterpreter {
         let threadCount: Int
         let accelerator: Accelerator
         let isQuantized: Bool
+        let inputWidth: Int
+        let inputHeight: Int
+        let isRGB: Bool
+        var inputChannel: Int { return isRGB ? 3 : 1 }
         
-        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false) {
+        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isRGB: Bool = true) {
             self.modelName = modelName
             self.threadCount = threadCount
             self.accelerator = accelerator
             self.isQuantized = isQuantized
+            self.inputWidth = inputWidth
+            self.inputHeight = inputHeight
+            self.isRGB = isRGB
         }
     }
 }
