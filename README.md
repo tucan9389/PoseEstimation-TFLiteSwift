@@ -9,7 +9,7 @@ This project is Pose Estimation on iOS with TensorFlow Lite.<br>If you are inter
 ## Requirements
 
 - Xcode 11.3+
-- iOS 12.0+
+- iOS 11.0+
 - Swift 5
 - CocoaPods
 ```shell
