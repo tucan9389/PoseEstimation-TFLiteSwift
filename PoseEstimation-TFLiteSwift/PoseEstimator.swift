@@ -24,7 +24,8 @@ struct PoseEstimationHeatmaps {
 }
 
 enum PoseEstimationError: Error {
-    case commonFail
+    case failToCreateInputData
+    case failToInference
 }
 
 protocol PoseEstimator {

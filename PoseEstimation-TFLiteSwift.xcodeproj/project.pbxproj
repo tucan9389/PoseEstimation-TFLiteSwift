@@ -13,7 +13,7 @@
 		7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7105C91E241CE9B7001A4325 /* Assets.xcassets */; };
 		7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7105C920241CE9B7001A4325 /* LaunchScreen.storyboard */; };
 		7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C92E241D0235001A4325 /* PoseEstimator.swift */; };
-		7105C933241D0651001A4325 /* TFLiteImageInterpretor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C932241D0651001A4325 /* TFLiteImageInterpretor.swift */; };
+		7105C933241D0651001A4325 /* TFLiteImageInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */; };
 		7105C935241D0821001A4325 /* PoseNetPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */; };
 		7105C937241D29B8001A4325 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C936241D29B8001A4325 /* VideoCapture.swift */; };
 		7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */; };
@@ -31,7 +31,7 @@
 		7105C921241CE9B7001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7105C923241CE9B7001A4325 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7105C92E241D0235001A4325 /* PoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseEstimator.swift; sourceTree = "<group>"; };
-		7105C932241D0651001A4325 /* TFLiteImageInterpretor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteImageInterpretor.swift; sourceTree = "<group>"; };
+		7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteImageInterpreter.swift; sourceTree = "<group>"; };
 		7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseNetPoseEstimator.swift; sourceTree = "<group>"; };
 		7105C936241D29B8001A4325 /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 				7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */,
 				7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */,
 				7105C92E241D0235001A4325 /* PoseEstimator.swift */,
-				7105C932241D0651001A4325 /* TFLiteImageInterpretor.swift */,
+				7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */,
 			);
 			name = MLModel;
 			sourceTree = "<group>";
@@ -233,7 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7105C933241D0651001A4325 /* TFLiteImageInterpretor.swift in Sources */,
+				7105C933241D0651001A4325 /* TFLiteImageInterpreter.swift in Sources */,
 				7105C91A241CE9B6001A4325 /* ViewController.swift in Sources */,
 				7105C916241CE9B5001A4325 /* AppDelegate.swift in Sources */,
 				7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */,
