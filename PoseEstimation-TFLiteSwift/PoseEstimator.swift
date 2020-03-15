@@ -14,6 +14,7 @@ struct PoseEstimationKeypoint {
 }
 
 struct PoseEstimationHeatmaps {
+    // <#TODO#>
     let keypoints: [PoseEstimationKeypoint]
     
     init(tfliteResult: TFLiteResult) {
