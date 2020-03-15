@@ -40,17 +40,12 @@ public class VideoCapture: NSObject {
         captureSession.beginConfiguration()
         captureSession.sessionPreset = sessionPreset
         
-        guard let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
-                                                          for: .video,
-                                                          position: cameraPosition) else {
-            
-            print("Error: no video devices available")
-            return
+        guard let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: cameraPosition) else {
+            fatalError("Error: no video devices available")
         }
         
         guard let videoInput = try? AVCaptureDeviceInput(device: captureDevice) else {
-            print("Error: could not create AVCaptureDeviceInput")
-            return
+            fatalError("Error: could not create AVCaptureDeviceInput")
         }
         
         if captureSession.canAddInput(videoInput) {
