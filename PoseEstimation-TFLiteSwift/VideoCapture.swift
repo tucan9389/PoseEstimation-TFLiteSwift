@@ -11,7 +11,7 @@ import AVFoundation
 import CoreVideo
 
 public protocol VideoCaptureDelegate: class {
-    func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame: CVPixelBuffer?, timestamp: CMTime)
+    func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame: CVPixelBuffer, timestamp: CMTime)
 }
 
 public class VideoCapture: NSObject {
@@ -100,7 +100,8 @@ extension VideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
         let deltaTime = timestamp - lastTimestamp
         if deltaTime >= CMTimeMake(value: 1, timescale: Int32(fps)) {
             lastTimestamp = timestamp
-            let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        }
+        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             delegate?.videoCapture(self, didCaptureVideoFrame: imageBuffer, timestamp: timestamp)
         }
     }

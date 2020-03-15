@@ -73,9 +73,8 @@ class ViewController: UIViewController {
 
 // MARK: - VideoCaptureDelegate
 extension ViewController: VideoCaptureDelegate {
-    func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
+    func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer, timestamp: CMTime) {
         // the captured image from camera is contained on pixelBuffer
-        guard let pixelBuffer = pixelBuffer else { return }
         
         let result = poseEstimator.inference(with: pixelBuffer)
         print(result)
