@@ -76,7 +76,6 @@ class TFLiteImageInterpreter {
         // check output tensors dimension
         outputTensors.enumerated().forEach { (offset, outputTensor) in
             // <#TODO#>
-            
         }
         self.outputTensors = outputTensors
         
@@ -103,7 +102,9 @@ class TFLiteImageInterpreter {
         
         // Remove the alpha component from the image buffer to get the initialized `Data`.
         let byteCount = 1 * options.inputHeight * options.inputWidth * options.inputChannel
-        guard let inputData = thumbnail.rgbData(byteCount: byteCount, isModelQuantized: options.isQuantized) else {
+        guard let inputData = thumbnail.rgbData(byteCount: byteCount,
+                                                isNormalized: options.isNormalized,
+                                                isModelQuantized: options.isQuantized) else {
             print("Failed to convert the image buffer to RGB data.")
             return nil
         }
@@ -112,7 +113,20 @@ class TFLiteImageInterpreter {
     }
     
     func inference(with inputData: Data) -> TFLiteResult? {
-        // <#TODO#>
+        // Copy the initialized `Data` to the input `Tensor`.
+        do {
+            try interpreter.copy(inputData, toInputAt: 0)
+            
+            // Run inference by invoking the `Interpreter`.
+            try interpreter.invoke()
+            
+            // Get the output `Tensor` to process the inference results.
+            for (index) in 0..<outputTensors.count {
+                outputTensors[index] = try interpreter.output(at: index)
+            }
+        } catch let error {
+            fatalError("Failed to invoke the interpreter with error:" + error.localizedDescription)
+        }
         return nil
     }
 }
@@ -127,8 +141,9 @@ extension TFLiteImageInterpreter {
         let inputHeight: Int
         let isRGB: Bool
         var inputChannel: Int { return isRGB ? 3 : 1 }
+        let isNormalized: Bool // true: 0.0~1.0, false: 0.0~255.0
         
-        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isRGB: Bool = true) {
+        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isRGB: Bool = true, isNormalized: Bool = false) {
             self.modelName = modelName
             self.threadCount = threadCount
             self.accelerator = accelerator
@@ -136,6 +151,7 @@ extension TFLiteImageInterpreter {
             self.inputWidth = inputWidth
             self.inputHeight = inputHeight
             self.isRGB = isRGB
+            self.isNormalized = isNormalized
         }
     }
 }

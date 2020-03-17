@@ -13,7 +13,8 @@ class PoseNetPoseEstimator: PoseEstimator {
         let options = TFLiteImageInterpreter.Options(
             modelName: "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped",
             inputWidth: 257,
-            inputHeight: 257
+            inputHeight: 257,
+            isNormalized: true
         )
         let imageInterpreter = TFLiteImageInterpreter(options: options)
         return imageInterpreter
