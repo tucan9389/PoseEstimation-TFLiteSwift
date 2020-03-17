@@ -15,6 +15,8 @@ struct TFLiteResult {
 class TFLiteImageInterpreter {
     let interpreter: Interpreter
     let options: Options
+    var inputTensor: Tensor?
+    var outputTensors: [Tensor] = []
     
     init(options: Options) {
         guard let modelPath = Bundle.main.path(forResource: options.modelName, ofType: "tflite") else {
@@ -54,7 +56,31 @@ class TFLiteImageInterpreter {
         // Allocate memory for the model's input `Tensor`s.
         try interpreter.allocateTensors()
         
-        // <#TODO#> - check input/output dimensions
+        // input tensor
+        let inputTensor = try interpreter.input(at: 0)
+        // check input tensor dimension
+        guard inputTensor.shape.dimensions[0] == 1,
+            inputTensor.shape.dimensions[1] == options.inputHeight,
+            inputTensor.shape.dimensions[2] == options.inputWidth,
+            inputTensor.shape.dimensions[3] == options.inputChannel
+        else {
+            fatalError("Unexpected Model: input shape")
+        }
+        self.inputTensor = inputTensor
+        
+        // output tensor
+        let outputTensors = try (0..<interpreter.outputTensorCount).map { outputTensorIndex -> Tensor in
+            let outputTensor = try interpreter.output(at: outputTensorIndex)
+            return outputTensor
+        }
+        // check output tensors dimension
+        outputTensors.enumerated().forEach { (offset, outputTensor) in
+            // <#TODO#>
+            
+        }
+        self.outputTensors = outputTensors
+        
+        
         // <#TODO#> - check quantization or not
     }
     
