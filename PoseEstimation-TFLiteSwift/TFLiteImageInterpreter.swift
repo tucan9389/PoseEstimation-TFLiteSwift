@@ -48,7 +48,6 @@ class TFLiteImageInterpreter {
         } catch {
             fatalError("Failed to setup tensor: \(error.localizedDescription)")
         }
-        
     }
     
     private func setupTensor(with interpreter: Interpreter, options: Options) throws {
@@ -78,7 +77,6 @@ class TFLiteImageInterpreter {
             // <#TODO#>
         }
         self.outputTensors = outputTensors
-        
         
         // <#TODO#> - check quantization or not
     }
@@ -115,6 +113,7 @@ class TFLiteImageInterpreter {
     func inference(with inputData: Data) -> TFLiteResult? {
         // Copy the initialized `Data` to the input `Tensor`.
         do {
+            // Copy input into interpreter's 0th `Tensor`.
             try interpreter.copy(inputData, toInputAt: 0)
             
             // Run inference by invoking the `Interpreter`.
