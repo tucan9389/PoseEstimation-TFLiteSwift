@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LiveImageViewController.swift
 //  PoseEstimation-TFLiteSwift
 //
 //  Created by Doyoung Gwak on 2020/03/14.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreMedia
 
-class ViewController: UIViewController {
+class LiveImageViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var previewView: UIView?
@@ -72,7 +72,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: - VideoCaptureDelegate
-extension ViewController: VideoCaptureDelegate {
+extension LiveImageViewController: VideoCaptureDelegate {
     func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer, timestamp: CMTime) {
         // the captured image from camera is contained on pixelBuffer
         
