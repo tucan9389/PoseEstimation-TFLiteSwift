@@ -66,8 +66,15 @@
                         <viewLayoutGuide key="safeArea" id="Jv1-3Q-T9Y"/>
                     </view>
                     <navigationItem key="navigationItem" id="fkm-wZ-Wju">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus.rectangle.fill.on.rectangle.fill" catalog="system" id="fGL-rc-lC4"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus.rectangle.fill.on.rectangle.fill" catalog="system" id="fGL-rc-lC4">
+                            <connections>
+                                <action selector="importImage:" destination="C8S-Nb-lg5" id="fGp-9R-noc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="imageView" destination="Gj5-n8-rgW" id="t39-PT-2kG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzl-Ry-BAi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
