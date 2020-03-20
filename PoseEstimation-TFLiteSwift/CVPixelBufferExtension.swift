@@ -108,7 +108,7 @@ extension CVPixelBuffer {
     ///       floating point values).
     /// - Returns: The RGB data representation of the image buffer or `nil` if the buffer could not be
     ///     converted.
-    func rgbData(byteCount: Int, isModelQuantized: Bool) -> Data? {
+    func rgbData(byteCount: Int, isNormalized: Bool = false, isModelQuantized: Bool) -> Data? {
         CVPixelBufferLockBaseAddress(self, .readOnly)
         defer { CVPixelBufferUnlockBaseAddress(self, .readOnly) }
         guard let sourceData = CVPixelBufferGetBaseAddress(self) else {
@@ -158,7 +158,12 @@ extension CVPixelBuffer {
         if isModelQuantized { return imageByteData }
         
         let imageBytes = [UInt8](imageByteData)
-        let bytes = imageBytes.map { Float($0) / 255.0 } // normalization
+        let bytes: [Float]
+        if isNormalized {
+            bytes = imageBytes.map { Float($0) / 255.0 } // normalization
+        } else {
+            bytes = imageBytes.map { Float($0) } // not normalization
+        }
         return Data(copyingBufferOf: bytes)
     }
 }

@@ -109,8 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */,
-				7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */,
 				7105C92E241D0235001A4325 /* PoseEstimator.swift */,
+				7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */,
 				7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */,
 			);
 			name = MLModel;

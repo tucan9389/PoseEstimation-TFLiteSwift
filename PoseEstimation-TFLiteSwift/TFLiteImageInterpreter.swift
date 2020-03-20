@@ -15,6 +15,8 @@ struct TFLiteResult {
 class TFLiteImageInterpreter {
     let interpreter: Interpreter
     let options: Options
+    var inputTensor: Tensor?
+    var outputTensors: [Tensor] = []
     
     init(options: Options) {
         guard let modelPath = Bundle.main.path(forResource: options.modelName, ofType: "tflite") else {
@@ -46,7 +48,6 @@ class TFLiteImageInterpreter {
         } catch {
             fatalError("Failed to setup tensor: \(error.localizedDescription)")
         }
-        
     }
     
     private func setupTensor(with interpreter: Interpreter, options: Options) throws {
@@ -54,7 +55,29 @@ class TFLiteImageInterpreter {
         // Allocate memory for the model's input `Tensor`s.
         try interpreter.allocateTensors()
         
-        // <#TODO#> - check input/output dimensions
+        // input tensor
+        let inputTensor = try interpreter.input(at: 0)
+        // check input tensor dimension
+        guard inputTensor.shape.dimensions[0] == 1,
+            inputTensor.shape.dimensions[1] == options.inputHeight,
+            inputTensor.shape.dimensions[2] == options.inputWidth,
+            inputTensor.shape.dimensions[3] == options.inputChannel
+        else {
+            fatalError("Unexpected Model: input shape")
+        }
+        self.inputTensor = inputTensor
+        
+        // output tensor
+        let outputTensors = try (0..<interpreter.outputTensorCount).map { outputTensorIndex -> Tensor in
+            let outputTensor = try interpreter.output(at: outputTensorIndex)
+            return outputTensor
+        }
+        // check output tensors dimension
+        outputTensors.enumerated().forEach { (offset, outputTensor) in
+            // <#TODO#>
+        }
+        self.outputTensors = outputTensors
+        
         // <#TODO#> - check quantization or not
     }
     
@@ -77,7 +100,9 @@ class TFLiteImageInterpreter {
         
         // Remove the alpha component from the image buffer to get the initialized `Data`.
         let byteCount = 1 * options.inputHeight * options.inputWidth * options.inputChannel
-        guard let inputData = thumbnail.rgbData(byteCount: byteCount, isModelQuantized: options.isQuantized) else {
+        guard let inputData = thumbnail.rgbData(byteCount: byteCount,
+                                                isNormalized: options.isNormalized,
+                                                isModelQuantized: options.isQuantized) else {
             print("Failed to convert the image buffer to RGB data.")
             return nil
         }
@@ -86,7 +111,21 @@ class TFLiteImageInterpreter {
     }
     
     func inference(with inputData: Data) -> TFLiteResult? {
-        // <#TODO#>
+        // Copy the initialized `Data` to the input `Tensor`.
+        do {
+            // Copy input into interpreter's 0th `Tensor`.
+            try interpreter.copy(inputData, toInputAt: 0)
+            
+            // Run inference by invoking the `Interpreter`.
+            try interpreter.invoke()
+            
+            // Get the output `Tensor` to process the inference results.
+            for (index) in 0..<outputTensors.count {
+                outputTensors[index] = try interpreter.output(at: index)
+            }
+        } catch let error {
+            fatalError("Failed to invoke the interpreter with error:" + error.localizedDescription)
+        }
         return nil
     }
 }
@@ -101,8 +140,9 @@ extension TFLiteImageInterpreter {
         let inputHeight: Int
         let isRGB: Bool
         var inputChannel: Int { return isRGB ? 3 : 1 }
+        let isNormalized: Bool // true: 0.0~1.0, false: 0.0~255.0
         
-        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isRGB: Bool = true) {
+        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isRGB: Bool = true, isNormalized: Bool = false) {
             self.modelName = modelName
             self.threadCount = threadCount
             self.accelerator = accelerator
@@ -110,6 +150,7 @@ extension TFLiteImageInterpreter {
             self.inputWidth = inputWidth
             self.inputHeight = inputHeight
             self.isRGB = isRGB
+            self.isNormalized = isNormalized
         }
     }
 }
