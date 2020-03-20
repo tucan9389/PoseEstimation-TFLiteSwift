@@ -9,7 +9,7 @@
 import CoreVideo
 
 class PoseNetPoseEstimator: PoseEstimator {
-    typealias PoseNetResult = Result<Keypoints, PoseEstimationError>
+    typealias PoseNetResult = Result<PoseEstimationOutput, PoseEstimationError>
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
@@ -24,8 +24,13 @@ class PoseNetPoseEstimator: PoseEstimator {
     }()
     
     func inference(with pixelBuffer: CVPixelBuffer) -> PoseNetResult {
+        return inference(with: pixelBuffer, on: nil)
+    }
+    
+    func inference(with pixelBuffer: CVPixelBuffer, on targetRect: CGRect?) -> PoseNetResult {
         // preprocss
-        guard let inputData = imageInterpreter.preprocessMiddleSquareArea(with: pixelBuffer)
+        let targetRect = targetRect ?? CGRect(origin: .zero, size: pixelBuffer.size)
+        guard let inputData = imageInterpreter.preprocess(with: pixelBuffer, from: targetRect)
             else { return .failure(.failToCreateInputData) }
         // inference
         guard let outputs = imageInterpreter.inference(with: inputData)
@@ -37,7 +42,7 @@ class PoseNetPoseEstimator: PoseEstimator {
     }
     
     private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> PoseNetResult {
-        return .success(Keypoints(outputs: outputs))
+        return .success(PoseEstimationOutput(outputs: outputs))
     }
 }
 
@@ -58,11 +63,53 @@ private extension PoseNetPoseEstimator {
             static let height = 9
             static let count = 34
         }
+        enum BodyPart: String, CaseIterable {
+            case NOSE = "nose"
+            case LEFT_EYE = "left eye"
+            case RIGHT_EYE = "right eye"
+            case LEFT_EAR = "left ear"
+            case RIGHT_EAR = "right ear"
+            case LEFT_SHOULDER = "left shoulder"
+            case RIGHT_SHOULDER = "right shoulder"
+            case LEFT_ELBOW = "left elbow"
+            case RIGHT_ELBOW = "right elbow"
+            case LEFT_WRIST = "left wrist"
+            case RIGHT_WRIST = "right wrist"
+            case LEFT_HIP = "left hip"
+            case RIGHT_HIP = "right hip"
+            case LEFT_KNEE = "left knee"
+            case RIGHT_KNEE = "right knee"
+            case LEFT_ANKLE = "left ankle"
+            case RIGHT_ANKLE = "right ankle"
+
+            static let lines = [
+                (from: BodyPart.LEFT_WRIST, to: BodyPart.LEFT_ELBOW),
+                (from: BodyPart.LEFT_ELBOW, to: BodyPart.LEFT_SHOULDER),
+                (from: BodyPart.LEFT_SHOULDER, to: BodyPart.RIGHT_SHOULDER),
+                (from: BodyPart.RIGHT_SHOULDER, to: BodyPart.RIGHT_ELBOW),
+                (from: BodyPart.RIGHT_ELBOW, to: BodyPart.RIGHT_WRIST),
+                (from: BodyPart.LEFT_SHOULDER, to: BodyPart.LEFT_HIP),
+                (from: BodyPart.LEFT_HIP, to: BodyPart.RIGHT_HIP),
+                (from: BodyPart.RIGHT_HIP, to: BodyPart.RIGHT_SHOULDER),
+                (from: BodyPart.LEFT_HIP, to: BodyPart.LEFT_KNEE),
+                (from: BodyPart.LEFT_KNEE, to: BodyPart.LEFT_ANKLE),
+                (from: BodyPart.RIGHT_HIP, to: BodyPart.RIGHT_KNEE),
+                (from: BodyPart.RIGHT_KNEE, to: BodyPart.RIGHT_ANKLE),
+            ]
+        }
     }
 }
 
-private extension Keypoints {
+private extension PoseEstimationOutput {
     init(outputs: [TFLiteFlatArray<Float32>]) {
+        let keypoints = convertToKeypoints(from: outputs)
+        let lines = makeLines(with: keypoints)
+        
+        self.keypoints = keypoints
+        self.lines = lines
+    }
+    
+    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
         let heatmaps = outputs[0]
         let offsets = outputs[1]
         
@@ -82,8 +129,8 @@ private extension Keypoints {
         // get points from (col, row)s and offsets
         let keypointInfos: [(point: CGPoint, score: CGFloat)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
             // (0.0, 0.0)~(1.0, 1.0)
-            let xNaive = (CGFloat(keypointInfo.col) + 0.5) / CGFloat(PoseNetPoseEstimator.Output.Heatmap.width)
-            let yNaive = (CGFloat(keypointInfo.row) + 0.5) / CGFloat(PoseNetPoseEstimator.Output.Heatmap.height)
+            let xNaive = (CGFloat(keypointInfo.col)) / CGFloat(PoseNetPoseEstimator.Output.Heatmap.width - 1)
+            let yNaive = (CGFloat(keypointInfo.row)) / CGFloat(PoseNetPoseEstimator.Output.Heatmap.height - 1)
             
             // (0.0, 0.0)~(Input.width, Input.height)
             let xOffset = offsets[0, keypointInfo.row, keypointInfo.col, index + PoseNetPoseEstimator.Output.Heatmap.count]
@@ -101,6 +148,18 @@ private extension Keypoints {
             return (point: CGPoint(x: x, y: y), score: score)
         }
         
-        keypoints = keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
+        return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
+    }
+    
+    func makeLines(with keypoints: [Keypoint]) -> [Line] {
+        var keypointWithBodyPart: [PoseNetPoseEstimator.Output.BodyPart: Keypoint] = [:]
+        PoseNetPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
+            keypointWithBodyPart[bodyPart] = keypoints[index]
+        }
+        return PoseNetPoseEstimator.Output.BodyPart.lines.compactMap { line in
+            guard let fromKeypoint = keypointWithBodyPart[line.from],
+                let toKeypoint = keypointWithBodyPart[line.to] else { return nil }
+            return (from: fromKeypoint, to: toKeypoint)
+        }
     }
 }

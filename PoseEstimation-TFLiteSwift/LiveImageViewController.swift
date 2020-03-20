@@ -13,6 +13,8 @@ class LiveImageViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var previewView: UIView?
+    @IBOutlet weak var overlayView: PoseKeypointsDrawingView?
+    var overlayViewRelativeRect: CGRect = .zero
     
     // MARK: - VideoCapture Properties
     var videoCapture = VideoCapture()
@@ -25,6 +27,9 @@ class LiveImageViewController: UIViewController {
         
         // setup camera
         setUpCamera()
+        
+        // setup UI
+        setUpUI()
     }
     
     override func didReceiveMemoryWarning() {
@@ -61,9 +66,19 @@ class LiveImageViewController: UIViewController {
         }
     }
     
+    func setUpUI() {
+        overlayView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
+        overlayView?.layer.borderWidth = 5
+    }
+    
     override func viewDidLayoutSubviews() {
-        // super.viewDidLayoutSubviews()
         resizePreviewLayer()
+        
+        let previewViewRect = previewView?.frame ?? .zero
+        let overlayViewRect = overlayView?.frame ?? .zero
+        let relativeOrigin = CGPoint(x: overlayViewRect.origin.x - previewViewRect.origin.x,
+                                     y: overlayViewRect.origin.y - previewViewRect.origin.y)
+        overlayViewRelativeRect = CGRect(origin: relativeOrigin, size: overlayViewRect.size)
     }
     
     func resizePreviewLayer() {
@@ -74,9 +89,26 @@ class LiveImageViewController: UIViewController {
 // MARK: - VideoCaptureDelegate
 extension LiveImageViewController: VideoCaptureDelegate {
     func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer, timestamp: CMTime) {
-        // the captured image from camera is contained on pixelBuffer
         
-        let result: Result<Keypoints, PoseEstimationError> = poseEstimator.inference(with: pixelBuffer)
-        print(result)
+        let scalingRatio = pixelBuffer.size.width / overlayViewRelativeRect.width
+        let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(with: pixelBuffer, on: targetAreaRect)
+        
+        DispatchQueue.main.async {
+            print(result)
+            switch (result) {
+            case .success(let output):
+                self.overlayView?.result = output
+            case .failure(let error):
+                break
+            }
+        }
+    }
+}
+
+private extension CGRect {
+    func scaled(to scalingRatio: CGFloat) -> CGRect {
+        return CGRect(x: origin.x * scalingRatio, y: origin.y * scalingRatio,
+                      width: width * scalingRatio, height: height * scalingRatio)
     }
 }
