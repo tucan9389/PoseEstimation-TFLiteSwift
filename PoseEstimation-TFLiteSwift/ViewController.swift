@@ -76,7 +76,7 @@ extension ViewController: VideoCaptureDelegate {
     func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer, timestamp: CMTime) {
         // the captured image from camera is contained on pixelBuffer
         
-        let result = poseEstimator.inference(with: pixelBuffer)
+        let result: Result<Keypoints, PoseEstimationError> = poseEstimator.inference(with: pixelBuffer)
         print(result)
     }
 }

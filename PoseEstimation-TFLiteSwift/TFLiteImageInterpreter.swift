@@ -9,7 +9,7 @@
 import TensorFlowLite
 
 struct TFLiteResult {
-    // <#TODO#>
+    let outputTensors: [Tensor]
 }
 
 class TFLiteImageInterpreter {
@@ -110,7 +110,7 @@ class TFLiteImageInterpreter {
         return inputData
     }
     
-    func inference(with inputData: Data) -> TFLiteResult? {
+    func inference(with inputData: Data) -> [TFLiteFlatArray<Float32>]? {
         // Copy the initialized `Data` to the input `Tensor`.
         do {
             // Copy input into interpreter's 0th `Tensor`.
@@ -123,10 +123,12 @@ class TFLiteImageInterpreter {
             for (index) in 0..<outputTensors.count {
                 outputTensors[index] = try interpreter.output(at: index)
             }
-        } catch let error {
-            fatalError("Failed to invoke the interpreter with error:" + error.localizedDescription)
+        } catch /*let error*/ {
+            // fatalError("Failed to invoke the interpreter with error:" + error.localizedDescription)
+            return nil
         }
-        return nil
+        
+        return outputTensors.map { TFLiteFlatArray(tensor: $0) }
     }
 }
 
@@ -138,18 +140,18 @@ extension TFLiteImageInterpreter {
         let isQuantized: Bool
         let inputWidth: Int
         let inputHeight: Int
-        let isRGB: Bool
-        var inputChannel: Int { return isRGB ? 3 : 1 }
+        let isGrayScale: Bool
+        var inputChannel: Int { return isGrayScale ? 1 : 3 }
         let isNormalized: Bool // true: 0.0~1.0, false: 0.0~255.0
         
-        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isRGB: Bool = true, isNormalized: Bool = false) {
+        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isGrayScale: Bool = false, isNormalized: Bool = false) {
             self.modelName = modelName
             self.threadCount = threadCount
             self.accelerator = accelerator
             self.isQuantized = isQuantized
             self.inputWidth = inputWidth
             self.inputHeight = inputHeight
-            self.isRGB = isRGB
+            self.isGrayScale = isGrayScale
             self.isNormalized = isNormalized
         }
     }

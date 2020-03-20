@@ -8,19 +8,14 @@
 
 import CoreVideo
 
-struct PoseEstimationKeypoint {
+struct Keypoint {
     let position: CGPoint
     let score: CGFloat
 }
 
-struct PoseEstimationHeatmaps {
+struct Keypoints {
     // <#TODO#>
-    let keypoints: [PoseEstimationKeypoint]
-    
-    init(tfliteResult: TFLiteResult) {
-        // <#TODO#>
-        keypoints = []
-    }
+    var keypoints: [Keypoint] = []
 }
 
 enum PoseEstimationError: Error {
@@ -29,5 +24,5 @@ enum PoseEstimationError: Error {
 }
 
 protocol PoseEstimator {
-    func inference(with pixelBuffer: CVPixelBuffer) -> Result<PoseEstimationHeatmaps, PoseEstimationError>
+    func inference(with pixelBuffer: CVPixelBuffer) -> Result<Keypoints, PoseEstimationError>
 }
