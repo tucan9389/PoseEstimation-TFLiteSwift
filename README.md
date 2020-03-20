@@ -3,6 +3,7 @@
 ![platform-ios](https://img.shields.io/badge/platform-ios-lightgrey.svg)
 ![swift-version](https://img.shields.io/badge/swift-5-red.svg)
 ![lisence](https://img.shields.io/badge/license-MIT-black.svg)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 This project is Pose Estimation on iOS with TensorFlow Lite.<br>If you are interested in iOS + Machine Learning, visit [here](https://github.com/motlabs/iOS-Proejcts-with-ML-Models) you can see various DEMOs.<br>
 

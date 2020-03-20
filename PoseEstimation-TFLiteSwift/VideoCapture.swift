@@ -21,18 +21,20 @@ public class VideoCapture: NSObject {
     
     let captureSession = AVCaptureSession()
     let videoOutput = AVCaptureVideoDataOutput()
-    let queue = DispatchQueue(label: "com.tucan9389.camera-queue")
+    private let sessionQueue = DispatchQueue(label: "session queue")
     
     var lastTimestamp = CMTime()
     
     public func setUp(sessionPreset: AVCaptureSession.Preset = .vga640x480,
                       cameraPosition: AVCaptureDevice.Position = .back,
                       completion: @escaping (Bool) -> Void) {
-        self.setUpCamera(sessionPreset: sessionPreset,
-                         cameraPosition: cameraPosition,
-                         completion: { success in
-            completion(success)
-        })
+        sessionQueue.async {
+            self.setUpCamera(sessionPreset: sessionPreset,
+                             cameraPosition: cameraPosition,
+                             completion: { success in
+                completion(success)
+            })
+        }
     }
     
     func setUpCamera(sessionPreset: AVCaptureSession.Preset, cameraPosition: AVCaptureDevice.Position, completion: @escaping (_ success: Bool) -> Void) {
@@ -63,7 +65,7 @@ public class VideoCapture: NSObject {
         
         videoOutput.videoSettings = settings
         videoOutput.alwaysDiscardsLateVideoFrames = true
-        videoOutput.setSampleBufferDelegate(self, queue: queue)
+        videoOutput.setSampleBufferDelegate(self, queue: sessionQueue)
         if captureSession.canAddOutput(videoOutput) {
             captureSession.addOutput(videoOutput)
         }
@@ -79,14 +81,18 @@ public class VideoCapture: NSObject {
     }
     
     public func start() {
-        if !captureSession.isRunning {
-            captureSession.startRunning()
+        sessionQueue.async {
+            if !self.captureSession.isRunning {
+                self.captureSession.startRunning()
+            }
         }
     }
     
     public func stop() {
-        if captureSession.isRunning {
-            captureSession.stopRunning()
+        sessionQueue.async {
+            if self.captureSession.isRunning {
+                self.captureSession.stopRunning()
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var previewView: UIView?
     
     // MARK: - VideoCapture Properties
-    var videoCapture: VideoCapture!
+    var videoCapture = VideoCapture()
     
     // MARK: - ML Property
     let poseEstimator: PoseEstimator = PoseNetPoseEstimator()
@@ -33,30 +33,30 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.videoCapture.start()
+        videoCapture.start()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.videoCapture.stop()
+        videoCapture.stop()
     }
     
     // MARK: - SetUp Video
     func setUpCamera() {
-        videoCapture = VideoCapture()
         videoCapture.delegate = self
         videoCapture.fps = 30
         videoCapture.setUp(sessionPreset: .vga640x480) { success in
-            
-            if success {
-                // add preview view on the layer
-                if let previewLayer = self.videoCapture.previewLayer {
-                    self.previewView?.layer.addSublayer(previewLayer)
-                    self.resizePreviewLayer()
+            DispatchQueue.main.async {
+                if success {
+                    // add preview view on the layer
+                    if let previewLayer = self.videoCapture.previewLayer {
+                        self.previewView?.layer.addSublayer(previewLayer)
+                        self.resizePreviewLayer()
+                    }
+                    
+                    // start video preview when setup is done
+                    self.videoCapture.start()
                 }
-                
-                // start video preview when setup is done
-                self.videoCapture.start()
             }
         }
     }
