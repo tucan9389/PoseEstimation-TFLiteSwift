@@ -11,7 +11,7 @@
         <!--Live Image View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LiveImageViewController" customModule="PoseEstimation_TFLiteSwift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LiveImageViewController" customModule="Pose_TFLiteSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,17 +23,28 @@
                                     <constraint firstAttribute="width" secondItem="LT6-tB-Opy" secondAttribute="height" multiplier="3:4" id="mSU-QG-oFm"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3l-UZ-EbJ" customClass="PoseKeypointsDrawingView" customModule="Pose_TFLiteSwift" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="241" width="414" height="414"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="S3l-UZ-EbJ" secondAttribute="height" multiplier="1:1" id="DdL-lZ-JvO"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="LT6-tB-Opy" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="0eT-4h-aU0"/>
                             <constraint firstItem="LT6-tB-Opy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="D1T-w8-RZs"/>
+                            <constraint firstItem="S3l-UZ-EbJ" firstAttribute="centerY" secondItem="LT6-tB-Opy" secondAttribute="centerY" id="DLc-Pu-hXG"/>
+                            <constraint firstItem="S3l-UZ-EbJ" firstAttribute="trailing" secondItem="LT6-tB-Opy" secondAttribute="trailing" id="H3n-2K-b5V"/>
                             <constraint firstItem="LT6-tB-Opy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aZR-yW-fqG"/>
+                            <constraint firstItem="S3l-UZ-EbJ" firstAttribute="leading" secondItem="LT6-tB-Opy" secondAttribute="leading" id="clF-SA-h0A"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Cn3-8o-Xkd"/>
                     <connections>
+                        <outlet property="overlayView" destination="S3l-UZ-EbJ" id="scz-x0-S7W"/>
                         <outlet property="previewView" destination="LT6-tB-Opy" id="qyN-d8-dTD"/>
                     </connections>
                 </viewController>
@@ -44,7 +55,7 @@
         <!--Still Image View Controller-->
         <scene sceneID="Yo0-op-Rmd">
             <objects>
-                <viewController id="C8S-Nb-lg5" customClass="StillImageViewController" customModule="PoseEstimation_TFLiteSwift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="C8S-Nb-lg5" customClass="StillImageViewController" customModule="Pose_TFLiteSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4rl-xp-TwG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,6 +97,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="7Hz-u1-cN3" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WeC-x7-oJY">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>

@@ -13,9 +13,10 @@ struct Keypoint {
     let score: CGFloat
 }
 
-struct Keypoints {
-    // <#TODO#>
+struct PoseEstimationOutput {
+    typealias Line = (from: Keypoint, to: Keypoint)
     var keypoints: [Keypoint] = []
+    var lines: [Line] = []
 }
 
 enum PoseEstimationError: Error {
@@ -24,5 +25,6 @@ enum PoseEstimationError: Error {
 }
 
 protocol PoseEstimator {
-    func inference(with pixelBuffer: CVPixelBuffer) -> Result<Keypoints, PoseEstimationError>
+    func inference(with pixelBuffer: CVPixelBuffer) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func inference(with pixelBuffer: CVPixelBuffer, on targetRect: CGRect?) -> Result<PoseEstimationOutput, PoseEstimationError>
 }
