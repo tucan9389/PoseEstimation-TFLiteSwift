@@ -24,14 +24,6 @@ extension CVPixelBuffer {
     /// - Returns: The cropped and resized image of itself.
     func resize(from source: CGRect, to size: CGSize) -> CVPixelBuffer? {
         let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: self.size)
-        guard rect.size.width / rect.size.height - source.size.width / source.size.height < 1e-5
-            else {
-                os_log(
-                    "Resizing Error: source image ratio and destination image ratio is different",
-                    type: .error)
-                return nil
-        }
-        
         let inputImageRowBytes = CVPixelBufferGetBytesPerRow(self)
         let imageChannels = 4
         

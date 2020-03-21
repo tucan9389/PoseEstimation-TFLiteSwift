@@ -89,13 +89,18 @@ class LiveImageViewController: UIViewController {
 // MARK: - VideoCaptureDelegate
 extension LiveImageViewController: VideoCaptureDelegate {
     func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer, timestamp: CMTime) {
-        
+        inference(with: pixelBuffer)
+    }
+}
+
+extension LiveImageViewController {
+    func inference(with pixelBuffer: CVPixelBuffer) {
         let scalingRatio = pixelBuffer.size.width / overlayViewRelativeRect.width
         let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(with: pixelBuffer, on: targetAreaRect)
+        let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer, cropArea: .customAspectFill(rect: targetAreaRect))
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(with: input)
         
         DispatchQueue.main.async {
-            print(result)
             switch (result) {
             case .success(let output):
                 self.overlayView?.result = output

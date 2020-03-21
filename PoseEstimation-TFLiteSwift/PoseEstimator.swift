@@ -7,6 +7,65 @@
 //
 
 import CoreVideo
+import UIKit
+
+enum PoseEstimationInput {
+    enum CropArea {
+        case customAspectFill(rect: CGRect)
+        case squareAspectFill
+    }
+    case pixelBuffer(pixelBuffer: CVPixelBuffer, cropArea: CropArea)
+    case uiImage(uiImage: UIImage, cropArea: CropArea)
+    
+    var pixelBuffer: CVPixelBuffer? {
+        switch self {
+        case .pixelBuffer(let pixelBuffer, _):
+            return pixelBuffer
+        case .uiImage(let uiImage, _):
+            return uiImage.pixelBufferFromImage()
+        }
+    }
+    
+    var cropArea: CropArea {
+        switch self {
+        case .pixelBuffer(_, let cropArea):
+            return cropArea
+        case .uiImage(_, let cropArea):
+            return cropArea
+        }
+    }
+    
+    var imageSize: CGSize {
+        switch self {
+        case .pixelBuffer(let pixelBuffer, _):
+            return pixelBuffer.size
+        case .uiImage(let uiImage, _):
+            return uiImage.size
+        }
+    }
+    
+    var targetSquare: CGRect {
+        switch cropArea {
+        case .customAspectFill(let rect):
+            return rect
+        case .squareAspectFill:
+            let size = imageSize
+            let minLength = min(size.width, size.height)
+            return CGRect(x: (size.width - minLength) / 2,
+                          y: (size.height - minLength) / 2,
+                          width: minLength, height: minLength)
+        }
+    }
+    
+    func croppedPixelBuffer(with inputModelSize: CGSize) -> CVPixelBuffer? {
+        guard let pixelBuffer = pixelBuffer else { return nil }
+        let sourcePixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer)
+        assert(sourcePixelFormat == kCVPixelFormatType_32BGRA)
+        
+        // Resize `targetSquare` of input image to `modelSize`.
+        return pixelBuffer.resize(from: targetSquare, to: inputModelSize)
+    }
+}
 
 struct Keypoint {
     let position: CGPoint
@@ -25,6 +84,5 @@ enum PoseEstimationError: Error {
 }
 
 protocol PoseEstimator {
-    func inference(with pixelBuffer: CVPixelBuffer) -> Result<PoseEstimationOutput, PoseEstimationError>
-    func inference(with pixelBuffer: CVPixelBuffer, on targetRect: CGRect?) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func inference(with input: PoseEstimationInput) -> Result<PoseEstimationOutput, PoseEstimationError>
 }

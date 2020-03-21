@@ -21,6 +21,7 @@
 		7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C93D241E90C2001A4325 /* DataExtension.swift */; };
 		712A7FC12424BDD800B043F9 /* StillImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC02424BDD800B043F9 /* StillImageViewController.swift */; };
 		712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */; };
+		712A7FC62425FD7200B043F9 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC52425FD7200B043F9 /* UIImageExtension.swift */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
 		E0C93A920161DEF82C2B75E0 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		7105C93D241E90C2001A4325 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		712A7FC02424BDD800B043F9 /* StillImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImageViewController.swift; sourceTree = "<group>"; };
 		712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseKeypointsDrawingView.swift; sourceTree = "<group>"; };
+		712A7FC52425FD7200B043F9 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
 		8C8112449130BEE4072F1385 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				7105C93B241E8CE3001A4325 /* CVPixelBufferExtension.swift */,
+				712A7FC52425FD7200B043F9 /* UIImageExtension.swift */,
 				7105C93D241E90C2001A4325 /* DataExtension.swift */,
 			);
 			name = Extension;
@@ -267,6 +270,7 @@
 				712A7FC12424BDD800B043F9 /* StillImageViewController.swift in Sources */,
 				7105C937241D29B8001A4325 /* VideoCapture.swift in Sources */,
 				7105C935241D0821001A4325 /* PoseNetPoseEstimator.swift in Sources */,
+				712A7FC62425FD7200B043F9 /* UIImageExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
