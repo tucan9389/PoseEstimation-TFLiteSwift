@@ -23,14 +23,9 @@ class PoseNetPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    func inference(with pixelBuffer: CVPixelBuffer) -> PoseNetResult {
-        return inference(with: pixelBuffer, on: nil)
-    }
-    
-    func inference(with pixelBuffer: CVPixelBuffer, on targetRect: CGRect?) -> PoseNetResult {
+    func inference(with input: PoseEstimationInput) -> PoseNetResult {
         // preprocss
-        let targetRect = targetRect ?? CGRect(origin: .zero, size: pixelBuffer.size)
-        guard let inputData = imageInterpreter.preprocess(with: pixelBuffer, from: targetRect)
+        guard let inputData = imageInterpreter.preprocess(with: input)
             else { return .failure(.failToCreateInputData) }
         // inference
         guard let outputs = imageInterpreter.inference(with: inputData)

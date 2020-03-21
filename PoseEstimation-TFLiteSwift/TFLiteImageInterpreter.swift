@@ -90,6 +90,22 @@ class TFLiteImageInterpreter {
         return preprocess(with: pixelBuffer, from: targetSquare)
     }
     
+    func preprocess(with input: PoseEstimationInput) -> Data? {
+        let modelInputSize = CGSize(width: options.inputWidth, height: options.inputHeight)
+        guard let thumbnail = input.croppedPixelBuffer(with: modelInputSize) else { return nil }
+        
+        // Remove the alpha component from the image buffer to get the initialized `Data`.
+        let byteCount = 1 * options.inputHeight * options.inputWidth * options.inputChannel
+        guard let inputData = thumbnail.rgbData(byteCount: byteCount,
+                                                isNormalized: options.isNormalized,
+                                                isModelQuantized: options.isQuantized) else {
+            print("Failed to convert the image buffer to RGB data.")
+            return nil
+        }
+        
+        return inputData
+    }
+    
     func preprocess(with pixelBuffer: CVPixelBuffer, from targetSquare: CGRect) -> Data? {
         let sourcePixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer)
         assert(sourcePixelFormat == kCVPixelFormatType_32BGRA)
