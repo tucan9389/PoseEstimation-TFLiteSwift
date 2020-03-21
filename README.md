@@ -7,6 +7,12 @@
 
 This project is Pose Estimation on iOS with TensorFlow Lite.<br>If you are interested in iOS + Machine Learning, visit [here](https://github.com/motlabs/iOS-Proejcts-with-ML-Models) you can see various DEMOs.<br>
 
+![pose-demo-002](https://user-images.githubusercontent.com/37643248/77227994-99ba2a80-6bc7-11ea-9b08-9bb57723bc42.gif)
+
+screenshot1 | screenshot2 | screenshot3 | screenshot4
+--- | --- | --- | ---
+![IMG_7500](https://user-images.githubusercontent.com/37643248/77227851-61feb300-6bc6-11ea-9e76-fd3a43567163.PNG) | ![IMG_7501](https://user-images.githubusercontent.com/37643248/77227847-61661c80-6bc6-11ea-848f-63c22b03cc75.PNG) | ![IMG_7502](https://user-images.githubusercontent.com/37643248/77227842-6034ef80-6bc6-11ea-8f36-5c7e04367559.PNG) | ![IMG_7503](https://user-images.githubusercontent.com/37643248/77227834-57dcb480-6bc6-11ea-83f3-6dffc41e5077.PNG)
+
 ## Requirements
 
 - Xcode 11.3+
