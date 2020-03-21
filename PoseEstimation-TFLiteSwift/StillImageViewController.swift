@@ -65,7 +65,7 @@ extension StillImageViewController {
             switch (result) {
             case .success(let output):
                 self.overlayView?.result = output
-            case .failure(let error):
+            case .failure(_):
                 break
             }
         }

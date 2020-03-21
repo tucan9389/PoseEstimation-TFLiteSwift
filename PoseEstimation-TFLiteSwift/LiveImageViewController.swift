@@ -20,7 +20,7 @@ class LiveImageViewController: UIViewController {
     var videoCapture = VideoCapture()
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = PoseNetPoseEstimator()
+    let poseEstimator: PoseEstimator = PEFMHourglassPoseEstimator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,7 +104,7 @@ extension LiveImageViewController {
             switch (result) {
             case .success(let output):
                 self.overlayView?.result = output
-            case .failure(let error):
+            case .failure(_):
                 break
             }
         }
