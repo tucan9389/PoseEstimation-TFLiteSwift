@@ -17,7 +17,7 @@ class PoseNetPoseEstimator: PoseEstimator {
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
-            isNormalized: true
+            isNormalized: Input.isNormalized
         )
         let imageInterpreter = TFLiteImageInterpreter(options: options)
         return imageInterpreter
@@ -46,6 +46,7 @@ private extension PoseNetPoseEstimator {
         static let width = 257
         static let height = 257
         static let isGrayScale = false
+        static let isNormalized = true
     }
     struct Output {
         struct Heatmap {

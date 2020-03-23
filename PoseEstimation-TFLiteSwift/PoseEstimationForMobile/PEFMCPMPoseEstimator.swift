@@ -17,7 +17,7 @@ class PEFMCPMPoseEstimator: PoseEstimator {
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
-            isNormalized: false
+            isNormalized: Input.isNormalized
         )
         let imageInterpreter = TFLiteImageInterpreter(options: options)
         return imageInterpreter
@@ -46,6 +46,7 @@ private extension PEFMCPMPoseEstimator {
         static let width = 192
         static let height = 192
         static let isGrayScale = false
+        static let isNormalized = false
     }
     struct Output {
         struct Heatmap {
