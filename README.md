@@ -41,8 +41,7 @@ pod install
 
 ## See also
 
-- [motlabs/iOS-Proejcts-with-ML-Models](https://github.com/motlabs/iOS-Proejcts-with-ML-Models)<br>
-  : The challenge using machine learning model created from tensorflow on iOS
+- [motlabs/awesome-ml-demos-with-ios](https://github.com/motlabs/awesome-ml-demos-with-ios)
 - [tucan9389/PoseEstimation-CoreML](https://github.com/tucan9389/PoseEstimation-CoreML)
 - [PoseNet example of tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
 - [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
