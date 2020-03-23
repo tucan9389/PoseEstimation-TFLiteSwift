@@ -13,6 +13,12 @@ screenshot1 | screenshot2 | screenshot3 | screenshot4
 --- | --- | --- | ---
 ![IMG_7500](https://user-images.githubusercontent.com/37643248/77227851-61feb300-6bc6-11ea-9e76-fd3a43567163.PNG) | ![IMG_7501](https://user-images.githubusercontent.com/37643248/77227847-61661c80-6bc6-11ea-848f-63c22b03cc75.PNG) | ![IMG_7502](https://user-images.githubusercontent.com/37643248/77227842-6034ef80-6bc6-11ea-8f36-5c7e04367559.PNG) | ![IMG_7503](https://user-images.githubusercontent.com/37643248/77227834-57dcb480-6bc6-11ea-83f3-6dffc41e5077.PNG)
 
+## Support Pose Estimation Models
+
+- PoseNet model of [tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
+- cpm and hourglass model of [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
+- [`SOON`] OpenPose model of [ildoonet/tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation/issues/355) 
+
 ## Requirements
 
 - Xcode 11.3+
@@ -39,3 +45,4 @@ pod install
   : The challenge using machine learning model created from tensorflow on iOS
 - [tucan9389/PoseEstimation-CoreML](https://github.com/tucan9389/PoseEstimation-CoreML)
 - [PoseNet example of tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
+- [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
