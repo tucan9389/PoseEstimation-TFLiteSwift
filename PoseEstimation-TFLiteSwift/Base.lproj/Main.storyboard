@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Hz-u1-cN3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Hz-u1-cN3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,22 +30,56 @@
                                     <constraint firstAttribute="width" secondItem="S3l-UZ-EbJ" secondAttribute="height" multiplier="1:1" id="DdL-lZ-JvO"/>
                                 </constraints>
                             </view>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-2" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="JnA-WV-QqC">
+                                <rect key="frame" x="97" y="764" width="313" height="31"/>
+                                <connections>
+                                    <action selector="didChangedThresholdValue:" destination="BYZ-38-t0r" eventType="valueChanged" id="4J0-Ef-ycK"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nil" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lyT-Yh-7Ob">
+                                <rect key="frame" x="16" y="758" width="77" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4tf-zd-hFy">
+                                <rect key="frame" x="16" y="779" width="77" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="iht-iz-cfA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <state key="normal" title="remove threshold"/>
+                                <connections>
+                                    <action selector="removeTheshold:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NtN-fT-Wvr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="LT6-tB-Opy" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="0eT-4h-aU0"/>
+                            <constraint firstItem="JnA-WV-QqC" firstAttribute="centerY" secondItem="lyT-Yh-7Ob" secondAttribute="bottom" id="8ZD-rJ-qF1"/>
                             <constraint firstItem="LT6-tB-Opy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="D1T-w8-RZs"/>
                             <constraint firstItem="S3l-UZ-EbJ" firstAttribute="centerY" secondItem="LT6-tB-Opy" secondAttribute="centerY" id="DLc-Pu-hXG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="4tf-zd-hFy" secondAttribute="bottom" constant="4" id="E0D-gy-v9t"/>
                             <constraint firstItem="S3l-UZ-EbJ" firstAttribute="trailing" secondItem="LT6-tB-Opy" secondAttribute="trailing" id="H3n-2K-b5V"/>
+                            <constraint firstItem="4tf-zd-hFy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Q0v-1A-ENy"/>
+                            <constraint firstItem="JnA-WV-QqC" firstAttribute="leading" secondItem="lyT-Yh-7Ob" secondAttribute="trailing" constant="6" id="S6r-Sd-aeu"/>
                             <constraint firstItem="LT6-tB-Opy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aZR-yW-fqG"/>
                             <constraint firstItem="S3l-UZ-EbJ" firstAttribute="leading" secondItem="LT6-tB-Opy" secondAttribute="leading" id="clF-SA-h0A"/>
+                            <constraint firstItem="4tf-zd-hFy" firstAttribute="top" secondItem="lyT-Yh-7Ob" secondAttribute="bottom" id="gHY-He-XsO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JnA-WV-QqC" secondAttribute="trailing" constant="6" id="k2v-rH-3ka"/>
+                            <constraint firstItem="lyT-Yh-7Ob" firstAttribute="width" secondItem="4tf-zd-hFy" secondAttribute="width" id="kRb-rV-xxw"/>
+                            <constraint firstItem="lyT-Yh-7Ob" firstAttribute="leading" secondItem="4tf-zd-hFy" secondAttribute="leading" id="zub-yf-gay"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Cn3-8o-Xkd"/>
                     <connections>
+                        <outlet property="noThresholdButton" destination="4tf-zd-hFy" id="81W-4j-4IV"/>
                         <outlet property="overlayView" destination="S3l-UZ-EbJ" id="scz-x0-S7W"/>
                         <outlet property="previewView" destination="LT6-tB-Opy" id="qyN-d8-dTD"/>
+                        <outlet property="thresholdValueLabel" destination="lyT-Yh-7Ob" id="crf-H0-O4b"/>
+                        <outlet property="thresholdValueSlider" destination="JnA-WV-QqC" id="DAO-yc-QKS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -161,8 +195,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="camera" catalog="system" width="64" height="48"/>
-        <image name="photo" catalog="system" width="64" height="46"/>
-        <image name="plus.rectangle.fill.on.rectangle.fill" catalog="system" width="64" height="48"/>
+        <image name="camera" catalog="system" width="128" height="96"/>
+        <image name="photo" catalog="system" width="128" height="93"/>
+        <image name="plus.rectangle.fill.on.rectangle.fill" catalog="system" width="128" height="98"/>
     </resources>
 </document>

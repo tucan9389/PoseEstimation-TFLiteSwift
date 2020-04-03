@@ -16,10 +16,11 @@ class PoseKeypointsDrawingView: UIView {
             self.setNeedsDisplay()
         }
     }
+    var threshold: CGFloat?
     
     override func draw(_ rect: CGRect) {
-        guard let keypoints = result?.keypoints,
-            let lines = result?.lines else { return }
+        guard let keypoints = result?.filterKeypoints(with: threshold),
+            let lines = result?.filterLines(with: threshold) else { return }
         
         lines.forEach { line in
             let fromPoint = line.from.position.scaled(to: frame.size)

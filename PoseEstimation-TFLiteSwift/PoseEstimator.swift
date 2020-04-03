@@ -76,6 +76,16 @@ struct PoseEstimationOutput {
     typealias Line = (from: Keypoint, to: Keypoint)
     var keypoints: [Keypoint] = []
     var lines: [Line] = []
+    
+    func filterKeypoints(with threshold: CGFloat?) -> [Keypoint] {
+        guard let threshold = threshold else { return keypoints }
+        return keypoints.filter { $0.score > threshold }
+    }
+    
+    func filterLines(with threshold: CGFloat?) -> [Line] {
+        guard let threshold = threshold else { return lines }
+        return lines.filter { $0.from.score > threshold && $0.to.score > threshold }
+    }
 }
 
 enum PoseEstimationError: Error {

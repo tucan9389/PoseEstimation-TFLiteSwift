@@ -16,11 +16,15 @@ class LiveImageViewController: UIViewController {
     @IBOutlet weak var overlayView: PoseKeypointsDrawingView?
     var overlayViewRelativeRect: CGRect = .zero
     
+    @IBOutlet weak var thresholdValueLabel: UILabel?
+    @IBOutlet weak var thresholdValueSlider: UISlider?
+    @IBOutlet weak var noThresholdButton: UIButton?
+    
     // MARK: - VideoCapture Properties
     var videoCapture = VideoCapture()
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = PEFMHourglassPoseEstimator()
+    let poseEstimator: PoseEstimator = PoseNetPoseEstimator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +87,19 @@ class LiveImageViewController: UIViewController {
     
     func resizePreviewLayer() {
         videoCapture.previewLayer?.frame = previewView?.bounds ?? .zero
+    }
+    
+    @IBAction func didChangedThresholdValue(_ sender: UISlider) {
+        let threshold = sender.value
+        thresholdValueLabel?.text = String(format: "%.2f", threshold)
+        noThresholdButton?.isEnabled = true
+        overlayView?.threshold = CGFloat(threshold)
+    }
+    
+    @IBAction func removeTheshold(_ sender: Any) {
+        noThresholdButton?.isEnabled = false
+        thresholdValueLabel?.text = "nil"
+        overlayView?.threshold = nil
     }
 }
 
