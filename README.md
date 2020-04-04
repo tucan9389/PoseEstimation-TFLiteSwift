@@ -18,7 +18,8 @@ screenshot1 | screenshot2 | screenshot3 | screenshot4
 - [x] PoseNet model of [tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
 - [x] cpm and hourglass model of [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
 - [ ] OpenPose model of [ildoonet/tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation/issues/355) 
-- [ ] Simple Baselines model
+- [ ] Simple Baselines Pose model
+- [ ] AlphaPose, SelecSLS, IBPPose, Lightweight OpenPose from [osmr/imgclsmob](https://github.com/osmr/imgclsmob)
 
 ## Requirements
 
