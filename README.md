@@ -47,3 +47,4 @@ pod install
 - [tucan9389/PoseEstimation-CoreML](https://github.com/tucan9389/PoseEstimation-CoreML)
 - [PoseNet example of tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
 - [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
+- [osmr/imgclsmob](https://github.com/osmr/imgclsmob)
