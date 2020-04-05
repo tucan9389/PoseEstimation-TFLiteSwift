@@ -117,11 +117,11 @@ private extension PoseEstimationOutput {
         }
         
         // get points from (col, row)s and offsets
-        let keypointInfos: [(point: CGPoint, score: CGFloat)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
+        let keypointInfos: [(point: CGPoint, score: Float)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
             // (0.0, 0.0)~(1.0, 1.0)
             let x = (CGFloat(keypointInfo.col) + 0.5) / CGFloat(PEFMHourglassPoseEstimator.Output.Heatmap.width)
             let y = (CGFloat(keypointInfo.row) + 0.5) / CGFloat(PEFMHourglassPoseEstimator.Output.Heatmap.height)
-            let score = CGFloat(keypointInfo.val)
+            let score = Float(keypointInfo.val)
             
             return (point: CGPoint(x: x, y: y), score: score)
         }
