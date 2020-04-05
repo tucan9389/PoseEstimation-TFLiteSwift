@@ -23,7 +23,6 @@ extension CVPixelBuffer {
     ///   - to: Size to scale the image to(i.e. image size used while training the model).
     /// - Returns: The cropped and resized image of itself.
     func resize(from source: CGRect, to size: CGSize) -> CVPixelBuffer? {
-        let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: self.size)
         let inputImageRowBytes = CVPixelBufferGetBytesPerRow(self)
         let imageChannels = 4
         

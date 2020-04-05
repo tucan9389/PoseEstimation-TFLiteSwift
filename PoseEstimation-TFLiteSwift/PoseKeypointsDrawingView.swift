@@ -11,24 +11,18 @@ import UIKit
 class PoseKeypointsDrawingView: UIView {
     typealias CGLine = (from: CGPoint, to: CGPoint)
     
-    var result: PoseEstimationOutput? {
-        didSet {
-            self.setNeedsDisplay()
-        }
-    }
+    var lines: [PoseEstimationOutput.Line]? { didSet { setNeedsDisplay() } }
+    var keypoints: [Keypoint]? { didSet { setNeedsDisplay() } }
     
     override func draw(_ rect: CGRect) {
-        guard let keypoints = result?.keypoints,
-            let lines = result?.lines else { return }
-        
-        lines.forEach { line in
+        lines?.forEach { line in
             let fromPoint = line.from.position.scaled(to: frame.size)
             let toPoint = line.to.position.scaled(to: frame.size)
             let cgLine = (from: fromPoint, to: toPoint)
             drawLine(with: cgLine)
         }
         
-        keypoints.forEach { keypoint in
+        keypoints?.forEach { keypoint in
             let point = keypoint.position.scaled(to: frame.size)
             drawDot(at: point)
         }

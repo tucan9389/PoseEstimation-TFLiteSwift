@@ -16,11 +16,20 @@ class LiveImageViewController: UIViewController {
     @IBOutlet weak var overlayView: PoseKeypointsDrawingView?
     var overlayViewRelativeRect: CGRect = .zero
     
+    @IBOutlet weak var thresholdValueLabel: UILabel?
+    @IBOutlet weak var thresholdValueSlider: UISlider?
+    
+    var threshold: Float? {
+        guard let slider = thresholdValueSlider,
+            slider.value != slider.minimumValue else { return nil }
+        return slider.value
+    }
+    
     // MARK: - VideoCapture Properties
     var videoCapture = VideoCapture()
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = PEFMHourglassPoseEstimator()
+    let poseEstimator: PoseEstimator = PoseNetPoseEstimator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +78,8 @@ class LiveImageViewController: UIViewController {
     func setUpUI() {
         overlayView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
         overlayView?.layer.borderWidth = 5
+        
+        thresholdValueSlider?.value = thresholdValueSlider?.minimumValue ?? 0
     }
     
     override func viewDidLayoutSubviews() {
@@ -83,6 +94,14 @@ class LiveImageViewController: UIViewController {
     
     func resizePreviewLayer() {
         videoCapture.previewLayer?.frame = previewView?.bounds ?? .zero
+    }
+    
+    @IBAction func didChangedThresholdValue(_ sender: UISlider) {
+        if let threshold = threshold {
+            thresholdValueLabel?.text = String(format: "%.2f", threshold)
+        } else {
+            thresholdValueLabel?.text = "nil"
+        }
     }
 }
 
@@ -100,14 +119,19 @@ extension LiveImageViewController {
         let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer, cropArea: .customAspectFill(rect: targetAreaRect))
         let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(with: input)
         
-        DispatchQueue.main.async {
-            switch (result) {
-            case .success(let output):
-                self.overlayView?.result = output
-            case .failure(_):
-                break
+        switch (result) {
+        case .success(let output):
+            DispatchQueue.main.async {
+                let threshold = self.threshold
+                let lines = output.filteredLines(with: threshold)
+                let keypoints = output.filteredKeypoints(with: threshold)
+                self.overlayView?.lines = lines
+                self.overlayView?.keypoints = keypoints
             }
+        case .failure(_):
+            break
         }
+        
     }
 }
 

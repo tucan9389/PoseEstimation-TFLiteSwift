@@ -123,7 +123,7 @@ private extension PoseEstimationOutput {
         }
         
         // get points from (col, row)s and offsets
-        let keypointInfos: [(point: CGPoint, score: CGFloat)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
+        let keypointInfos: [(point: CGPoint, score: Float)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
             // (0.0, 0.0)~(1.0, 1.0)
             let xNaive = (CGFloat(keypointInfo.col)) / CGFloat(PoseNetPoseEstimator.Output.Heatmap.width - 1)
             let yNaive = (CGFloat(keypointInfo.row)) / CGFloat(PoseNetPoseEstimator.Output.Heatmap.height - 1)
@@ -139,7 +139,7 @@ private extension PoseEstimationOutput {
             // (0.0, 0.0)~(1.0, 1.0)
             let x = xScaledInput / CGFloat(PoseNetPoseEstimator.Input.width)
             let y = yScaledInput / CGFloat(PoseNetPoseEstimator.Input.height)
-            let score = CGFloat(keypointInfo.val)
+            let score = Float(keypointInfo.val)
             
             return (point: CGPoint(x: x, y: y), score: score)
         }
