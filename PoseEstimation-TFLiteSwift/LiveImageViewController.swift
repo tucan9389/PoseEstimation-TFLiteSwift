@@ -18,7 +18,12 @@ class LiveImageViewController: UIViewController {
     
     @IBOutlet weak var thresholdValueLabel: UILabel?
     @IBOutlet weak var thresholdValueSlider: UISlider?
-    @IBOutlet weak var noThresholdButton: UIButton?
+    
+    var threshold: Float? {
+        guard let slider = thresholdValueSlider,
+            slider.value != slider.minimumValue else { return nil }
+        return slider.value
+    }
     
     // MARK: - VideoCapture Properties
     var videoCapture = VideoCapture()
@@ -34,9 +39,6 @@ class LiveImageViewController: UIViewController {
         
         // setup UI
         setUpUI()
-        
-        // setup thread
-        removeTheshold()
     }
     
     override func didReceiveMemoryWarning() {
@@ -76,6 +78,8 @@ class LiveImageViewController: UIViewController {
     func setUpUI() {
         overlayView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
         overlayView?.layer.borderWidth = 5
+        
+        thresholdValueSlider?.value = thresholdValueSlider?.minimumValue ?? 0
     }
     
     override func viewDidLayoutSubviews() {
@@ -93,15 +97,11 @@ class LiveImageViewController: UIViewController {
     }
     
     @IBAction func didChangedThresholdValue(_ sender: UISlider) {
-        let threshold = sender.value
-        thresholdValueLabel?.text = String(format: "%.2f", threshold)
-        noThresholdButton?.isEnabled = true
-    }
-    
-    @IBAction func removeTheshold(_ sender: Any? = nil) {
-        noThresholdButton?.isEnabled = false
-        thresholdValueLabel?.text = "nil"
-        thresholdValueSlider?.value = thresholdValueSlider?.minimumValue ?? 0.0
+        if let threshold = threshold {
+            thresholdValueLabel?.text = String(format: "%.2f", threshold)
+        } else {
+            thresholdValueLabel?.text = "nil"
+        }
     }
 }
 
@@ -122,7 +122,7 @@ extension LiveImageViewController {
         switch (result) {
         case .success(let output):
             DispatchQueue.main.async {
-                let threshold = self.noThresholdButton?.isEnabled == false ? self.thresholdValueSlider?.value : nil
+                let threshold = self.threshold
                 let lines = output.filteredLines(with: threshold)
                 let keypoints = output.filteredKeypoints(with: threshold)
                 self.overlayView?.lines = lines
