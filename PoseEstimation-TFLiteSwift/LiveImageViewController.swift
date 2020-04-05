@@ -34,6 +34,9 @@ class LiveImageViewController: UIViewController {
         
         // setup UI
         setUpUI()
+        
+        // setup thread
+        removeTheshold()
     }
     
     override func didReceiveMemoryWarning() {
@@ -93,13 +96,12 @@ class LiveImageViewController: UIViewController {
         let threshold = sender.value
         thresholdValueLabel?.text = String(format: "%.2f", threshold)
         noThresholdButton?.isEnabled = true
-        overlayView?.threshold = CGFloat(threshold)
     }
     
-    @IBAction func removeTheshold(_ sender: Any) {
+    @IBAction func removeTheshold(_ sender: Any? = nil) {
         noThresholdButton?.isEnabled = false
         thresholdValueLabel?.text = "nil"
-        overlayView?.threshold = nil
+        thresholdValueSlider?.value = thresholdValueSlider?.minimumValue ?? 0.0
     }
 }
 
@@ -117,14 +119,19 @@ extension LiveImageViewController {
         let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer, cropArea: .customAspectFill(rect: targetAreaRect))
         let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(with: input)
         
-        DispatchQueue.main.async {
-            switch (result) {
-            case .success(let output):
-                self.overlayView?.result = output
-            case .failure(_):
-                break
+        switch (result) {
+        case .success(let output):
+            DispatchQueue.main.async {
+                let threshold = self.noThresholdButton?.isEnabled == false ? self.thresholdValueSlider?.value : nil
+                let lines = output.filteredLines(with: threshold)
+                let keypoints = output.filteredKeypoints(with: threshold)
+                self.overlayView?.lines = lines
+                self.overlayView?.keypoints = keypoints
             }
+        case .failure(_):
+            break
         }
+        
     }
 }
 

@@ -60,14 +60,17 @@ extension StillImageViewController {
     func inference(with uiImage: UIImage) {
         let input: PoseEstimationInput = .uiImage(uiImage: uiImage, cropArea: .squareAspectFill)
         let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(with: input)
-        
-        DispatchQueue.main.async {
-            switch (result) {
-            case .success(let output):
-                self.overlayView?.result = output
-            case .failure(_):
-                break
+        switch (result) {
+        case .success(let output):
+            let lines = output.lines
+            let keypoints = output.keypoints
+            DispatchQueue.main.async {
+                self.overlayView?.lines = lines
+                self.overlayView?.keypoints = keypoints
             }
+        case .failure(_):
+            break
         }
+        
     }
 }

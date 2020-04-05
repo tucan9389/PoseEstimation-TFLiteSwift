@@ -69,7 +69,7 @@ enum PoseEstimationInput {
 
 struct Keypoint {
     let position: CGPoint
-    let score: CGFloat
+    let score: Float
 }
 
 struct PoseEstimationOutput {
@@ -77,12 +77,12 @@ struct PoseEstimationOutput {
     var keypoints: [Keypoint] = []
     var lines: [Line] = []
     
-    func filteredKeypoints(with threshold: CGFloat?) -> [Keypoint] {
+    func filteredKeypoints(with threshold: Float?) -> [Keypoint] {
         guard let threshold = threshold else { return keypoints }
         return keypoints.filter { $0.score > threshold }
     }
     
-    func filteredLines(with threshold: CGFloat?) -> [Line] {
+    func filteredLines(with threshold: Float?) -> [Line] {
         guard let threshold = threshold else { return lines }
         return lines.filter { $0.from.score > threshold && $0.to.score > threshold }
     }
