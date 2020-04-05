@@ -34,12 +34,16 @@ struct TFLiteFlatArray<Element: AdditiveArithmetic> {
         return result
     }
     
-    subscript(_ index: Int...) -> Element {
+    func element(at indexes: [Int]) -> Element {
+        return array[flatIndex(indexes)]
+    }
+    
+    subscript(indexes: Int...) -> Element {
         get {
-            return array[flatIndex(index)]
+            return array[flatIndex(indexes)]
         }
         set(newValue) {
-            array[flatIndex(index)] = newValue
+            array[flatIndex(indexes)] = newValue
         }
     }
 }

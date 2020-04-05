@@ -28,6 +28,8 @@
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
+		71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */; };
+		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
 		E0C93A920161DEF82C2B75E0 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +59,8 @@
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
+		71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = openpose_ildoonet.tflite; sourceTree = "<group>"; };
+		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
 		8C8112449130BEE4072F1385 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +138,7 @@
 				7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */,
 				712A7FC22424FEC900B043F9 /* PoseNet */,
 				712A7FC7242667A400B043F9 /* PoseEstimationForMobile */,
+				71E8D9152438BA5B0081DD6E /* OpenPose */,
 			);
 			name = MLModel;
 			sourceTree = "<group>";
@@ -165,6 +170,15 @@
 				712A7FC8242667C900B043F9 /* PEFMHourglassPoseEstimator.swift */,
 			);
 			path = PoseEstimationForMobile;
+			sourceTree = "<group>";
+		};
+		71E8D9152438BA5B0081DD6E /* OpenPose */ = {
+			isa = PBXGroup;
+			children = (
+				71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */,
+				71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */,
+			);
+			path = OpenPose;
 			sourceTree = "<group>";
 		};
 		C0C61619494007101B3B8411 /* Pods */ = {
@@ -247,6 +261,7 @@
 				7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */,
 				7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */,
 				712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */,
+				71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */,
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
 				712A7FCD242668FF00B043F9 /* pefm_hourglass_v2.tflite in Resources */,
 				7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */,
@@ -292,6 +307,7 @@
 				7105C916241CE9B5001A4325 /* AppDelegate.swift in Sources */,
 				7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */,
 				712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */,
+				71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */,
 				712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */,
 				7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */,
 				7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */,
