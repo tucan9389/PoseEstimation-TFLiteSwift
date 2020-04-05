@@ -134,7 +134,7 @@ private extension PoseEstimationOutput {
         }
         
         // get points from (col, row)s and offsets
-        let keypointInfos: [(point: CGPoint, score: CGFloat)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
+        let keypointInfos: [(point: CGPoint, score: Float)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
             return (point: .zero, score: 0)
         }
         
