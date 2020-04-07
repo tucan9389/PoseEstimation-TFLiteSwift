@@ -44,7 +44,9 @@ pod install
 ## See also
 
 - [motlabs/awesome-ml-demos-with-ios](https://github.com/motlabs/awesome-ml-demos-with-ios)
-- [tucan9389/PoseEstimation-CoreML](https://github.com/tucan9389/PoseEstimation-CoreML)
-- [PoseNet example of tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
-- [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
-- [osmr/imgclsmob](https://github.com/osmr/imgclsmob)
+- Pose estimation with Core ML - [tucan9389/PoseEstimation-CoreML](https://github.com/tucan9389/PoseEstimation-CoreML)
+- TFLite model provided by:
+  - CPM and Hourglass model provided by  [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
+  - PoseNet model provided by [tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
+  - OpenPose model provided by [ildoonet/tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation)
+  - Various model provided by [osmr/imgclsmob](https://github.com/osmr/imgclsmob)
