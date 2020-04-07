@@ -29,7 +29,7 @@ class LiveImageViewController: UIViewController {
     var videoCapture = VideoCapture()
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = PoseNetPoseEstimator()
+    let poseEstimator: PoseEstimator = OpenPosePoseEstimator()
 
     override func viewDidLoad() {
         super.viewDidLoad()

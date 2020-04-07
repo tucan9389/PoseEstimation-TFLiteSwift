@@ -63,7 +63,7 @@ class TFLiteImageInterpreter {
             inputTensor.shape.dimensions[2] == options.inputWidth,
             inputTensor.shape.dimensions[3] == options.inputChannel
         else {
-            fatalError("Unexpected Model: input shape")
+            fatalError("Unexpected Model: input shape \n\(inputTensor.shape) != [\(1), \(options.inputHeight), \(options.inputWidth), \(options.inputChannel)]")
         }
         self.inputTensor = inputTensor
         

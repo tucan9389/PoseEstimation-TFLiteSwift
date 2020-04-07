@@ -13,7 +13,7 @@ class OpenPosePoseEstimator: PoseEstimator {
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
-            modelName: "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped",
+            modelName: "openpose_ildoonet",
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
@@ -43,20 +43,20 @@ class OpenPosePoseEstimator: PoseEstimator {
 
 private extension OpenPosePoseEstimator {
     struct Input {
-        static let width = 368
-        static let height = 432
+        static let width = 432
+        static let height = 368
         static let isGrayScale = false
-        static let isNormalized = true
+        static let isNormalized = false
     }
     struct Output {
         struct ConfidenceMap { // similar to Heatmap
-            static let width = 46
-            static let height = 54
+            static let width = 54
+            static let height = 46
             static let count = BodyPart.allCases.count // 19
         }
         struct AffinityField {
-            static let width = 46
-            static let height = 54
+            static let width = 54
+            static let height = 46
             static let count = BodyPart.allCases.count * 2 // 38
         }
         enum BodyPart: String, CaseIterable {
@@ -135,7 +135,12 @@ private extension PoseEstimationOutput {
         
         // get points from (col, row)s and offsets
         let keypointInfos: [(point: CGPoint, score: Float)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
-            return (point: .zero, score: 0)
+            // (0.0, 0.0)~(1.0, 1.0)
+            let x = (CGFloat(keypointInfo.col) + 0.5) / CGFloat(OpenPosePoseEstimator.Output.ConfidenceMap.width)
+            let y = (CGFloat(keypointInfo.row) + 0.5) / CGFloat(OpenPosePoseEstimator.Output.ConfidenceMap.height)
+            let score = Float(keypointInfo.val)
+            
+            return (point: CGPoint(x: x, y: y), score: score)
         }
         
         return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
@@ -155,9 +160,12 @@ private extension PoseEstimationOutput {
 }
 
 extension TFLiteFlatArray where Element == Float32 {
+    // part confidence maps
     subscript(heatmap heatmap: Int...) -> Element {
         get { return self.element(at: heatmap) }
     }
+    
+    // part affinity fields
     subscript(paf paf: Int...) -> Element {
         get {
             var indexes = paf
