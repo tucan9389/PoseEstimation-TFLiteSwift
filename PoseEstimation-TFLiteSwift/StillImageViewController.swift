@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import Photos
 
 class StillImageViewController: UIViewController {
+    
+    let autoImportingImageFromAlbum = true
 
     // MARK: - IBOutlets
     @IBOutlet weak var imageView: UIImageView?
@@ -22,6 +25,9 @@ class StillImageViewController: UIViewController {
         
         // setup UI
         setUpUI()
+        
+        // import first image if autoImportingImageFromAlbum is true
+        importFirstImageIfNeeded()
     }
     
     func setUpUI() {
@@ -44,8 +50,9 @@ extension StillImageViewController: UIImagePickerControllerDelegate {
             return
         }
         
-        imageView?.image = pickedImage
         picker.dismiss(animated: true)
+        
+        imageView?.image = pickedImage
         inference(with: pickedImage)
     }
     
@@ -72,5 +79,34 @@ extension StillImageViewController {
             break
         }
         
+    }
+}
+
+extension StillImageViewController {
+    func importFirstImageIfNeeded() {
+        guard autoImportingImageFromAlbum else { return }
+        
+        let fetchOptions = PHFetchOptions()
+        let descriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchOptions.sortDescriptors = [descriptor]
+
+        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+
+        guard let asset = fetchResult.firstObject else {
+            return
+        }
+
+        let options = PHImageRequestOptions()
+        let scale = UIScreen.main.scale
+        let size = CGSize(width: (imageView?.frame.width ?? 0) * scale,
+                          height: (imageView?.frame.height ?? 0) * scale)
+
+        PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: options) { (image, info) in
+            DispatchQueue.main.async {
+                guard let image = image else { return }
+                self.imageView?.image = image
+                self.inference(with: image)
+            }
+        }
     }
 }
