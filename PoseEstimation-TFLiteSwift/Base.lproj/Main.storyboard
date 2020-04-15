@@ -17,14 +17,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LT6-tB-Opy">
-                                <rect key="frame" x="0.0" y="172" width="414" height="552"/>
+                                <rect key="frame" x="0.0" y="23" width="414" height="552"/>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="LT6-tB-Opy" secondAttribute="height" multiplier="3:4" id="mSU-QG-oFm"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3l-UZ-EbJ" customClass="PoseKeypointsDrawingView" customModule="Pose_TFLiteSwift" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="241" width="414" height="414"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="414"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="S3l-UZ-EbJ" secondAttribute="height" multiplier="1:1" id="DdL-lZ-JvO"/>
@@ -55,9 +55,9 @@
                             <constraint firstItem="S3l-UZ-EbJ" firstAttribute="centerY" secondItem="LT6-tB-Opy" secondAttribute="centerY" id="DLc-Pu-hXG"/>
                             <constraint firstItem="S3l-UZ-EbJ" firstAttribute="trailing" secondItem="LT6-tB-Opy" secondAttribute="trailing" id="H3n-2K-b5V"/>
                             <constraint firstItem="JnA-WV-QqC" firstAttribute="leading" secondItem="lyT-Yh-7Ob" secondAttribute="trailing" constant="6" id="S6r-Sd-aeu"/>
-                            <constraint firstItem="LT6-tB-Opy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aZR-yW-fqG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="lyT-Yh-7Ob" secondAttribute="bottom" constant="16" id="acg-Qf-46z"/>
                             <constraint firstItem="S3l-UZ-EbJ" firstAttribute="leading" secondItem="LT6-tB-Opy" secondAttribute="leading" id="clF-SA-h0A"/>
+                            <constraint firstItem="S3l-UZ-EbJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="4" id="jKb-c7-17d"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JnA-WV-QqC" secondAttribute="trailing" constant="6" id="k2v-rH-3ka"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -83,14 +83,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gj5-n8-rgW">
-                                <rect key="frame" x="0.0" y="241" width="414" height="414"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="414"/>
                                 <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Gj5-n8-rgW" secondAttribute="height" multiplier="1:1" id="rQk-Sl-Ehw"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SKB-f7-Cxs" customClass="PoseKeypointsDrawingView" customModule="Pose_TFLiteSwift" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="241" width="414" height="414"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="414"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="SKB-f7-Cxs" secondAttribute="height" multiplier="1:1" id="HEz-NP-xdz"/>
@@ -100,10 +100,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Gj5-n8-rgW" firstAttribute="width" secondItem="4rl-xp-TwG" secondAttribute="width" id="129-eU-z3Y"/>
-                            <constraint firstItem="Gj5-n8-rgW" firstAttribute="centerY" secondItem="4rl-xp-TwG" secondAttribute="centerY" id="8xX-2l-f6r"/>
                             <constraint firstItem="SKB-f7-Cxs" firstAttribute="width" secondItem="Gj5-n8-rgW" secondAttribute="width" id="CXj-uJ-KTe"/>
                             <constraint firstItem="Gj5-n8-rgW" firstAttribute="centerX" secondItem="4rl-xp-TwG" secondAttribute="centerX" id="HNf-vb-cJt"/>
                             <constraint firstItem="SKB-f7-Cxs" firstAttribute="centerY" secondItem="Gj5-n8-rgW" secondAttribute="centerY" id="MVE-mU-Qhm"/>
+                            <constraint firstItem="Gj5-n8-rgW" firstAttribute="top" secondItem="Jv1-3Q-T9Y" secondAttribute="top" constant="4" id="SiZ-kx-Hu9"/>
                             <constraint firstItem="SKB-f7-Cxs" firstAttribute="centerX" secondItem="Gj5-n8-rgW" secondAttribute="centerX" id="XPU-Gh-tKE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Jv1-3Q-T9Y"/>
