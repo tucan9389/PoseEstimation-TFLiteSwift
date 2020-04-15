@@ -96,8 +96,7 @@ private extension PoseEstimationOutput {
         let keypoints = convertToKeypoints(from: outputs)
         let lines = makeLines(with: keypoints)
         
-        self.keypoints = keypoints
-        self.lines = lines
+        humans = [Human(keypoints: keypoints, lines: lines)]
     }
     
     func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
@@ -129,7 +128,7 @@ private extension PoseEstimationOutput {
         return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
     }
     
-    func makeLines(with keypoints: [Keypoint]) -> [Line] {
+    func makeLines(with keypoints: [Keypoint]) -> [Human.Line] {
         var keypointWithBodyPart: [PEFMCPMPoseEstimator.Output.BodyPart: Keypoint] = [:]
         PEFMCPMPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]

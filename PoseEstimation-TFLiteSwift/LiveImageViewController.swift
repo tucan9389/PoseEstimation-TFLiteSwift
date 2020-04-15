@@ -122,9 +122,10 @@ extension LiveImageViewController {
         switch (result) {
         case .success(let output):
             DispatchQueue.main.async {
+                guard let human = output.humans.first else { return }
                 let threshold = self.threshold
-                let lines = output.filteredLines(with: threshold)
-                let keypoints = output.filteredKeypoints(with: threshold)
+                let lines = human.filteredLines(with: threshold)
+                let keypoints = human.filteredKeypoints(with: threshold)
                 self.overlayView?.lines = lines
                 self.overlayView?.keypoints = keypoints
             }

@@ -11,7 +11,7 @@ import UIKit
 class PoseKeypointsDrawingView: UIView {
     typealias CGLine = (from: CGPoint, to: CGPoint)
     
-    var lines: [PoseEstimationOutput.Line]? { didSet { setNeedsDisplay() } }
+    var lines: [PoseEstimationOutput.Human.Line]? { didSet { setNeedsDisplay() } }
     var keypoints: [Keypoint]? { didSet { setNeedsDisplay() } }
     
     override func draw(_ rect: CGRect) {

@@ -69,8 +69,9 @@ extension StillImageViewController {
         let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(with: input)
         switch (result) {
         case .success(let output):
-            let lines = output.lines
-            let keypoints = output.keypoints
+            guard let human = output.humans.first else { return }
+            let lines = human.lines
+            let keypoints = human.keypoints
             DispatchQueue.main.async {
                 self.overlayView?.lines = lines
                 self.overlayView?.keypoints = keypoints
@@ -87,12 +88,12 @@ extension StillImageViewController {
         guard autoImportingImageFromAlbum else { return }
         
         let fetchOptions = PHFetchOptions()
-        let descriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        let descriptor = NSSortDescriptor(key: "modificationDate", ascending: true)
         fetchOptions.sortDescriptors = [descriptor]
 
         let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
 
-        guard let asset = fetchResult.firstObject else {
+        guard let asset = fetchResult.lastObject else {
             return
         }
 
