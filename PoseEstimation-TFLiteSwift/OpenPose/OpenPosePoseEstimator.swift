@@ -23,21 +23,41 @@ class OpenPosePoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    func inference(with input: PoseEstimationInput) -> OpenPoseResult {
+    var modelOutput: [TFLiteFlatArray<Float32>]?
+    
+    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> OpenPoseResult {
+        
+        // initialize
+        modelOutput = nil
+        
         // preprocss
         guard let inputData = imageInterpreter.preprocess(with: input)
             else { return .failure(.failToCreateInputData) }
+        
         // inference
-        guard let outputs = imageInterpreter.inference(with: inputData)
+        modelOutput = imageInterpreter.inference(with: inputData)
+        guard let outputs = modelOutput
             else { return .failure(.failToInference) }
+        
         // postprocess
-        let result = postprocess(with: outputs)
+        let result = OpenPoseResult.success(postprocess(outputs, with: threshold, on: partIndex))
         
         return result
     }
     
-    private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> OpenPoseResult {
-        return .success(PoseEstimationOutput(outputs: outputs))
+    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput {
+        // if you want to postprocess with only single person, use .singlePerson on humanType
+        // in .multiPerson, if the bodyPart is nil, parse all part
+        return PoseEstimationOutput(outputs: outputs, humanType: .multiPerson(threshold: threshold, bodyPart: partIndex))
+    }
+    
+    func postprocessOnLastOutput(with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput? {
+        guard let outputs = modelOutput else { return nil }
+        return postprocess(outputs, with: threshold, on: partIndex)
+    }
+    
+    var partNames: [String] {
+        return Output.BodyPart.allCases.map { $0.rawValue }
     }
 }
 
@@ -60,7 +80,7 @@ private extension OpenPosePoseEstimator {
             static let count = BodyPart.allCases.count * 2 // 38
         }
         enum BodyPart: String, CaseIterable {
-            case NOSE = "nose" // 0
+            case NOSE = "Nose" // 0
             case NECK = "Neck" // 1
             case RIGHT_SHOULDER = "RShoulder" // 2
             case RIGHT_ELBOW = "RElbow" // 3
@@ -109,15 +129,24 @@ private extension OpenPosePoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>]) {
-        let keypoints = convertToKeypoints(from: outputs)
-        let lines = makeLines(with: keypoints)
-        
-        humans = [Human(keypoints: keypoints, lines: lines)]
+    enum HumanType {
+        case singlePerson
+        case multiPerson(threshold: Float?, bodyPart: Int?)
+    }
+    
+    init(outputs: [TFLiteFlatArray<Float32>], humanType: HumanType = .singlePerson) {
+        switch humanType {
+        case .singlePerson:
+            let keypoints = convertToKeypoints(from: outputs)
+            let lines = makeLines(with: keypoints)
+            humans = [Human(keypoints: keypoints, lines: lines)]
+        case .multiPerson(threshold: let threshold, let bodyPart):
+            humans = parseMultiHuman(from: outputs, on: bodyPart, with: threshold)
+        }
     }
     
     func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
-        let output = outputs[0]
+        let output = outputs[0] // openpose_ildoonet.tflite only use the first output
         
         // get (col, row)s from heatmaps
         let keypointIndexInfos: [(row: Int, col: Int, val: Float32)] = (0..<OpenPosePoseEstimator.Output.ConfidenceMap.count).map { heatmapIndex in
@@ -156,6 +185,32 @@ private extension PoseEstimationOutput {
             return (from: fromKeypoint, to: toKeypoint)
         }
     }
+    
+    func parseMultiHuman(from outputs: [TFLiteFlatArray<Float32>], on partIndex: Int?, with threshold: Float?) -> [Human] {
+        guard let partIndex = partIndex else { return [] }
+        
+        let output = outputs[0] // openpose_ildoonet.tflite only use the first output
+        
+        // 1. nms
+        let keypointIndexes = output.keypoints(partIndex: partIndex, filterSize: 3, threshold: threshold)
+        let kps: [Keypoint] = keypointIndexes.map { keypointInfo in
+            let x = (CGFloat(keypointInfo.col) + 0.5) / CGFloat(OpenPosePoseEstimator.Output.ConfidenceMap.width)
+            let y = (CGFloat(keypointInfo.row) + 0.5) / CGFloat(OpenPosePoseEstimator.Output.ConfidenceMap.height)
+            let score = Float(keypointInfo.val)
+            return Keypoint(position: CGPoint(x: x, y: y), score: score)
+        }
+        
+        return kps.map { keypoint in
+            let keypoints: [Keypoint] = OpenPosePoseEstimator.Output.BodyPart.allCases.enumerated().map { offset, _ in
+                return (offset == partIndex) ? keypoint : Keypoint(position: .zero, score: -100)
+            }
+            return Human(keypoints: keypoints, lines: [])
+        }
+        
+        // 2.
+        
+        // return []
+    }
 }
 
 extension TFLiteFlatArray where Element == Float32 {
@@ -170,6 +225,20 @@ extension TFLiteFlatArray where Element == Float32 {
             var indexes = paf
             indexes[indexes.count-1] = indexes[indexes.count-1] + OpenPosePoseEstimator.Output.ConfidenceMap.count
             return self.element(at: indexes)
+        }
+    }
+}
+
+// NMS
+extension TFLiteFlatArray where Element == Float32 {
+    func keypoints(partIndex: Int, filterSize: Int, threshold: Float?) -> [(row: Int, col: Int, val: Element)] {
+        let hWidth = OpenPosePoseEstimator.Output.ConfidenceMap.width
+        let hHeight = OpenPosePoseEstimator.Output.ConfidenceMap.height
+        let results = NonMaximumnonSuppression.process(self, partIndex: partIndex, width: hWidth, height: hHeight)
+        if let threshold = threshold {
+            return results.filter { $0.val > threshold }
+        } else {
+            return results
         }
     }
 }

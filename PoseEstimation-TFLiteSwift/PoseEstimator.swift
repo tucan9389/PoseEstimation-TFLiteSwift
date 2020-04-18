@@ -99,5 +99,7 @@ enum PoseEstimationError: Error {
 }
 
 protocol PoseEstimator {
-    func inference(with input: PoseEstimationInput) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func postprocessOnLastOutput(with threshold: Float?, on partIndex: Int?) -> PoseEstimationOutput?
+    var partNames: [String] { get }
 }

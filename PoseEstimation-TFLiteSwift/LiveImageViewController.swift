@@ -117,7 +117,7 @@ extension LiveImageViewController {
         let scalingRatio = pixelBuffer.size.width / overlayViewRelativeRect.width
         let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
         let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer, cropArea: .customAspectFill(rect: targetAreaRect))
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(with: input)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: nil, on: nil)
         
         switch (result) {
         case .success(let output):

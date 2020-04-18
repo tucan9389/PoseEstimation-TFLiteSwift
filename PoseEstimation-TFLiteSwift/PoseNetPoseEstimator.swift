@@ -23,21 +23,38 @@ class PoseNetPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    func inference(with input: PoseEstimationInput) -> PoseNetResult {
+    var modelOutput: [TFLiteFlatArray<Float32>]?
+    
+    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> PoseNetResult {
+        
+        // initialize
+        modelOutput = nil
+        
         // preprocss
         guard let inputData = imageInterpreter.preprocess(with: input)
             else { return .failure(.failToCreateInputData) }
+        
         // inference
         guard let outputs = imageInterpreter.inference(with: inputData)
             else { return .failure(.failToInference) }
+        
         // postprocess
-        let result = postprocess(with: outputs)
+        let result = PoseNetResult.success(postprocess(with: outputs))
         
         return result
     }
     
-    private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> PoseNetResult {
-        return .success(PoseEstimationOutput(outputs: outputs))
+    private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> PoseEstimationOutput {
+        return PoseEstimationOutput(outputs: outputs)
+    }
+    
+    func postprocessOnLastOutput(with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput? {
+        guard let outputs = modelOutput else { return nil }
+        return postprocess(with: outputs)
+    }
+    
+    var partNames: [String] {
+        return Output.BodyPart.allCases.map { $0.rawValue }
     }
 }
 

@@ -28,6 +28,7 @@
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
+		71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */; };
 		71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */; };
 		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
@@ -60,6 +61,7 @@
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
+		71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonMaximumnonSuppression.swift; sourceTree = "<group>"; };
 		71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = openpose_ildoonet.tflite; sourceTree = "<group>"; };
 		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -104,8 +106,8 @@
 				7105C91B241CE9B6001A4325 /* Main.storyboard */,
 				712A7FC02424BDD800B043F9 /* StillImageViewController.swift */,
 				7105C919241CE9B6001A4325 /* LiveImageViewController.swift */,
-				712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */,
 				7105C92B241D0150001A4325 /* MLModel */,
+				71DD577D2446D7A40024C146 /* Algorithm */,
 				7105C92A241D0144001A4325 /* Extension */,
 				7105C929241D011F001A4325 /* View */,
 				7105C938241D29C5001A4325 /* Video */,
@@ -119,6 +121,7 @@
 		7105C929241D011F001A4325 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -173,6 +176,14 @@
 				712A7FC8242667C900B043F9 /* PEFMHourglassPoseEstimator.swift */,
 			);
 			path = PoseEstimationForMobile;
+			sourceTree = "<group>";
+		};
+		71DD577D2446D7A40024C146 /* Algorithm */ = {
+			isa = PBXGroup;
+			children = (
+				71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */,
+			);
+			name = Algorithm;
 			sourceTree = "<group>";
 		};
 		71E8D9152438BA5B0081DD6E /* OpenPose */ = {
@@ -312,6 +323,7 @@
 				7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */,
 				712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */,
 				71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */,
+				71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */,
 				712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */,
 				7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */,
 				7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */,
