@@ -11,7 +11,7 @@ import UIKit
 class PoseKeypointsDrawingView: UIView {
     typealias CGLine = (from: CGPoint, to: CGPoint)
     
-    var lines: [PoseEstimationOutput.Line]? { didSet { setNeedsDisplay() } }
+    var lines: [PoseEstimationOutput.Human.Line]? { didSet { setNeedsDisplay() } }
     var keypoints: [Keypoint]? { didSet { setNeedsDisplay() } }
     
     override func draw(_ rect: CGRect) {
@@ -56,7 +56,7 @@ private extension PoseKeypointsDrawingView {
             static let radius: CGFloat = 5
             static let borderWidth: CGFloat = 2
             static let borderColor: UIColor = UIColor.red
-            static let fillColor: UIColor = UIColor(red: 0.6, green: 0.2, blue: 0.2, alpha: 1)
+            static let fillColor: UIColor = UIColor.green
         }
         enum Line {
             static let width: CGFloat = 2

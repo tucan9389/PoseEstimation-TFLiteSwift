@@ -73,18 +73,23 @@ struct Keypoint {
 }
 
 struct PoseEstimationOutput {
-    typealias Line = (from: Keypoint, to: Keypoint)
-    var keypoints: [Keypoint] = []
-    var lines: [Line] = []
     
-    func filteredKeypoints(with threshold: Float?) -> [Keypoint] {
-        guard let threshold = threshold else { return keypoints }
-        return keypoints.filter { $0.score > threshold }
-    }
+    var humans: [Human] = []
     
-    func filteredLines(with threshold: Float?) -> [Line] {
-        guard let threshold = threshold else { return lines }
-        return lines.filter { $0.from.score > threshold && $0.to.score > threshold }
+    struct Human {
+        typealias Line = (from: Keypoint, to: Keypoint)
+        var keypoints: [Keypoint] = []
+        var lines: [Line] = []
+        
+        func filteredKeypoints(with threshold: Float?) -> [Keypoint] {
+            guard let threshold = threshold else { return keypoints }
+            return keypoints.filter { $0.score > threshold }
+        }
+        
+        func filteredLines(with threshold: Float?) -> [Line] {
+            guard let threshold = threshold else { return lines }
+            return lines.filter { $0.from.score > threshold && $0.to.score > threshold }
+        }
     }
 }
 
@@ -94,5 +99,7 @@ enum PoseEstimationError: Error {
 }
 
 protocol PoseEstimator {
-    func inference(with input: PoseEstimationInput) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func postprocessOnLastOutput(with threshold: Float?, on partIndex: Int?) -> PoseEstimationOutput?
+    var partNames: [String] { get }
 }
