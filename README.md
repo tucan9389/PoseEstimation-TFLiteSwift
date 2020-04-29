@@ -50,3 +50,7 @@ pod install
   - PoseNet model provided by [tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
   - OpenPose model provided by [ildoonet/tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation)
   - Various model provided by [osmr/imgclsmob](https://github.com/osmr/imgclsmob)
+
+## License
+
+This repository is licensed under Apache 2.0. Full license text is available in [LICENSE](LICENSE).
