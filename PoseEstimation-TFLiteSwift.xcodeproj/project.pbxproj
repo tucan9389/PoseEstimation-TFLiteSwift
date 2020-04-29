@@ -28,6 +28,7 @@
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
+		71A1ED43245971AC001F796C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 71A1ED42245971AC001F796C /* LICENSE */; };
 		71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */; };
 		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
@@ -60,6 +61,7 @@
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
+		71A1ED42245971AC001F796C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = openpose_ildoonet.tflite; sourceTree = "<group>"; };
 		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		7105C909241CE9B5001A4325 = {
 			isa = PBXGroup;
 			children = (
+				71A1ED42245971AC001F796C /* LICENSE */,
 				71E8D93A243CC5320081DD6E /* README.md */,
 				7105C914241CE9B5001A4325 /* PoseEstimation-TFLiteSwift */,
 				7105C913241CE9B5001A4325 /* Products */,
@@ -264,6 +267,7 @@
 				7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */,
 				7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */,
 				712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */,
+				71A1ED43245971AC001F796C /* LICENSE in Resources */,
 				71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */,
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
 				71E8D93B243CC5330081DD6E /* README.md in Resources */,
