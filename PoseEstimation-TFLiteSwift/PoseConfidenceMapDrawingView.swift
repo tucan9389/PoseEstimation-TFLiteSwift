@@ -33,12 +33,13 @@ class PoseConfidenceMapDrawingView: UIView {
                 componentOfVector = min(max(componentOfVector, -1.0), 1.0)
                 let drawingAreaRect = CGRect(x: oneAreaWidth*CGFloat(col), y: oneAreaHeight*CGFloat(row),
                                              width: oneAreaWidth, height: oneAreaHeight)
-                drawRect(with: drawingAreaRect, componentOfVector: componentOfVector)
+                let areaFillColor = DrawingConstant.Area.areaColor(CGFloat(componentOfVector))
+                drawRect(with: drawingAreaRect, fillColor: areaFillColor)
             }
         }
     }
     
-    func drawRect(with rect: CGRect, componentOfVector: Float32 = 0.0) {
+    func drawRect(with rect: CGRect, fillColor: UIColor) {
         guard let startingPoint = rect.points.first else { return }
         let rectPath = UIBezierPath()
         rectPath.move(to: startingPoint)
@@ -51,7 +52,7 @@ class PoseConfidenceMapDrawingView: UIView {
         rectPath.lineWidth = DrawingConstant.Line.width
         DrawingConstant.Area.lineColor.setStroke()
         rectPath.stroke()
-        DrawingConstant.Area.areaColor(CGFloat(componentOfVector)).setFill()
+        fillColor.setFill()
         rectPath.fill()
     }
 }
