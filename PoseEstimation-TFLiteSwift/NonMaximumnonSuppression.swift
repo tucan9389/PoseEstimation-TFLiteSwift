@@ -15,6 +15,7 @@ class NonMaximumnonSuppression {
         let filterSize = 3
         var lastMaximumColumns: [MaximumPoint?] = (0..<width).map { _ in nil }
         var results: [MaximumPoint] = []
+        results.reserveCapacity(20)
         
         for row in (0..<height) {
             for col in (0..<width) {
