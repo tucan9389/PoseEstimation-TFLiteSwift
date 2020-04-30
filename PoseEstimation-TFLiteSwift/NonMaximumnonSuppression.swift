@@ -9,7 +9,7 @@
 import Foundation
 
 class NonMaximumnonSuppression {
-    typealias MaximumPoint = (row: Int, col: Int, val: Float32)
+    typealias MaximumPoint = (col: Int, row: Int, val: Float32)
     
     static func process(_ heatmap: TFLiteFlatArray<Float32>, partIndex: Int, width: Int, height: Int) -> [MaximumPoint] {
         let filterSize = 3
@@ -48,8 +48,8 @@ class NonMaximumnonSuppression {
                                 lastMaximumColumns[targetColumn] = nil
                             }
                         }
-                        results.append((row: lastMaximumPoint.row,
-                                        col: lastMaximumPoint.col,
+                        results.append((col: lastMaximumPoint.col,
+                                        row: lastMaximumPoint.row,
                                         val: lastMaximumPoint.val))
                     }
                 }
@@ -66,8 +66,8 @@ class NonMaximumnonSuppression {
                     lastMaximumColumns[targetColumn] = nil
                 }
             }
-            results.append((row: lastMaximumPoint.row,
-                            col: lastMaximumPoint.col,
+            results.append((col: lastMaximumPoint.col,
+                            row: lastMaximumPoint.row,
                             val: lastMaximumPoint.val))
         }
         
