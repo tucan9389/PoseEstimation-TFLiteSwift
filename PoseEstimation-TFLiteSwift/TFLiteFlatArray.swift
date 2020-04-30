@@ -10,7 +10,7 @@ import TensorFlowLite
 
 // MARK: - Wrappers
 /// Struct for handling multidimension `Data` in flat `Array`.
-struct TFLiteFlatArray<Element: AdditiveArithmetic> {
+class TFLiteFlatArray<Element: AdditiveArithmetic> {
     private var array: [Element]
     var dimensions: [Int]
     

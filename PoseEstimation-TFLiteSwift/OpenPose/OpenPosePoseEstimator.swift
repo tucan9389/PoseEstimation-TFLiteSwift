@@ -59,6 +59,10 @@ class OpenPosePoseEstimator: PoseEstimator {
     var partNames: [String] {
         return Output.BodyPart.allCases.map { $0.rawValue }
     }
+    
+    var pairNames: [String]? {
+        return nil
+    }
 }
 
 private extension OpenPosePoseEstimator {
@@ -135,6 +139,8 @@ private extension PoseEstimationOutput {
     }
     
     init(outputs: [TFLiteFlatArray<Float32>], humanType: HumanType = .singlePerson) {
+        self.outputs = outputs
+        
         switch humanType {
         case .singlePerson:
             let keypoints = convertToKeypoints(from: outputs)

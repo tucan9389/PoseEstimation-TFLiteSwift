@@ -56,6 +56,10 @@ class PEFMHourglassPoseEstimator: PoseEstimator {
     var partNames: [String] {
         return Output.BodyPart.allCases.map { $0.rawValue }
     }
+    
+    var pairNames: [String]? {
+        return nil
+    }
 }
 
 private extension PEFMHourglassPoseEstimator {
@@ -110,6 +114,8 @@ private extension PEFMHourglassPoseEstimator {
 
 private extension PoseEstimationOutput {
     init(outputs: [TFLiteFlatArray<Float32>]) {
+        self.outputs = outputs
+        
         let keypoints = convertToKeypoints(from: outputs)
         let lines = makeLines(with: keypoints)
         

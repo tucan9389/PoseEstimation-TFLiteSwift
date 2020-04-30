@@ -1,5 +1,5 @@
 //
-//  StillImageViewController.swift
+//  StillImageLineViewController.swift
 //  PoseEstimation-TFLiteSwift
 //
 //  Created by Doyoung Gwak on 2020/03/20.
@@ -209,10 +209,10 @@ extension StillImageLineViewController {
 
         let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
         
-        let asset = fetchResult.object(at: 5)
-//        guard let asset = fetchResult.object(at: 4) else {
-//            return
-//        }
+//        let asset = fetchResult.object(at: 5)
+        guard let asset = fetchResult.lastObject else {
+            return
+        }
 
         let scale = UIScreen.main.scale
         let size = CGSize(width: (imageView?.frame.width ?? 0) * scale,
