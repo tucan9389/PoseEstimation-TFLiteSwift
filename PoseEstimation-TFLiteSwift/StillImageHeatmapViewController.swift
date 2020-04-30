@@ -137,7 +137,12 @@ class StillImageHeatmapViewController: UIViewController {
     }
     
     @IBAction func didChangePAF(_ sender: Any) {
-        updateHeatmapOverlayView()
+        if case .paf = selectedChannel {
+            updateHeatmapOverlayView()
+        } else {
+            guard let allButton = pairButtons?.first else { return }
+            selectChannel(allButton)
+        }
     }
     
     @objc func selectChannel(_ button: UIButton) {
@@ -148,11 +153,13 @@ class StillImageHeatmapViewController: UIViewController {
             updateChannelButton(with: partName, on: partButtons)
             updateChannelButton(with: nil, on: pairButtons)
             selectedChannel = .confidenceMap(part: partName)
+            UIView.animate(withDuration: 0.23) { self.pafSegment?.alpha = 0.5 }
         } else if pairButtons?.contains(button) == true {
             let pairName = buttonTitle.components(separatedBy: "(").first ?? buttonTitle
             updateChannelButton(with: nil, on: partButtons)
             updateChannelButton(with: pairName, on: pairButtons)
             selectedChannel = .paf(pair: pairName)
+            UIView.animate(withDuration: 0.23) { self.pafSegment?.alpha = 1.0 }
         }
         
         updateHeatmapOverlayView()
