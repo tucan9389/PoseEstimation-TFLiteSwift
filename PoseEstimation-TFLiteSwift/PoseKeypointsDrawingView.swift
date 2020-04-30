@@ -12,7 +12,7 @@ class PoseKeypointsDrawingView: UIView {
     typealias CGLine = (from: CGPoint, to: CGPoint)
     
     var lines: [PoseEstimationOutput.Human.Line]? { didSet { setNeedsDisplay() } }
-    var keypoints: [Keypoint]? { didSet { setNeedsDisplay() } }
+    var keypoints: [Keypoint?]? { didSet { setNeedsDisplay() } }
     
     override func draw(_ rect: CGRect) {
         lines?.forEach { line in
@@ -23,7 +23,7 @@ class PoseKeypointsDrawingView: UIView {
         }
         
         keypoints?.forEach { keypoint in
-            let point = keypoint.position.scaled(to: frame.size)
+            guard let point = keypoint?.position.scaled(to: frame.size) else { return }
             drawDot(at: point)
         }
     }

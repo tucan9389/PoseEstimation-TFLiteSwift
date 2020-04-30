@@ -74,16 +74,20 @@ struct Keypoint {
 
 struct PoseEstimationOutput {
     
+    var outputs: [TFLiteFlatArray<Float32>]
     var humans: [Human] = []
     
     struct Human {
         typealias Line = (from: Keypoint, to: Keypoint)
-        var keypoints: [Keypoint] = []
+        var keypoints: [Keypoint?] = []
         var lines: [Line] = []
         
-        func filteredKeypoints(with threshold: Float?) -> [Keypoint] {
+        func filteredKeypoints(with threshold: Float?) -> [Keypoint?] {
             guard let threshold = threshold else { return keypoints }
-            return keypoints.filter { $0.score > threshold }
+            return keypoints.map {
+                guard let kp = $0, kp.score > threshold else { return nil }
+                return kp
+            }
         }
         
         func filteredLines(with threshold: Float?) -> [Line] {
@@ -102,4 +106,5 @@ protocol PoseEstimator {
     func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> Result<PoseEstimationOutput, PoseEstimationError>
     func postprocessOnLastOutput(with threshold: Float?, on partIndex: Int?) -> PoseEstimationOutput?
     var partNames: [String] { get }
+    var pairNames: [String]? { get }
 }

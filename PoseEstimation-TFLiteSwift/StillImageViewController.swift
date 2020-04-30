@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class StillImageViewController: UIViewController {
+class StillImageLineViewController: UIViewController {
     
     let autoImportingImageFromAlbum = true
     lazy var partIndexes: [String: Int] = {
@@ -25,12 +25,23 @@ class StillImageViewController: UIViewController {
         return partIndexes[partName]
     }
     var threshold: Float? {
-        return (thresholdSlider?.value == thresholdSlider?.minimumValue) ? nil : thresholdSlider?.value
+        set {
+            if let threshold = newValue {
+                thresholdLabel?.text = String(format: "%.2f", threshold)
+                thresholdSlider?.value = threshold
+            } else {
+                thresholdLabel?.text = "nil"
+                thresholdSlider?.value = thresholdSlider?.minimumValue ?? 0.0
+            }
+        }
+        get {
+            return (thresholdSlider?.value == thresholdSlider?.minimumValue) ? nil : thresholdSlider?.value
+        }
     }
 
     // MARK: - IBOutlets
     @IBOutlet weak var imageView: UIImageView?
-    @IBOutlet weak var overlayView: PoseKeypointsDrawingView?
+    @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
     @IBOutlet var partButtons: [UIButton]?
     @IBOutlet weak var thresholdLabel: UILabel?
     @IBOutlet weak var thresholdSlider: UISlider?
@@ -50,15 +61,15 @@ class StillImageViewController: UIViewController {
         setUpUI()
 
         // select
-        select(on: poseEstimator.partNames[0])
+        select(on: "ALL")
         
         // import first image if autoImportingImageFromAlbum is true
         importFirstImageIfNeeded()
     }
     
     func setUpUI() {
-        overlayView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
-        overlayView?.layer.borderWidth = 5
+        overlayLineDotView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
+        overlayLineDotView?.layer.borderWidth = 5
         
         let partNames = ["ALL"] + partIndexes.keys.sorted { (partIndexes[$0] ?? -1) < (partIndexes[$1] ?? -1) }
         partButtons?.enumerated().forEach { offset, button in
@@ -71,7 +82,7 @@ class StillImageViewController: UIViewController {
                 
                 button.isEnabled = true
                 button.layer.cornerRadius = 5
-                button.layer.borderWidth = 1.5
+                button.layer.borderWidth = 1
                 button.layer.borderColor = UIColor.systemBlue.cgColor
             } else {
                 button.setTitle("-", for: .normal)
@@ -79,6 +90,8 @@ class StillImageViewController: UIViewController {
             }
             button.addTarget(self, action: #selector(selectPart), for: .touchUpInside)
         }
+        
+        threshold = 0.1
     }
     
     func updatePartButton(on targetPartName: String) {
@@ -89,19 +102,19 @@ class StillImageViewController: UIViewController {
                 button.backgroundColor = UIColor.systemBlue
             } else {
                 button.tintColor = UIColor.systemBlue
-                button.backgroundColor = UIColor.clear
+                button.backgroundColor = UIColor.white
             }
         }
     }
     
     @objc func selectPart(_ button: UIButton) {
         guard let partName = button.title(for: .normal) else { return }
-        guard partName != "ALL" else {
-            let alert = UIAlertController(title: "Error", message: "Not support 'ALL' case on multi pose estimation", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
-            present(alert, animated: true)
-            return
-        }
+//        guard partName != "ALL" else {
+//            let alert = UIAlertController(title: "Error", message: "Not support 'ALL' case on multi pose estimation", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
+//            present(alert, animated: true)
+//            return
+//        }
         
         select(on: partName)
         if let image = imageView?.image {
@@ -117,12 +130,14 @@ class StillImageViewController: UIViewController {
     
     func updateOverlayView() {
         DispatchQueue.main.async {
+            self.overlayLineDotView?.alpha = 1
+            
             if let partOffset = self.partIndexes[self.selectedPartName] {
-                self.overlayView?.lines = []
-                self.overlayView?.keypoints = self.outputHumans.map { $0.keypoints[partOffset] }
+                self.overlayLineDotView?.lines = []
+                self.overlayLineDotView?.keypoints = self.outputHumans.map { $0.keypoints[partOffset] }
             } else { // ALL case
-                self.overlayView?.lines = self.outputHumans.reduce([]) { $0 + $1.lines }
-                self.overlayView?.keypoints = self.outputHumans.reduce([]) { $0 + $1.keypoints }
+                self.overlayLineDotView?.lines = self.outputHumans.reduce([]) { $0 + $1.lines }
+                self.overlayLineDotView?.keypoints = self.outputHumans.reduce([]) { $0 + $1.keypoints }
             }
         }
     }
@@ -147,7 +162,7 @@ class StillImageViewController: UIViewController {
     }
 }
 
-extension StillImageViewController: UIImagePickerControllerDelegate {
+extension StillImageLineViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let pickedImage = info[.originalImage] as? UIImage else {
             imageView?.image = nil
@@ -166,24 +181,25 @@ extension StillImageViewController: UIImagePickerControllerDelegate {
     }
 }
 
-extension StillImageViewController: UINavigationControllerDelegate { }
+extension StillImageLineViewController: UINavigationControllerDelegate { }
 
-extension StillImageViewController {
+extension StillImageLineViewController {
     func inference(with uiImage: UIImage) {
         let input: PoseEstimationInput = .uiImage(uiImage: uiImage, cropArea: .squareAspectFill)
         let partIndex: Int? = selectedPartIndex
-        let threshold: Float? = self.threshold // <#TODO#>
+        let threshold: Float? = self.threshold
         let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: threshold, on: partIndex)
         switch (result) {
         case .success(let output):
             outputHumans = output.humans
+            // modelOutput = output.outputs.first
         case .failure(_):
             break
         }
     }
 }
 
-extension StillImageViewController {
+extension StillImageLineViewController {
     func importFirstImageIfNeeded() {
         guard autoImportingImageFromAlbum else { return }
         
@@ -192,10 +208,11 @@ extension StillImageViewController {
         fetchOptions.sortDescriptors = [descriptor]
 
         let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
-
-        guard let asset = fetchResult.lastObject else {
-            return
-        }
+        
+        let asset = fetchResult.object(at: 5)
+//        guard let asset = fetchResult.object(at: 4) else {
+//            return
+//        }
 
         let scale = UIScreen.main.scale
         let size = CGSize(width: (imageView?.frame.width ?? 0) * scale,

@@ -56,6 +56,10 @@ class PEFMCPMPoseEstimator: PoseEstimator {
     var partNames: [String] {
         return Output.BodyPart.allCases.map { $0.rawValue }
     }
+    
+    var pairNames: [String]? {
+        return nil
+    }
 }
 
 private extension PEFMCPMPoseEstimator {
@@ -110,6 +114,8 @@ private extension PEFMCPMPoseEstimator {
 
 private extension PoseEstimationOutput {
     init(outputs: [TFLiteFlatArray<Float32>]) {
+        self.outputs = outputs
+        
         let keypoints = convertToKeypoints(from: outputs)
         let lines = makeLines(with: keypoints)
         
