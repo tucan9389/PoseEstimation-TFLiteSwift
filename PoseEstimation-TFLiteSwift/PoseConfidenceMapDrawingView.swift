@@ -27,18 +27,18 @@ class PoseConfidenceMapDrawingView: UIView {
         // top-left is (0,0)
         for row in 0..<rowCount {
             for col in 0..<colCount {
-                var value = outputChannelIndexes.reduce(0.0) { value, outputChannelIndex in
+                var componentOfVector = outputChannelIndexes.reduce(0.0) { value, outputChannelIndex in
                     return value + output[0, row, col, outputChannelIndex]
                 }
-                value = min(max(value, -1.0), 1.0)
+                componentOfVector = min(max(componentOfVector, -1.0), 1.0)
                 let drawingAreaRect = CGRect(x: oneAreaWidth*CGFloat(col), y: oneAreaHeight*CGFloat(row),
                                              width: oneAreaWidth, height: oneAreaHeight)
-                drawRect(with: drawingAreaRect, value: value)
+                drawRect(with: drawingAreaRect, componentOfVector: componentOfVector)
             }
         }
     }
     
-    func drawRect(with rect: CGRect, value: Float32 = 0.0) {
+    func drawRect(with rect: CGRect, componentOfVector: Float32 = 0.0) {
         guard let startingPoint = rect.points.first else { return }
         let rectPath = UIBezierPath()
         rectPath.move(to: startingPoint)
@@ -51,7 +51,7 @@ class PoseConfidenceMapDrawingView: UIView {
         rectPath.lineWidth = DrawingConstant.Line.width
         DrawingConstant.Area.lineColor.setStroke()
         rectPath.stroke()
-        DrawingConstant.Area.areaColor(CGFloat(value)).setFill()
+        DrawingConstant.Area.areaColor(CGFloat(componentOfVector)).setFill()
         rectPath.fill()
     }
 }
@@ -64,21 +64,21 @@ private extension PoseConfidenceMapDrawingView {
         }
         enum Area {
             static let lineColor: UIColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
-            static func areaColor(_ value: CGFloat) -> UIColor {
-                if value < 0 {
-                    return areaNegativeColor(value)
+            static func areaColor(_ componentOfVector: CGFloat) -> UIColor {
+                if componentOfVector < 0 {
+                    return areaNegativeColor(componentOfVector)
                 } else {
-                    return areaPositiveColor(value)
+                    return areaPositiveColor(componentOfVector)
                 }
             }
             private static let baisAlpha: CGFloat = 0.5 // 0.85
-            private static func areaPositiveColor(_ value: CGFloat) -> UIColor {
-                let colorValue = min(max(value, 0.0), 1.0)
+            private static func areaPositiveColor(_ magnitude: CGFloat) -> UIColor {
+                let colorValue = min(max(magnitude, 0.0), 1.0)
                 let alphaValue = (1-baisAlpha)*colorValue + baisAlpha
                 return UIColor(red: colorValue, green: 0, blue: 0, alpha: alphaValue)
             }
-            private static func areaNegativeColor(_ value: CGFloat) -> UIColor {
-                let colorValue = min(max(abs(value), 0.0), 1.0)
+            private static func areaNegativeColor(_ magnitude: CGFloat) -> UIColor {
+                let colorValue = min(max(abs(magnitude), 0.0), 1.0)
                 let alphaValue = (1-baisAlpha)*colorValue + baisAlpha
                 return UIColor(red: 0, green: colorValue, blue: 0, alpha: alphaValue)
             }
