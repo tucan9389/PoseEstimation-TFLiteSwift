@@ -72,6 +72,22 @@ struct Keypoint {
     let score: Float
 }
 
+struct KeypointElement: Equatable {
+    let col: Int
+    let row: Int
+    let val: Float32
+    
+    init(element: (col: Int, row: Int, val: Float32)) {
+        col = element.col
+        row = element.row
+        val = element.val
+    }
+    
+    static func == (lhs: KeypointElement, rhs: KeypointElement) -> Bool {
+        return lhs.col == rhs.col && lhs.row == rhs.row
+    }
+}
+
 struct PoseEstimationOutput {
     
     var outputs: [TFLiteFlatArray<Float32>]

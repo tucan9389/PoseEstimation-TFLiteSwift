@@ -303,9 +303,9 @@ private extension PoseEstimationOutput {
     
     func parseAllPartOnMultiHuman(from output: TFLiteFlatArray<Float32>, with threshold: Float?) -> [Human] {
         let parts = OpenPosePoseEstimator.Output.BodyPart.allCases
-        var verticesForEachPart: [[(col: Int, row: Int, val: Float32)]?] = parts.map { _ in nil }
+        var verticesForEachPart: [[KeypointElement]?] = parts.map { _ in nil }
         let pairs = OpenPosePoseEstimator.Output.BodyPart.lines
-        var edgesForEachPair: [[(from: (col: Int, row: Int, val: Float32), to: (col: Int, row: Int, val: Float32), cost: Float32)]] = pairs.map { _ in [] }
+        var edgesForEachPair: [[(from: KeypointElement, to: KeypointElement, cost: Float32)]] = pairs.map { _ in [] }
         let (colSize, rowSize) = (OpenPosePoseEstimator.Output.ConfidenceMap.width,
                                   OpenPosePoseEstimator.Output.ConfidenceMap.height)
         
@@ -320,12 +320,16 @@ private extension PoseEstimationOutput {
             
             // 1. Non Maximum Suppression, 2. Create Bipartite Graph
             if verticesForEachPart[startingPartIndex] == nil {
-                verticesForEachPart[startingPartIndex] = output.keypoints(partIndex: startingPartIndex, filterSize: 5, threshold: threshold*thresholdRatio)
+                verticesForEachPart[startingPartIndex] = output.keypoints(partIndex: startingPartIndex, filterSize: 5, threshold: threshold*thresholdRatio).map {
+                    KeypointElement(element: $0)
+                }
             }
             
             // 1. Non Maximum Suppression, 2. Create Bipartite Graph
             if verticesForEachPart[endingPartIndex] == nil {
-                verticesForEachPart[endingPartIndex] = output.keypoints(partIndex: endingPartIndex, filterSize: 5, threshold: threshold*thresholdRatio)
+                verticesForEachPart[endingPartIndex] = output.keypoints(partIndex: endingPartIndex, filterSize: 5, threshold: threshold*thresholdRatio).map {
+                    KeypointElement(element: $0)
+                }
             }
             
             guard let startingPartVertices = verticesForEachPart[startingPartIndex],
@@ -342,8 +346,8 @@ private extension PoseEstimationOutput {
                     let (vx, vy) = (xDiff/vLength, yDiff/vLength)
                     // sampling
                     let numberOfSamples = 10
-                    let dx = Float(xDiff) / Float(numberOfSamples)
-                    let dy = Float(yDiff) / Float(numberOfSamples)
+                    let dx = xDiff / Float(numberOfSamples)
+                    let dy = yDiff / Float(numberOfSamples)
                     let sampledLocaitons: [(col: Int, row: Int)] = (0..<numberOfSamples).map { index in
                         let col = Int(roundf(Float32(startingPartVertex.col) + (dx*(Float32(index)+0.5))))
                         let row = Int(roundf(Float32(startingPartVertex.row) + (dy*(Float32(index)+0.5))))
@@ -382,8 +386,8 @@ private extension PoseEstimationOutput {
         }
         
         // 5. Merging
-        var tmpHumans: [[(col: Int, row: Int, val: Float32)?]] = []
-        for (pairIndex, (pair, edges)) in zip(pairs, edgesForEachPair).enumerated() {
+        var tmpHumans: [[KeypointElement?]] = []
+        for (pair, edges) in zip(pairs, edgesForEachPair) {
             let startingPartIndex = pair.from.offsetValue()
             let endingPartIndex = pair.to.offsetValue()
             for edge in edges {
@@ -397,7 +401,7 @@ private extension PoseEstimationOutput {
                     }
                 } else {
                     // create new human
-                    var tmpHuman: [(col: Int, row: Int, val: Float32)?] = parts.map { _ in nil }
+                    var tmpHuman: [KeypointElement?] = parts.map { _ in nil }
                     tmpHuman[startingPartIndex] = edge.from
                     tmpHuman[endingPartIndex] = edge.to
                     tmpHumans.append(tmpHuman)
