@@ -25,17 +25,13 @@ class StillImageLineViewController: UIViewController {
         return partIndexes[partName]
     }
     var threshold: Float? {
-        set {
-            if let threshold = newValue {
-                thresholdLabel?.text = String(format: "%.2f", threshold)
-                thresholdSlider?.value = threshold
+        didSet {
+            guard let thresholdSlider = thresholdSlider else { return }
+            if let threshold = threshold {
+                thresholdSlider.value = threshold
             } else {
-                thresholdLabel?.text = "nil"
-                thresholdSlider?.value = thresholdSlider?.minimumValue ?? 0.0
+                thresholdSlider.value = thresholdSlider.minimumValue
             }
-        }
-        get {
-            return (thresholdSlider?.value == thresholdSlider?.minimumValue) ? nil : thresholdSlider?.value
         }
     }
 
@@ -60,7 +56,8 @@ class StillImageLineViewController: UIViewController {
         // setup UI
         setUpUI()
 
-        // select
+        // setup initial post-process params
+        threshold = 0.1 // initial threshold for part (not for pair)
         select(on: "ALL")
         
         // import first image if autoImportingImageFromAlbum is true
@@ -92,7 +89,6 @@ class StillImageLineViewController: UIViewController {
         }
         
         thresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
-        threshold = 0.1 // initial threshold for part (not for pair)
     }
     
     func updatePartButton(on targetPartName: String) {
@@ -144,7 +140,7 @@ class StillImageLineViewController: UIViewController {
     }
     
     @IBAction func changeThreshold(_ sender: UISlider) {
-        let threshold: Float? = sender.value == sender.minimumValue ? nil : sender.value
+        threshold = (sender.value == sender.minimumValue) ? nil : sender.value
         if let threshold = threshold {
             thresholdLabel?.text = String(format: "%.2f", threshold)
         } else {
