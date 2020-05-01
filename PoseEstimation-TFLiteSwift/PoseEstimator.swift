@@ -97,19 +97,6 @@ struct PoseEstimationOutput {
         typealias Line = (from: Keypoint, to: Keypoint)
         var keypoints: [Keypoint?] = []
         var lines: [Line] = []
-        
-        func filteredKeypoints(with threshold: Float?) -> [Keypoint?] {
-            guard let threshold = threshold else { return keypoints }
-            return keypoints.map {
-                guard let kp = $0, kp.score > threshold else { return nil }
-                return kp
-            }
-        }
-        
-        func filteredLines(with threshold: Float?) -> [Line] {
-            guard let threshold = threshold else { return lines }
-            return lines.filter { $0.from.score > threshold && $0.to.score > threshold }
-        }
     }
 }
 

@@ -13,12 +13,24 @@ class LiveImageViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var previewView: UIView?
-    @IBOutlet weak var overlayView: PoseKeypointsDrawingView?
+    @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
     var overlayViewRelativeRect: CGRect = .zero
     
     @IBOutlet weak var thresholdValueLabel: UILabel?
     @IBOutlet weak var thresholdValueSlider: UISlider?
     
+    lazy var partIndexes: [String: Int] = {
+        var partIndexes: [String: Int] = [:]
+        poseEstimator.partNames.enumerated().forEach { offset, partName in
+            partIndexes[partName] = offset
+        }
+        return partIndexes
+    }()
+    var selectedPartName: String = "ALL"
+    var selectedPartIndex: Int? {
+        guard let partName = selectedPartName.components(separatedBy: "(").first else { return nil }
+        return partIndexes[partName]
+    }
     var threshold: Float? {
         guard let slider = thresholdValueSlider,
             slider.value != slider.minimumValue else { return nil }
@@ -76,8 +88,8 @@ class LiveImageViewController: UIViewController {
     }
     
     func setUpUI() {
-        overlayView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
-        overlayView?.layer.borderWidth = 5
+        overlayLineDotView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
+        overlayLineDotView?.layer.borderWidth = 5
         
         thresholdValueSlider?.value = thresholdValueSlider?.minimumValue ?? 0
     }
@@ -86,7 +98,7 @@ class LiveImageViewController: UIViewController {
         resizePreviewLayer()
         
         let previewViewRect = previewView?.frame ?? .zero
-        let overlayViewRect = overlayView?.frame ?? .zero
+        let overlayViewRect = overlayLineDotView?.frame ?? .zero
         let relativeOrigin = CGPoint(x: overlayViewRect.origin.x - previewViewRect.origin.x,
                                      y: overlayViewRect.origin.y - previewViewRect.origin.y)
         overlayViewRelativeRect = CGRect(origin: relativeOrigin, size: overlayViewRect.size)
@@ -122,12 +134,15 @@ extension LiveImageViewController {
         switch (result) {
         case .success(let output):
             DispatchQueue.main.async {
-                guard let human = output.humans.first else { return }
-                let threshold = self.threshold
-                let lines = human.filteredLines(with: threshold)
-                let keypoints = human.filteredKeypoints(with: threshold)
-                self.overlayView?.lines = lines
-                self.overlayView?.keypoints = keypoints
+                self.overlayLineDotView?.alpha = 1
+                
+                if let partOffset = self.partIndexes[self.selectedPartName] {
+                    self.overlayLineDotView?.lines = []
+                    self.overlayLineDotView?.keypoints = output.humans.map { $0.keypoints[partOffset] }
+                } else { // ALL case
+                    self.overlayLineDotView?.lines = output.humans.reduce([]) { $0 + $1.lines }
+                    self.overlayLineDotView?.keypoints = output.humans.reduce([]) { $0 + $1.keypoints }
+                }
             }
         case .failure(_):
             break
