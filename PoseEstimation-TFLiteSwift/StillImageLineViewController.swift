@@ -91,7 +91,8 @@ class StillImageLineViewController: UIViewController {
             button.addTarget(self, action: #selector(selectPart), for: .touchUpInside)
         }
         
-        threshold = 0.1
+        thresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
+        threshold = 0.1 // initial threshold for part (not for pair)
     }
     
     func updatePartButton(on targetPartName: String) {
@@ -109,12 +110,6 @@ class StillImageLineViewController: UIViewController {
     
     @objc func selectPart(_ button: UIButton) {
         guard let partName = button.title(for: .normal) else { return }
-//        guard partName != "ALL" else {
-//            let alert = UIAlertController(title: "Error", message: "Not support 'ALL' case on multi pose estimation", preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
-//            present(alert, animated: true)
-//            return
-//        }
         
         select(on: partName)
         if let image = imageView?.image {

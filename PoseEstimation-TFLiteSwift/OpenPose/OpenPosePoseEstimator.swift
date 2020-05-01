@@ -198,11 +198,11 @@ private extension OpenPosePoseEstimator {
                 (from: BodyPart.LEFT_ELBOW, to: BodyPart.LEFT_WRIST),       // 12
                 (from: BodyPart.LEFT_SHOULDER, to: BodyPart.LEFT_EAR),      // 13
                 
-                (from: BodyPart.NECK, to: BodyPart.NOSE),                   // 12
-                (from: BodyPart.NOSE, to: BodyPart.RIGHT_EYE),              // 13
-                (from: BodyPart.RIGHT_EYE, to: BodyPart.RIGHT_EAR),         // 14
-                (from: BodyPart.NOSE, to: BodyPart.LEFT_EYE),               // 15
-                (from: BodyPart.LEFT_EYE, to: BodyPart.LEFT_EAR),           // 16
+                (from: BodyPart.NECK, to: BodyPart.NOSE),                   // 14
+                (from: BodyPart.NOSE, to: BodyPart.RIGHT_EYE),              // 15
+                (from: BodyPart.NOSE, to: BodyPart.LEFT_EYE),               // 16
+                (from: BodyPart.RIGHT_EYE, to: BodyPart.RIGHT_EAR),         // 17
+                (from: BodyPart.LEFT_EYE, to: BodyPart.LEFT_EAR),           // 18
             ]
         }
     }
@@ -309,31 +309,40 @@ private extension PoseEstimationOutput {
         let (colSize, rowSize) = (OpenPosePoseEstimator.Output.ConfidenceMap.width,
                                   OpenPosePoseEstimator.Output.ConfidenceMap.height)
         
-        let pairCount = pairs.count
         for (pairIndex, pair) in pairs.enumerated() {
             // guard pairIndex == 0 else { continue }
             
             let startingPartIndex = pair.from.offsetValue()
             let endingPartIndex = pair.to.offsetValue()
             
-            let thresholdRatio: Float = 0.5 + (1.0 - (Float(pairIndex+1)/Float(pairCount))) * 0.5 // 1.0~>0.5
+            let thresholdRatio: Float = 1.0 // 0.5 + (1.0 - (Float(pairIndex+1)/Float(pairCount))) * 0.5 // 1.0~>0.5
             
             // 1. Non Maximum Suppression, 2. Create Bipartite Graph
-            if verticesForEachPart[startingPartIndex] == nil {
-                verticesForEachPart[startingPartIndex] = output.keypoints(partIndex: startingPartIndex, filterSize: 5, threshold: threshold*thresholdRatio).map {
+            let startingPartVertices: [KeypointElement]
+            let endingPartVertices: [KeypointElement]
+            // get starting keypoints
+            if let sv = verticesForEachPart[startingPartIndex] {
+                startingPartVertices = sv
+            } else {
+                startingPartVertices = output.keypoints(partIndex: startingPartIndex,
+                                                        filterSize: 5,
+                                                        threshold: threshold*thresholdRatio).map {
                     KeypointElement(element: $0)
                 }
+                verticesForEachPart[startingPartIndex] = startingPartVertices
             }
-            
-            // 1. Non Maximum Suppression, 2. Create Bipartite Graph
-            if verticesForEachPart[endingPartIndex] == nil {
-                verticesForEachPart[endingPartIndex] = output.keypoints(partIndex: endingPartIndex, filterSize: 5, threshold: threshold*thresholdRatio).map {
+            // get ending keypoints
+            if let ev = verticesForEachPart[endingPartIndex] {
+                endingPartVertices = ev
+            } else {
+                endingPartVertices = output.keypoints(partIndex: endingPartIndex,
+                                                      filterSize: 5,
+                                                      threshold: threshold*thresholdRatio).map {
                     KeypointElement(element: $0)
                 }
+                verticesForEachPart[endingPartIndex] = endingPartVertices
             }
             
-            guard let startingPartVertices = verticesForEachPart[startingPartIndex],
-                let endingPartVertices = verticesForEachPart[endingPartIndex] else { fatalError("cannot get verties for assignment") }
             for startingPartVertex in startingPartVertices {
                 for endingPartVertex in endingPartVertices {
                     // 3. Line Integral
@@ -353,11 +362,11 @@ private extension PoseEstimationOutput {
                         let row = Int(roundf(Float32(startingPartVertex.row) + (dy*(Float32(index)+0.5))))
                         return (col: min(max(col, 0), colSize-1), row: min(max(row, 0), rowSize-1))
                     }
-                    
                     // integral
                     let cost: Float32 = sampledLocaitons.reduce(0.0) {
                         let (pafX, pafY) = output[paf: 0, $1.row, $1.col, pairIndex]
-                        return $0 + (pafX * vx + pafY * vy)
+                        let dotProductedValue = (pafX * vx + pafY * vy)
+                        return $0 + dotProductedValue
                     }
                     edgesForEachPair[pairIndex].append((from: startingPartVertex, to: endingPartVertex, cost: cost))
                 }
@@ -365,9 +374,10 @@ private extension PoseEstimationOutput {
             
             // 4. Assignment
             var edges = edgesForEachPair[pairIndex]
-            edges = edges.filter { $0.cost > -0.1 }
+            edges = edges.filter { $0.cost > 0.2 }
             edges = edges.sorted { $0.cost > $1.cost }
             
+            // remove used pairs
             var index = 1
             while index < edges.count {
                 let edge = edges[index]
@@ -391,7 +401,6 @@ private extension PoseEstimationOutput {
             let startingPartIndex = pair.from.offsetValue()
             let endingPartIndex = pair.to.offsetValue()
             for edge in edges {
-                print(edge.from.col, edge.from.row)
                 if let hummanIndex = tmpHumans.enumerated()
                     .filter({ $1[startingPartIndex]?.col == edge.from.col &&
                     $1[startingPartIndex]?.row == edge.from.row }).first?.offset {
