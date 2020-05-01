@@ -30,7 +30,7 @@ class PoseConfidenceMapDrawingView: UIView {
                 var componentOfVector = outputChannelIndexes.reduce(0.0) { value, outputChannelIndex in
                     return value + output[0, row, col, outputChannelIndex]
                 }
-                componentOfVector = min(max(componentOfVector, -1.0), 1.0)
+                componentOfVector = min(max(componentOfVector, -1.0), 1.0) // -1.0 ~ 1.0
                 let drawingAreaRect = CGRect(x: oneAreaWidth*CGFloat(col), y: oneAreaHeight*CGFloat(row),
                                              width: oneAreaWidth, height: oneAreaHeight)
                 let areaFillColor = DrawingConstant.Area.areaColor(CGFloat(componentOfVector))

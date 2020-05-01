@@ -361,9 +361,8 @@ private extension PoseEstimationOutput {
             
             // 4. Assignment
             var edges = edgesForEachPair[pairIndex]
-            edges = edges.filter{ $0.cost > -0.1 }
-            let c = edges.count
-            edges.sort { $0.cost > $1.cost }
+            edges = edges.filter { $0.cost > -0.1 }
+            edges = edges.sorted { $0.cost > $1.cost }
             
             var index = 1
             while index < edges.count {
@@ -379,7 +378,6 @@ private extension PoseEstimationOutput {
                 }
             }
             
-            edges.sort { $0.cost > $1.cost }
             edgesForEachPair[pairIndex] = edges
         }
         
