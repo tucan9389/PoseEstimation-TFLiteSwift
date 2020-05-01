@@ -14,10 +14,11 @@ class LiveImageViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var previewView: UIView?
     @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
-    var overlayViewRelativeRect: CGRect = .zero
+    @IBOutlet var partButtons: [UIButton]?
+    @IBOutlet weak var thresholdLabel: UILabel?
+    @IBOutlet weak var thresholdSlider: UISlider?
     
-    @IBOutlet weak var thresholdValueLabel: UILabel?
-    @IBOutlet weak var thresholdValueSlider: UISlider?
+    var overlayViewRelativeRect: CGRect = .zero
     
     lazy var partIndexes: [String: Int] = {
         var partIndexes: [String: Int] = [:]
@@ -32,9 +33,14 @@ class LiveImageViewController: UIViewController {
         return partIndexes[partName]
     }
     var threshold: Float? {
-        guard let slider = thresholdValueSlider,
-            slider.value != slider.minimumValue else { return nil }
-        return slider.value
+        didSet {
+            guard let thresholdSlider = thresholdSlider else { return }
+            if let threshold = threshold {
+                thresholdSlider.value = threshold
+            } else {
+                thresholdSlider.value = thresholdSlider.minimumValue
+            }
+        }
     }
     
     // MARK: - VideoCapture Properties
@@ -51,6 +57,10 @@ class LiveImageViewController: UIViewController {
         
         // setup UI
         setUpUI()
+        
+        // setup initial post-process params
+        threshold = 0.1 // initial threshold for part (not for pair)
+        select(on: "ALL")
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,7 +101,27 @@ class LiveImageViewController: UIViewController {
         overlayLineDotView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
         overlayLineDotView?.layer.borderWidth = 5
         
-        thresholdValueSlider?.value = thresholdValueSlider?.minimumValue ?? 0
+        let partNames = ["ALL"] + partIndexes.keys.sorted { (partIndexes[$0] ?? -1) < (partIndexes[$1] ?? -1) }
+        partButtons?.enumerated().forEach { offset, button in
+            if offset < partNames.count {
+                if let partIndex = partIndexes[partNames[offset]] {
+                    button.setTitle("\(partNames[offset])(\(partIndex))", for: .normal)
+                } else {
+                    button.setTitle("\(partNames[offset])", for: .normal)
+                }
+                
+                button.isEnabled = true
+                button.layer.cornerRadius = 5
+                button.layer.borderWidth = 1
+                button.layer.borderColor = UIColor.systemBlue.cgColor
+            } else {
+                button.setTitle("-", for: .normal)
+                button.isEnabled = false
+            }
+            button.addTarget(self, action: #selector(selectPart), for: .touchUpInside)
+        }
+        
+        thresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
     }
     
     override func viewDidLayoutSubviews() {
@@ -108,11 +138,36 @@ class LiveImageViewController: UIViewController {
         videoCapture.previewLayer?.frame = previewView?.bounds ?? .zero
     }
     
+    func updatePartButton(on targetPartName: String) {
+        partButtons?.enumerated().forEach { offset, button in
+            guard button.isEnabled, let partName = button.title(for: .normal) else { return }
+            if partName.contains(targetPartName) {
+                button.tintColor = UIColor.white
+                button.backgroundColor = UIColor.systemBlue
+            } else {
+                button.tintColor = UIColor.systemBlue
+                button.backgroundColor = UIColor.white
+            }
+        }
+    }
+    
+    @objc func selectPart(_ button: UIButton) {
+        guard let partName = button.title(for: .normal) else { return }
+        
+        select(on: partName)
+    }
+    
+    func select(on partName: String) {
+        selectedPartName = partName
+        updatePartButton(on: partName)
+    }
+    
     @IBAction func didChangedThresholdValue(_ sender: UISlider) {
+        threshold = (sender.value == sender.minimumValue) ? nil : sender.value
         if let threshold = threshold {
-            thresholdValueLabel?.text = String(format: "%.2f", threshold)
+            thresholdLabel?.text = String(format: "%.2f", threshold)
         } else {
-            thresholdValueLabel?.text = "nil"
+            thresholdLabel?.text = "nil"
         }
     }
 }
@@ -128,8 +183,10 @@ extension LiveImageViewController {
     func inference(with pixelBuffer: CVPixelBuffer) {
         let scalingRatio = pixelBuffer.size.width / overlayViewRelativeRect.width
         let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
+        let partIndex: Int? = selectedPartIndex
+        let threshold: Float? = self.threshold
         let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer, cropArea: .customAspectFill(rect: targetAreaRect))
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: nil, on: nil)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: threshold, on: partIndex)
         
         switch (result) {
         case .success(let output):
