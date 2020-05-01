@@ -39,21 +39,42 @@ class PEFMHourglassPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    func inference(with input: PoseEstimationInput) -> PoseNetResult {
+    var modelOutput: [TFLiteFlatArray<Float32>]?
+    
+    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> PoseNetResult {
+        
+        // initialize
+        modelOutput = nil
+        
         // preprocss
         guard let inputData = imageInterpreter.preprocess(with: input)
             else { return .failure(.failToCreateInputData) }
+        
         // inference
         guard let outputs = imageInterpreter.inference(with: inputData)
             else { return .failure(.failToInference) }
+        
         // postprocess
-        let result = postprocess(with: outputs)
+        let result = PoseNetResult.success(postprocess(with: outputs))
         
         return result
     }
     
-    private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> PoseNetResult {
-        return .success(PoseEstimationOutput(outputs: outputs))
+    private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> PoseEstimationOutput {
+        return PoseEstimationOutput(outputs: outputs)
+    }
+    
+    func postprocessOnLastOutput(with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput? {
+        guard let outputs = modelOutput else { return nil }
+        return postprocess(with: outputs)
+    }
+    
+    var partNames: [String] {
+        return Output.BodyPart.allCases.map { $0.rawValue }
+    }
+    
+    var pairNames: [String]? {
+        return nil
     }
 }
 
@@ -109,11 +130,12 @@ private extension PEFMHourglassPoseEstimator {
 
 private extension PoseEstimationOutput {
     init(outputs: [TFLiteFlatArray<Float32>]) {
+        self.outputs = outputs
+        
         let keypoints = convertToKeypoints(from: outputs)
         let lines = makeLines(with: keypoints)
         
-        self.keypoints = keypoints
-        self.lines = lines
+        humans = [Human(keypoints: keypoints, lines: lines)]
     }
     
     func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
@@ -145,7 +167,7 @@ private extension PoseEstimationOutput {
         return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
     }
     
-    func makeLines(with keypoints: [Keypoint]) -> [Line] {
+    func makeLines(with keypoints: [Keypoint]) -> [Human.Line] {
         var keypointWithBodyPart: [PEFMHourglassPoseEstimator.Output.BodyPart: Keypoint] = [:]
         PEFMHourglassPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]

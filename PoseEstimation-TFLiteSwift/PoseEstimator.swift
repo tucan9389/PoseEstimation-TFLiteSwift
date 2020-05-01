@@ -88,19 +88,44 @@ struct Keypoint {
     let score: Float
 }
 
-struct PoseEstimationOutput {
-    typealias Line = (from: Keypoint, to: Keypoint)
-    var keypoints: [Keypoint] = []
-    var lines: [Line] = []
+struct KeypointElement: Equatable {
+    let col: Int
+    let row: Int
+    let val: Float32
     
-    func filteredKeypoints(with threshold: Float?) -> [Keypoint] {
-        guard let threshold = threshold else { return keypoints }
-        return keypoints.filter { $0.score > threshold }
+    init(element: (col: Int, row: Int, val: Float32)) {
+        col = element.col
+        row = element.row
+        val = element.val
     }
     
-    func filteredLines(with threshold: Float?) -> [Line] {
-        guard let threshold = threshold else { return lines }
-        return lines.filter { $0.from.score > threshold && $0.to.score > threshold }
+    static func == (lhs: KeypointElement, rhs: KeypointElement) -> Bool {
+        return lhs.col == rhs.col && lhs.row == rhs.row
+    }
+}
+
+struct PoseEstimationOutput {
+    
+    var outputs: [TFLiteFlatArray<Float32>]
+    var humans: [Human] = []
+    
+    struct Human {
+        typealias Line = (from: Keypoint, to: Keypoint)
+        var keypoints: [Keypoint?] = []
+        var lines: [Line] = []
+        
+        func filteredKeypoints(with threshold: Float?) -> [Keypoint?] {
+            guard let threshold = threshold else { return keypoints }
+            return keypoints.map {
+                guard let kp = $0, kp.score > threshold else { return nil }
+                return kp
+            }
+        }
+        
+        func filteredLines(with threshold: Float?) -> [Line] {
+            guard let threshold = threshold else { return lines }
+            return lines.filter { $0.from.score > threshold && $0.to.score > threshold }
+        }
     }
 }
 
@@ -110,5 +135,8 @@ enum PoseEstimationError: Error {
 }
 
 protocol PoseEstimator {
-    func inference(with input: PoseEstimationInput) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func postprocessOnLastOutput(with threshold: Float?, on partIndex: Int?) -> PoseEstimationOutput?
+    var partNames: [String] { get }
+    var pairNames: [String]? { get }
 }

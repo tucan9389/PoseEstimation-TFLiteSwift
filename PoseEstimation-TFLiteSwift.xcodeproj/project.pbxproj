@@ -19,7 +19,7 @@
 		7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */; };
 		7105C93C241E8CE3001A4325 /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C93B241E8CE3001A4325 /* CVPixelBufferExtension.swift */; };
 		7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C93D241E90C2001A4325 /* DataExtension.swift */; };
-		712A7FC12424BDD800B043F9 /* StillImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC02424BDD800B043F9 /* StillImageViewController.swift */; };
+		712A7FC12424BDD800B043F9 /* StillImageLineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */; };
 		712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */; };
 		712A7FC62425FD7200B043F9 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC52425FD7200B043F9 /* UIImageExtension.swift */; };
 		712A7FC9242667C900B043F9 /* PEFMHourglassPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC8242667C900B043F9 /* PEFMHourglassPoseEstimator.swift */; };
@@ -29,6 +29,9 @@
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
 		71A1ED43245971AC001F796C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 71A1ED42245971AC001F796C /* LICENSE */; };
+		71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */; };
+		71A1ED4124574F2E001F796C /* StillImageHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */; };
+		71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */; };
 		71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */; };
 		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
@@ -52,7 +55,7 @@
 		7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite; sourceTree = "<group>"; };
 		7105C93B241E8CE3001A4325 /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		7105C93D241E90C2001A4325 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
-		712A7FC02424BDD800B043F9 /* StillImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImageViewController.swift; sourceTree = "<group>"; };
+		712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImageLineViewController.swift; sourceTree = "<group>"; };
 		712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseKeypointsDrawingView.swift; sourceTree = "<group>"; };
 		712A7FC52425FD7200B043F9 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		712A7FC8242667C900B043F9 /* PEFMHourglassPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMHourglassPoseEstimator.swift; sourceTree = "<group>"; };
@@ -62,6 +65,9 @@
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
 		71A1ED42245971AC001F796C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseConfidenceMapDrawingView.swift; sourceTree = "<group>"; };
+		71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImageHeatmapViewController.swift; sourceTree = "<group>"; };
+		71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonMaximumnonSuppression.swift; sourceTree = "<group>"; };
 		71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = openpose_ildoonet.tflite; sourceTree = "<group>"; };
 		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -105,12 +111,13 @@
 			children = (
 				7105C915241CE9B5001A4325 /* AppDelegate.swift */,
 				7105C91B241CE9B6001A4325 /* Main.storyboard */,
-				712A7FC02424BDD800B043F9 /* StillImageViewController.swift */,
+				712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */,
+				71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */,
 				7105C919241CE9B6001A4325 /* LiveImageViewController.swift */,
-				712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */,
-				7105C92B241D0150001A4325 /* MLModel */,
-				7105C92A241D0144001A4325 /* Extension */,
 				7105C929241D011F001A4325 /* View */,
+				7105C92B241D0150001A4325 /* MLModel */,
+				71DD577D2446D7A40024C146 /* Algorithm */,
+				7105C92A241D0144001A4325 /* Extension */,
 				7105C938241D29C5001A4325 /* Video */,
 				7105C91E241CE9B7001A4325 /* Assets.xcassets */,
 				7105C920241CE9B7001A4325 /* LaunchScreen.storyboard */,
@@ -122,6 +129,8 @@
 		7105C929241D011F001A4325 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */,
+				71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -176,6 +185,14 @@
 				712A7FC8242667C900B043F9 /* PEFMHourglassPoseEstimator.swift */,
 			);
 			path = PoseEstimationForMobile;
+			sourceTree = "<group>";
+		};
+		71DD577D2446D7A40024C146 /* Algorithm */ = {
+			isa = PBXGroup;
+			children = (
+				71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */,
+			);
+			name = Algorithm;
 			sourceTree = "<group>";
 		};
 		71E8D9152438BA5B0081DD6E /* OpenPose */ = {
@@ -309,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7105C933241D0651001A4325 /* TFLiteImageInterpreter.swift in Sources */,
+				71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */,
 				7105C93C241E8CE3001A4325 /* CVPixelBufferExtension.swift in Sources */,
 				712A7FC9242667C900B043F9 /* PEFMHourglassPoseEstimator.swift in Sources */,
 				7105C91A241CE9B6001A4325 /* LiveImageViewController.swift in Sources */,
@@ -316,10 +334,12 @@
 				7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */,
 				712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */,
 				71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */,
+				71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */,
 				712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */,
 				7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */,
 				7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */,
-				712A7FC12424BDD800B043F9 /* StillImageViewController.swift in Sources */,
+				712A7FC12424BDD800B043F9 /* StillImageLineViewController.swift in Sources */,
+				71A1ED4124574F2E001F796C /* StillImageHeatmapViewController.swift in Sources */,
 				7105C937241D29B8001A4325 /* VideoCapture.swift in Sources */,
 				7105C935241D0821001A4325 /* PoseNetPoseEstimator.swift in Sources */,
 				712A7FC62425FD7200B043F9 /* UIImageExtension.swift in Sources */,
