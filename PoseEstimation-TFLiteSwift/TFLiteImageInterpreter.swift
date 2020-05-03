@@ -81,14 +81,14 @@ class TFLiteImageInterpreter {
         // <#TODO#> - check quantization or not
     }
     
-    func preprocessMiddleSquareArea(with pixelBuffer: CVPixelBuffer) -> Data? {
-        let imageSize = pixelBuffer.size
-        let minLength = min(imageSize.width, imageSize.height)
-        let targetSquare = CGRect(x: (imageSize.width - minLength) / 2,
-                                  y: (imageSize.height - minLength) / 2,
-                                  width: minLength, height: minLength)
-        return preprocess(with: pixelBuffer, from: targetSquare)
-    }
+//    func preprocessMiddleSquareArea(with pixelBuffer: CVPixelBuffer) -> Data? {
+//        let imageSize = pixelBuffer.size
+//        let minLength = min(imageSize.width, imageSize.height)
+//        let targetSquare = CGRect(x: (imageSize.width - minLength) / 2,
+//                                  y: (imageSize.height - minLength) / 2,
+//                                  width: minLength, height: minLength)
+//        return preprocess(with: pixelBuffer, from: targetSquare)
+//    }
     
     func preprocess(with input: PoseEstimationInput) -> Data? {
         let modelInputSize = CGSize(width: options.inputWidth, height: options.inputHeight)

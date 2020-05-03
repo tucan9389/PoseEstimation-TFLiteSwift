@@ -15,10 +15,17 @@ class LiveImageViewController: UIViewController {
     @IBOutlet weak var previewView: UIView?
     @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
     @IBOutlet var partButtons: [UIButton]?
-    @IBOutlet weak var thresholdLabel: UILabel?
-    @IBOutlet weak var thresholdSlider: UISlider?
+    @IBOutlet weak var partThresholdLabel: UILabel?
+    @IBOutlet weak var partThresholdSlider: UISlider?
+    @IBOutlet weak var pairThresholdLabel: UILabel?
+    @IBOutlet weak var pairThresholdSlider: UISlider?
+    @IBOutlet weak var pairNMSFilterSizeLabel: UILabel?
+    @IBOutlet weak var pairNMSFilterSizeStepper: UIStepper?
+    @IBOutlet weak var humanMaxNumberLabel: UILabel?
+    @IBOutlet weak var humanMaxNumberStepper: UIStepper?
     
     var overlayViewRelativeRect: CGRect = .zero
+    var pixelBufferWidth: CGFloat = 0
     
     lazy var partIndexes: [String: Int] = {
         var partIndexes: [String: Int] = [:]
@@ -32,15 +39,51 @@ class LiveImageViewController: UIViewController {
         guard let partName = selectedPartName.components(separatedBy: "(").first else { return nil }
         return partIndexes[partName]
     }
-    var threshold: Float? {
+    var partThreshold: Float? {
         didSet {
-            guard let thresholdSlider = thresholdSlider else { return }
-            if let threshold = threshold {
-                thresholdSlider.value = threshold
-            } else {
-                thresholdSlider.value = thresholdSlider.minimumValue
-            }
+            let (slider, label, value) = (partThresholdSlider, partThresholdLabel, partThreshold)
+            if let slider = slider { slider.value = value ?? slider.minimumValue }
+            if let label = label { label.text = value.labelString }
         }
+    }
+    var pairThreshold: Float? {
+        didSet {
+            let (slider, label, value) = (pairThresholdSlider, pairThresholdLabel, pairThreshold)
+            if let slider = slider { slider.value = value ?? slider.minimumValue }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    var pairNMSFilterSize: Int = 3 {
+        didSet {
+            let (stepper, label, value) = (pairNMSFilterSizeStepper, pairNMSFilterSizeLabel, pairNMSFilterSize)
+            if let stepper = stepper { stepper.value = Double(value) }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    var humanMaxNumber: Int? = 5 {
+        didSet {
+            let (stepper, label, value) = (humanMaxNumberStepper, humanMaxNumberLabel, humanMaxNumber)
+            if let stepper = stepper {
+                guard Int(stepper.minimumValue) != value else { humanMaxNumber = nil; return }
+                if let value = value { stepper.value = Double(value) }
+                else { stepper.value = stepper.minimumValue }
+            }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    
+    var preprocessOptions: PreprocessOptions {
+        let scalingRatio = pixelBufferWidth / overlayViewRelativeRect.width
+        let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
+        return PreprocessOptions(cropArea: .customAspectFill(rect: targetAreaRect))
+    }
+    var postprocessOptions: PostprocessOptions {
+        let humanType: PostprocessOptions.HumanType = .multiPerson(pairThreshold: pairThreshold,
+                                                                   nmsFilterSize: pairNMSFilterSize,
+                                                                   maxHumanNumber: humanMaxNumber)
+        return PostprocessOptions(partThreshold: partThreshold,
+                                  bodyPart: selectedPartIndex,
+                                  humanType: humanType)
     }
     
     // MARK: - VideoCapture Properties
@@ -59,7 +102,11 @@ class LiveImageViewController: UIViewController {
         setUpUI()
         
         // setup initial post-process params
-        threshold = 0.1 // initial threshold for part (not for pair)
+        partThreshold = 0.1 // initial threshold for part (not for pair)
+        pairThreshold = 0.2
+        pairNMSFilterSize = 5
+        humanMaxNumber = nil
+        
         select(on: "ALL")
     }
     
@@ -121,7 +168,7 @@ class LiveImageViewController: UIViewController {
             button.addTarget(self, action: #selector(selectPart), for: .touchUpInside)
         }
         
-        thresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
+        partThresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
     }
     
     override func viewDidLayoutSubviews() {
@@ -162,13 +209,20 @@ class LiveImageViewController: UIViewController {
         updatePartButton(on: partName)
     }
     
-    @IBAction func didChangedThresholdValue(_ sender: UISlider) {
-        threshold = (sender.value == sender.minimumValue) ? nil : sender.value
-        if let threshold = threshold {
-            thresholdLabel?.text = String(format: "%.2f", threshold)
-        } else {
-            thresholdLabel?.text = "nil"
-        }
+    @IBAction func didChangedPartThreshold(_ sender: UISlider) {
+        partThreshold = (sender.value == sender.minimumValue) ? nil : sender.value
+    }
+    
+    @IBAction func didChangePairThreshold(_ sender: UISlider) {
+        pairThreshold = (sender.value == sender.minimumValue) ? nil : sender.value
+    }
+    
+    @IBAction func didChangePairNMSFilterSize(_ sender: UIStepper) {
+        pairNMSFilterSize = Int(sender.value)
+    }
+    
+    @IBAction func didChangeHumanMaxNumber(_ sender: UIStepper) {
+        humanMaxNumber = (sender.value == sender.minimumValue) ? nil : Int(sender.value)
     }
 }
 
@@ -181,12 +235,11 @@ extension LiveImageViewController: VideoCaptureDelegate {
 
 extension LiveImageViewController {
     func inference(with pixelBuffer: CVPixelBuffer) {
-        let scalingRatio = pixelBuffer.size.width / overlayViewRelativeRect.width
-        let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
-        let partIndex: Int? = selectedPartIndex
-        let threshold: Float? = self.threshold
-        let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer, cropArea: .customAspectFill(rect: targetAreaRect))
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: threshold, on: partIndex)
+        pixelBufferWidth = pixelBuffer.size.width
+        let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer,
+                                                      preprocessOptions: preprocessOptions,
+                                                      postprocessOptions: postprocessOptions)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
         
         switch (result) {
         case .success(let output):

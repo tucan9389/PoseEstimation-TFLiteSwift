@@ -11,7 +11,21 @@ import Photos
 
 class StillImageLineViewController: UIViewController {
     
+    // MARK: - IBOutlets
+    @IBOutlet weak var imageView: UIImageView?
+    @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
+    @IBOutlet var partButtons: [UIButton]?
+    @IBOutlet weak var partThresholdLabel: UILabel?
+    @IBOutlet weak var partThresholdSlider: UISlider?
+    @IBOutlet weak var pairThresholdLabel: UILabel?
+    @IBOutlet weak var pairThresholdSlider: UISlider?
+    @IBOutlet weak var pairNMSFilterSizeLabel: UILabel?
+    @IBOutlet weak var pairNMSFilterSizeStepper: UIStepper?
+    @IBOutlet weak var humanMaxNumberLabel: UILabel?
+    @IBOutlet weak var humanMaxNumberStepper: UIStepper?
+    
     let autoImportingImageFromAlbum = true
+    
     lazy var partIndexes: [String: Int] = {
         var partIndexes: [String: Int] = [:]
         poseEstimator.partNames.enumerated().forEach { offset, partName in
@@ -24,23 +38,50 @@ class StillImageLineViewController: UIViewController {
         guard let partName = selectedPartName.components(separatedBy: "(").first else { return nil }
         return partIndexes[partName]
     }
-    var threshold: Float? {
+    var partThreshold: Float? {
         didSet {
-            guard let thresholdSlider = thresholdSlider else { return }
-            if let threshold = threshold {
-                thresholdSlider.value = threshold
-            } else {
-                thresholdSlider.value = thresholdSlider.minimumValue
-            }
+            let (slider, label, value) = (partThresholdSlider, partThresholdLabel, partThreshold)
+            if let slider = slider { slider.value = value ?? slider.minimumValue }
+            if let label = label { label.text = value.labelString }
         }
     }
-
-    // MARK: - IBOutlets
-    @IBOutlet weak var imageView: UIImageView?
-    @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
-    @IBOutlet var partButtons: [UIButton]?
-    @IBOutlet weak var thresholdLabel: UILabel?
-    @IBOutlet weak var thresholdSlider: UISlider?
+    var pairThreshold: Float? {
+        didSet {
+            let (slider, label, value) = (pairThresholdSlider, pairThresholdLabel, pairThreshold)
+            if let slider = slider { slider.value = value ?? slider.minimumValue }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    var pairNMSFilterSize: Int = 3 {
+        didSet {
+            let (stepper, label, value) = (pairNMSFilterSizeStepper, pairNMSFilterSizeLabel, pairNMSFilterSize)
+            if let stepper = stepper { stepper.value = Double(value) }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    var humanMaxNumber: Int? = 5 {
+        didSet {
+            let (stepper, label, value) = (humanMaxNumberStepper, humanMaxNumberLabel, humanMaxNumber)
+            if let stepper = stepper {
+                guard Int(stepper.minimumValue) != value else { humanMaxNumber = nil; return }
+                if let value = value { stepper.value = Double(value) }
+                else { stepper.value = stepper.minimumValue }
+            }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    
+    var preprocessOptions: PreprocessOptions {
+        return PreprocessOptions(cropArea: .squareAspectFill)
+    }
+    var postprocessOptions: PostprocessOptions {
+        let humanType: PostprocessOptions.HumanType = .multiPerson(pairThreshold: pairThreshold,
+                                                                   nmsFilterSize: pairNMSFilterSize,
+                                                                   maxHumanNumber: humanMaxNumber)
+        return PostprocessOptions(partThreshold: partThreshold,
+                                  bodyPart: selectedPartIndex,
+                                  humanType: humanType)
+    }
     
     // MARK: - ML Property
     let poseEstimator: PoseEstimator = OpenPosePoseEstimator()
@@ -57,7 +98,11 @@ class StillImageLineViewController: UIViewController {
         setUpUI()
 
         // setup initial post-process params
-        threshold = 0.1 // initial threshold for part (not for pair)
+        partThreshold = 0.1 // initial threshold for part (not for pair)
+        pairThreshold = 0.2
+        pairNMSFilterSize = 3
+        humanMaxNumber = nil
+        
         select(on: "ALL")
         
         // import first image if autoImportingImageFromAlbum is true
@@ -88,7 +133,7 @@ class StillImageLineViewController: UIViewController {
             button.addTarget(self, action: #selector(selectPart), for: .touchUpInside)
         }
         
-        thresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
+        partThresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
     }
     
     func updatePartButton(on targetPartName: String) {
@@ -139,16 +184,28 @@ class StillImageLineViewController: UIViewController {
         navigationController?.present(pickerVC, animated: true)
     }
     
-    @IBAction func changeThreshold(_ sender: UISlider) {
-        threshold = (sender.value == sender.minimumValue) ? nil : sender.value
-        if let threshold = threshold {
-            thresholdLabel?.text = String(format: "%.2f", threshold)
-        } else {
-            thresholdLabel?.text = "nil"
-        }
-        
-        let partIndex = selectedPartIndex
-        guard let output = poseEstimator.postprocessOnLastOutput(with: threshold, on: partIndex) else { return }
+    @IBAction func didChangePartThreshold(_ sender: UISlider) {
+        partThreshold = (sender.value == sender.minimumValue) ? nil : sender.value
+        updateOverlayViewWithOnlyPostprocess()
+    }
+    
+    @IBAction func didChangePairThreshold(_ sender: UISlider) {
+        pairThreshold = (sender.value == sender.minimumValue) ? nil : sender.value
+        updateOverlayViewWithOnlyPostprocess()
+    }
+    
+    @IBAction func didChangePairNMSFilterSize(_ sender: UIStepper) {
+        pairNMSFilterSize = Int(sender.value)
+        updateOverlayViewWithOnlyPostprocess()
+    }
+    
+    @IBAction func didChangeHumanMaxNumber(_ sender: UIStepper) {
+        humanMaxNumber = (sender.value == sender.minimumValue) ? nil : Int(sender.value)
+        updateOverlayViewWithOnlyPostprocess()
+    }
+    
+    func updateOverlayViewWithOnlyPostprocess() {
+        guard let output = poseEstimator.postprocessOnLastOutput(options: postprocessOptions) else { return }
         outputHumans = output.humans
     }
 }
@@ -176,10 +233,10 @@ extension StillImageLineViewController: UINavigationControllerDelegate { }
 
 extension StillImageLineViewController {
     func inference(with uiImage: UIImage) {
-        let input: PoseEstimationInput = .uiImage(uiImage: uiImage, cropArea: .squareAspectFill)
-        let partIndex: Int? = selectedPartIndex
-        let threshold: Float? = self.threshold
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: threshold, on: partIndex)
+        let input: PoseEstimationInput = .uiImage(uiImage: uiImage,
+                                                  preprocessOptions: preprocessOptions,
+                                                  postprocessOptions: postprocessOptions)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
         switch (result) {
         case .success(let output):
             outputHumans = output.humans

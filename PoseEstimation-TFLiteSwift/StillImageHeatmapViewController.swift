@@ -230,10 +230,17 @@ extension StillImageHeatmapViewController: UINavigationControllerDelegate { }
 
 extension StillImageHeatmapViewController {
     func inference(with uiImage: UIImage) {
-        let input: PoseEstimationInput = .uiImage(uiImage: uiImage, cropArea: .squareAspectFill)
-        let partIndex: Int? = nil
-        let threshold: Float? = nil
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: threshold, on: partIndex)
+        let preprocessOptions = PreprocessOptions(cropArea: .squareAspectFill)
+        let humanType: PostprocessOptions.HumanType = .multiPerson(pairThreshold: 0.2,
+                                                                   nmsFilterSize: 5,
+                                                                   maxHumanNumber: nil)
+        let postprocessOptions = PostprocessOptions(partThreshold: 0.14,
+                                                    bodyPart: nil,
+                                                    humanType: humanType)
+        let input: PoseEstimationInput = .uiImage(uiImage: uiImage,
+                                                  preprocessOptions: preprocessOptions,
+                                                  postprocessOptions: postprocessOptions)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
         switch (result) {
         case .success(let output):
             modelOutput = output.outputs.first
