@@ -689,10 +689,117 @@
                                 <rect key="frame" x="0.0" y="467" width="375" height="562"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yvp-C9-J6W">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="509"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="695"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="y64-Ih-TsD" userLabel="Part Section Title">
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="vDp-oY-7oF" userLabel="Postprocess Method Secion Title">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Postprocess Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="k05-KR-n7i">
+                                                        <rect key="frame" x="16" y="20" width="195" height="24"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dDh-Hl-1Er">
+                                                        <rect key="frame" x="217" y="31" width="142" height="2"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="2" id="2Pb-ng-tfK"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="k05-KR-n7i" firstAttribute="leading" secondItem="vDp-oY-7oF" secondAttribute="leading" constant="16" id="JNP-F9-cXU"/>
+                                                    <constraint firstItem="dDh-Hl-1Er" firstAttribute="leading" secondItem="k05-KR-n7i" secondAttribute="trailing" constant="6" id="RGM-Nh-3fG"/>
+                                                    <constraint firstAttribute="trailing" secondItem="dDh-Hl-1Er" secondAttribute="trailing" constant="16" id="VXe-LW-pGM"/>
+                                                    <constraint firstItem="dDh-Hl-1Er" firstAttribute="centerY" secondItem="k05-KR-n7i" secondAttribute="centerY" id="Vpj-lr-6Br"/>
+                                                    <constraint firstAttribute="bottom" secondItem="k05-KR-n7i" secondAttribute="bottom" constant="2" id="cpQ-ym-lkF"/>
+                                                    <constraint firstItem="k05-KR-n7i" firstAttribute="top" secondItem="vDp-oY-7oF" secondAttribute="top" constant="20" id="gSD-aq-98J"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lyc-gS-Ols" userLabel="Human Type Title">
+                                                <rect key="frame" x="0.0" y="46" width="375" height="27"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Human Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qsk-Ib-2on">
+                                                        <rect key="frame" x="16" y="8" width="343" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="qsk-Ib-2on" firstAttribute="top" secondItem="lyc-gS-Ols" secondAttribute="top" constant="8" id="adk-jG-CWZ"/>
+                                                    <constraint firstAttribute="bottom" secondItem="qsk-Ib-2on" secondAttribute="bottom" constant="2" id="eh2-PW-I2m"/>
+                                                    <constraint firstItem="qsk-Ib-2on" firstAttribute="centerX" secondItem="lyc-gS-Ols" secondAttribute="centerX" id="nrL-8F-yc2"/>
+                                                    <constraint firstItem="qsk-Ib-2on" firstAttribute="leading" secondItem="lyc-gS-Ols" secondAttribute="leading" constant="16" id="v5Z-Sv-VT0"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1h3-LM-Dwc" userLabel="Human Type Segment">
+                                                <rect key="frame" x="0.0" y="73" width="375" height="43"/>
+                                                <subviews>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="p7X-LH-Pyh">
+                                                        <rect key="frame" x="16" y="2" width="343" height="32"/>
+                                                        <segments>
+                                                            <segment title="Sinlge Person"/>
+                                                            <segment title="Multi Person"/>
+                                                        </segments>
+                                                        <connections>
+                                                            <action selector="didChangeHumanType:" destination="BYZ-38-t0r" eventType="valueChanged" id="Led-dN-F6n"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="p7X-LH-Pyh" firstAttribute="leading" secondItem="1h3-LM-Dwc" secondAttribute="leading" constant="16" id="2Su-in-gul"/>
+                                                    <constraint firstItem="p7X-LH-Pyh" firstAttribute="top" secondItem="1h3-LM-Dwc" secondAttribute="top" constant="2" id="7LU-7G-Spg"/>
+                                                    <constraint firstAttribute="bottom" secondItem="p7X-LH-Pyh" secondAttribute="bottom" constant="10" id="OCZ-jR-mXy"/>
+                                                    <constraint firstAttribute="trailing" secondItem="p7X-LH-Pyh" secondAttribute="trailing" constant="16" id="qio-lz-POW"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="3nI-UL-GNR" userLabel="Human Type Title">
+                                                <rect key="frame" x="0.0" y="116" width="375" height="27"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Dimension (Not Support Yet)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odb-5R-rbg">
+                                                        <rect key="frame" x="16" y="8" width="343" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="odb-5R-rbg" firstAttribute="centerX" secondItem="3nI-UL-GNR" secondAttribute="centerX" id="JR6-iy-Df7"/>
+                                                    <constraint firstAttribute="bottom" secondItem="odb-5R-rbg" secondAttribute="bottom" constant="2" id="S1F-wy-hR7"/>
+                                                    <constraint firstItem="odb-5R-rbg" firstAttribute="leading" secondItem="3nI-UL-GNR" secondAttribute="leading" constant="16" id="dfh-Ew-ubX"/>
+                                                    <constraint firstItem="odb-5R-rbg" firstAttribute="top" secondItem="3nI-UL-GNR" secondAttribute="top" constant="8" id="wQq-la-Tyi"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vuB-Mh-uNT" userLabel="Human Type Segment">
+                                                <rect key="frame" x="0.0" y="143" width="375" height="43"/>
+                                                <subviews>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="mUj-sX-0g2">
+                                                        <rect key="frame" x="16" y="2" width="343" height="32"/>
+                                                        <segments>
+                                                            <segment title="2D"/>
+                                                            <segment title="3D"/>
+                                                        </segments>
+                                                        <connections>
+                                                            <action selector="didChangeDimension:" destination="BYZ-38-t0r" eventType="valueChanged" id="Bfg-FG-WxO"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="mUj-sX-0g2" secondAttribute="trailing" constant="16" id="4My-NZ-txH"/>
+                                                    <constraint firstItem="mUj-sX-0g2" firstAttribute="leading" secondItem="vuB-Mh-uNT" secondAttribute="leading" constant="16" id="Eoc-X8-kGz"/>
+                                                    <constraint firstAttribute="bottom" secondItem="mUj-sX-0g2" secondAttribute="bottom" constant="10" id="Fow-hm-EK5"/>
+                                                    <constraint firstItem="mUj-sX-0g2" firstAttribute="top" secondItem="vuB-Mh-uNT" secondAttribute="top" constant="2" id="Px6-Rq-HbJ"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="y64-Ih-TsD" userLabel="Part Section Title">
+                                                <rect key="frame" x="0.0" y="186" width="375" height="46"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Part" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qsS-PD-puq">
                                                         <rect key="frame" x="16" y="20" width="39" height="24"/>
@@ -719,7 +826,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="MvT-vP-XmG" userLabel="Visiable Part Title">
-                                                <rect key="frame" x="0.0" y="46" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="232" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Visiable Part" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Osw-ZV-zi6">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -737,7 +844,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h98-pO-5QD">
-                                                <rect key="frame" x="0.0" y="73" width="375" height="100"/>
+                                                <rect key="frame" x="0.0" y="259" width="375" height="100"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JwL-fZ-Md4">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="100"/>
@@ -877,7 +984,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="daG-Rq-XZc" userLabel="Part Threshold Title">
-                                                <rect key="frame" x="0.0" y="173" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="359" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Part Threshold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="onH-Bn-HaD">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -895,7 +1002,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7M-Sg-mBa" userLabel="Part Threshold Slider">
-                                                <rect key="frame" x="0.0" y="200" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="386" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="WZm-Ru-vMm">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="26"/>
@@ -930,7 +1037,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="UZq-0r-g2d" userLabel="Pair Section Title">
-                                                <rect key="frame" x="0.0" y="230" width="375" height="46"/>
+                                                <rect key="frame" x="0.0" y="416" width="375" height="46"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Pair" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-0j-kMu">
                                                         <rect key="frame" x="16.000000000000004" y="20" width="36.333333333333343" height="24"/>
@@ -957,7 +1064,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mH8-gj-0Qc" userLabel="Pair Threshold Title">
-                                                <rect key="frame" x="0.0" y="276" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="462" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Pair Threshold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="7Nd-Rz-ajV">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -975,7 +1082,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rPV-Zd-xVa" userLabel="Pair Treshold Slider">
-                                                <rect key="frame" x="0.0" y="303" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="489" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="sHk-1M-CN5">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="26"/>
@@ -989,7 +1096,7 @@
                                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-2" minValue="-2" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="bMR-qA-6n0">
+                                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-4" minValue="-4" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="bMR-qA-6n0">
                                                                 <rect key="frame" x="46" y="0.0" width="299" height="27"/>
                                                                 <connections>
                                                                     <action selector="didChangePairThreshold:" destination="BYZ-38-t0r" eventType="valueChanged" id="YZ4-s5-O77"/>
@@ -1010,7 +1117,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="zFj-ZJ-NK6" userLabel="NMS Filter Size Title">
-                                                <rect key="frame" x="0.0" y="333" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="519" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Non Maximum Suppression(NMS) Filter Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hSi-Fh-F4b">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -1028,7 +1135,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sgW-qz-bcU" userLabel="NMS Filter Size Stepper">
-                                                <rect key="frame" x="0.0" y="360" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="546" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="6v3-qN-vKO">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="26"/>
@@ -1067,7 +1174,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="39E-sW-qjz" userLabel="Human Section Title">
-                                                <rect key="frame" x="0.0" y="390" width="375" height="46"/>
+                                                <rect key="frame" x="0.0" y="576" width="375" height="46"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Human" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HNg-ET-jcO">
                                                         <rect key="frame" x="16" y="20" width="67.666666666666671" height="24"/>
@@ -1094,7 +1201,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="AUq-dd-AWL" userLabel="Maximum Number Of Person Title">
-                                                <rect key="frame" x="0.0" y="436" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="622" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Maximum Number Of Person" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="my6-SN-Gfj">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -1112,7 +1219,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qg2-IU-oXW" userLabel="Maximum Number Of Person Stepper">
-                                                <rect key="frame" x="0.0" y="463" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="649" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="nfb-Ci-BP0">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="26"/>
@@ -1151,7 +1258,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oPG-Tk-VVH" userLabel="Footer View">
-                                                <rect key="frame" x="0.0" y="493" width="375" height="16"/>
+                                                <rect key="frame" x="0.0" y="679" width="375" height="16"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="cwk-UG-ZZ0"/>
@@ -1187,8 +1294,10 @@
                     <navigationItem key="navigationItem" id="Cn3-8o-Xkd"/>
                     <size key="freeformSize" width="375" height="1112"/>
                     <connections>
+                        <outlet property="dimensionSegment" destination="mUj-sX-0g2" id="VbL-8m-zDm"/>
                         <outlet property="humanMaxNumberLabel" destination="H6G-hy-oG8" id="5PX-R0-yNm"/>
                         <outlet property="humanMaxNumberStepper" destination="B4I-iZ-KQ7" id="SHJ-ha-awd"/>
+                        <outlet property="humanTypeSegment" destination="p7X-LH-Pyh" id="ZPQ-lU-RU1"/>
                         <outlet property="overlayLineDotView" destination="S3l-UZ-EbJ" id="scz-x0-S7W"/>
                         <outlet property="pairNMSFilterSizeLabel" destination="j9L-pv-3o3" id="H6q-fd-mEM"/>
                         <outlet property="pairNMSFilterSizeStepper" destination="HfC-LC-FvA" id="6Cg-Lc-6ib"/>
@@ -1228,7 +1337,7 @@
             <objects>
                 <viewController id="C8S-Nb-lg5" customClass="StillImageLineViewController" customModule="Pose_TFLiteSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4rl-xp-TwG">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gj5-n8-rgW">
@@ -1246,22 +1355,22 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yF-Ms-4jU">
-                                <rect key="frame" x="0.0" y="467" width="375" height="550"/>
+                                <rect key="frame" x="0.0" y="467" width="375" height="750"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="22W-Ok-fG8">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="509"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="695"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="C6e-dx-2sm" userLabel="Part Section Title">
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="C6e-dx-2sm" userLabel="Postprocess Method Secion Title">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Part" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4Ep-ke-j4J">
-                                                        <rect key="frame" x="16" y="20" width="39" height="24"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Postprocess Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4Ep-ke-j4J">
+                                                        <rect key="frame" x="16" y="20" width="195" height="24"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gs3-Lh-R5z">
-                                                        <rect key="frame" x="61" y="31" width="298" height="2"/>
+                                                        <rect key="frame" x="217" y="31" width="142" height="2"/>
                                                         <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="2" id="brt-tB-ts5"/>
@@ -1278,10 +1387,10 @@
                                                     <constraint firstAttribute="trailing" secondItem="gs3-Lh-R5z" secondAttribute="trailing" constant="16" id="y95-NN-Gw2"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="LpC-5Z-I1r" userLabel="Visiable Part Title">
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="LpC-5Z-I1r" userLabel="Human Type Title">
                                                 <rect key="frame" x="0.0" y="46" width="375" height="27"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Visiable Part" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rt0-D6-JAA">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Human Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rt0-D6-JAA">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                         <nil key="textColor"/>
@@ -1296,8 +1405,115 @@
                                                     <constraint firstItem="rt0-D6-JAA" firstAttribute="top" secondItem="LpC-5Z-I1r" secondAttribute="top" constant="8" id="mtt-zV-f2Z"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uq6-vO-cMh" userLabel="Human Type Segment">
+                                                <rect key="frame" x="0.0" y="73" width="375" height="43"/>
+                                                <subviews>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cPu-I7-oci">
+                                                        <rect key="frame" x="16" y="2" width="343" height="32"/>
+                                                        <segments>
+                                                            <segment title="Sinlge Person"/>
+                                                            <segment title="Multi Person"/>
+                                                        </segments>
+                                                        <connections>
+                                                            <action selector="didChangeHumanType:" destination="C8S-Nb-lg5" eventType="valueChanged" id="hRG-ay-r3F"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="cPu-I7-oci" secondAttribute="trailing" constant="16" id="Mk8-vc-ajV"/>
+                                                    <constraint firstItem="cPu-I7-oci" firstAttribute="leading" secondItem="Uq6-vO-cMh" secondAttribute="leading" constant="16" id="Oz9-jH-QeA"/>
+                                                    <constraint firstItem="cPu-I7-oci" firstAttribute="top" secondItem="Uq6-vO-cMh" secondAttribute="top" constant="2" id="ZA4-2y-2iQ"/>
+                                                    <constraint firstAttribute="bottom" secondItem="cPu-I7-oci" secondAttribute="bottom" constant="10" id="acl-I1-R8o"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="JRr-YR-NAX" userLabel="Human Type Title">
+                                                <rect key="frame" x="0.0" y="116" width="375" height="27"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Dimension (Not Support Yet)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfh-bW-RTk">
+                                                        <rect key="frame" x="16" y="8" width="343" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="lfh-bW-RTk" firstAttribute="centerX" secondItem="JRr-YR-NAX" secondAttribute="centerX" id="IM4-9r-aHm"/>
+                                                    <constraint firstItem="lfh-bW-RTk" firstAttribute="leading" secondItem="JRr-YR-NAX" secondAttribute="leading" constant="16" id="L7O-UY-XyL"/>
+                                                    <constraint firstItem="lfh-bW-RTk" firstAttribute="top" secondItem="JRr-YR-NAX" secondAttribute="top" constant="8" id="hau-mI-K8q"/>
+                                                    <constraint firstAttribute="bottom" secondItem="lfh-bW-RTk" secondAttribute="bottom" constant="2" id="qjh-Cn-Kfc"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8NT-qY-3Mc" userLabel="Human Type Segment">
+                                                <rect key="frame" x="0.0" y="143" width="375" height="43"/>
+                                                <subviews>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QV2-3t-Hh4">
+                                                        <rect key="frame" x="16" y="2" width="343" height="32"/>
+                                                        <segments>
+                                                            <segment title="2D"/>
+                                                            <segment title="3D"/>
+                                                        </segments>
+                                                        <connections>
+                                                            <action selector="didChangeDimension:" destination="C8S-Nb-lg5" eventType="valueChanged" id="Up3-Cg-gwP"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="QV2-3t-Hh4" secondAttribute="trailing" constant="16" id="0l3-PE-wph"/>
+                                                    <constraint firstItem="QV2-3t-Hh4" firstAttribute="leading" secondItem="8NT-qY-3Mc" secondAttribute="leading" constant="16" id="Dxy-X7-xWA"/>
+                                                    <constraint firstItem="QV2-3t-Hh4" firstAttribute="top" secondItem="8NT-qY-3Mc" secondAttribute="top" constant="2" id="GFe-6t-FH7"/>
+                                                    <constraint firstAttribute="bottom" secondItem="QV2-3t-Hh4" secondAttribute="bottom" constant="10" id="cWH-UN-hea"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="zoE-MG-M80" userLabel="Part Section Title">
+                                                <rect key="frame" x="0.0" y="186" width="375" height="46"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Part" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LkR-mJ-ukS">
+                                                        <rect key="frame" x="16" y="20" width="39" height="24"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hCv-Dz-m0k">
+                                                        <rect key="frame" x="61" y="31" width="298" height="2"/>
+                                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="2" id="iLq-go-Psy"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="hCv-Dz-m0k" firstAttribute="centerY" secondItem="LkR-mJ-ukS" secondAttribute="centerY" id="AEW-4p-N6l"/>
+                                                    <constraint firstAttribute="trailing" secondItem="hCv-Dz-m0k" secondAttribute="trailing" constant="16" id="ITw-0Y-SXQ"/>
+                                                    <constraint firstAttribute="bottom" secondItem="LkR-mJ-ukS" secondAttribute="bottom" constant="2" id="n4N-jS-xt8"/>
+                                                    <constraint firstItem="hCv-Dz-m0k" firstAttribute="leading" secondItem="LkR-mJ-ukS" secondAttribute="trailing" constant="6" id="ojP-vJ-b4M"/>
+                                                    <constraint firstItem="LkR-mJ-ukS" firstAttribute="leading" secondItem="zoE-MG-M80" secondAttribute="leading" constant="16" id="rT4-jS-8F3"/>
+                                                    <constraint firstItem="LkR-mJ-ukS" firstAttribute="top" secondItem="zoE-MG-M80" secondAttribute="top" constant="20" id="xDe-nd-gVj"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5he-5E-YaO" userLabel="Visiable Part Title">
+                                                <rect key="frame" x="0.0" y="232" width="375" height="27"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Visiable Part" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Wks-1w-mdB">
+                                                        <rect key="frame" x="16" y="8" width="343" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="Wks-1w-mdB" firstAttribute="top" secondItem="5he-5E-YaO" secondAttribute="top" constant="8" id="ARf-4x-Hgp"/>
+                                                    <constraint firstItem="Wks-1w-mdB" firstAttribute="leading" secondItem="5he-5E-YaO" secondAttribute="leading" constant="16" id="WYy-u1-qr6"/>
+                                                    <constraint firstItem="Wks-1w-mdB" firstAttribute="centerX" secondItem="5he-5E-YaO" secondAttribute="centerX" id="ala-9D-ECf"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Wks-1w-mdB" secondAttribute="bottom" constant="2" id="mA4-jh-pbK"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-6D-AVf" userLabel="Visiable Part Buttons">
-                                                <rect key="frame" x="0.0" y="73" width="375" height="100"/>
+                                                <rect key="frame" x="0.0" y="259" width="375" height="100"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Sb7-Iy-ZPH">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="100"/>
@@ -1437,7 +1653,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6L8-Au-TNp" userLabel="Part Threshold Title">
-                                                <rect key="frame" x="0.0" y="173" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="359" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Part Threshold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YHf-7A-OHP">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -1455,7 +1671,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gyP-mQ-E2x" userLabel="Part Threshold Slider">
-                                                <rect key="frame" x="0.0" y="200" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="386" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ThD-Ug-7vM">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="26"/>
@@ -1472,7 +1688,6 @@
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-2" minValue="-2" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="KYD-fW-QxU">
                                                                 <rect key="frame" x="46" y="0.0" width="299" height="27"/>
                                                                 <connections>
-                                                                    <action selector="didChangePairThreshold:" destination="C8S-Nb-lg5" eventType="valueChanged" id="cK1-ww-JJv"/>
                                                                     <action selector="didChangePartThreshold:" destination="C8S-Nb-lg5" eventType="valueChanged" id="KEo-nN-SoF"/>
                                                                 </connections>
                                                             </slider>
@@ -1491,7 +1706,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="aLH-pF-W9u" userLabel="Pair Section Title">
-                                                <rect key="frame" x="0.0" y="230" width="375" height="46"/>
+                                                <rect key="frame" x="0.0" y="416" width="375" height="46"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Pair" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bAZ-pU-Sge">
                                                         <rect key="frame" x="16.000000000000004" y="20" width="36.333333333333343" height="24"/>
@@ -1518,7 +1733,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Mds-xs-g1A" userLabel="Pair Threshold Title">
-                                                <rect key="frame" x="0.0" y="276" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="462" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Pair Threshold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="E5Y-7p-2yu">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -1536,7 +1751,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DQg-Ay-d1f" userLabel="Pair Treshold Slider">
-                                                <rect key="frame" x="0.0" y="303" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="489" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jFV-1b-0kS">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="26"/>
@@ -1550,8 +1765,11 @@
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-2" minValue="-2" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="yM9-AS-TOF">
+                                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-4" minValue="-4" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="yM9-AS-TOF">
                                                                 <rect key="frame" x="46" y="0.0" width="299" height="27"/>
+                                                                <connections>
+                                                                    <action selector="didChangePairThreshold:" destination="C8S-Nb-lg5" eventType="valueChanged" id="T5d-ff-8BY"/>
+                                                                </connections>
                                                             </slider>
                                                         </subviews>
                                                         <constraints>
@@ -1568,7 +1786,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="JV0-H4-3ej" userLabel="NMS Filter Size Title">
-                                                <rect key="frame" x="0.0" y="333" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="519" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Non Maximum Suppression(NMS) Filter Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0mC-e4-kZH">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -1586,7 +1804,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v2J-3O-1pH" userLabel="NMS Filter Size Stepper">
-                                                <rect key="frame" x="0.0" y="360" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="546" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="UsV-af-Ni6">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="26"/>
@@ -1625,7 +1843,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="LhW-NR-UXf" userLabel="Human Section Title">
-                                                <rect key="frame" x="0.0" y="390" width="375" height="46"/>
+                                                <rect key="frame" x="0.0" y="576" width="375" height="46"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Human" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="o5f-Yl-52V">
                                                         <rect key="frame" x="16" y="20" width="67.666666666666671" height="24"/>
@@ -1652,7 +1870,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="oLa-Ia-qEq" userLabel="Maximum Number Of Person Title">
-                                                <rect key="frame" x="0.0" y="436" width="375" height="27"/>
+                                                <rect key="frame" x="0.0" y="622" width="375" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Maximum Number Of Person" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HDB-vC-989">
                                                         <rect key="frame" x="16" y="8" width="343" height="17"/>
@@ -1670,7 +1888,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AGx-Ai-lec" userLabel="Maximum Number Of Person Stepper">
-                                                <rect key="frame" x="0.0" y="463" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="649" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="c8X-tV-Sm6">
                                                         <rect key="frame" x="16" y="0.0" width="343" height="26"/>
@@ -1709,7 +1927,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mrG-G5-uxh" userLabel="Footer View">
-                                                <rect key="frame" x="0.0" y="493" width="375" height="16"/>
+                                                <rect key="frame" x="0.0" y="679" width="375" height="16"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="jLx-oH-GSc"/>
@@ -1750,10 +1968,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="1100"/>
+                    <size key="freeformSize" width="375" height="1300"/>
                     <connections>
+                        <outlet property="dimensionSegment" destination="QV2-3t-Hh4" id="OZa-5z-N7a"/>
                         <outlet property="humanMaxNumberLabel" destination="nuy-Ge-mig" id="dUs-G3-CaB"/>
                         <outlet property="humanMaxNumberStepper" destination="IHZ-GC-mqe" id="K34-CA-AKs"/>
+                        <outlet property="humanTypeSegment" destination="cPu-I7-oci" id="K2v-4s-nSx"/>
                         <outlet property="imageView" destination="Gj5-n8-rgW" id="t39-PT-2kG"/>
                         <outlet property="overlayLineDotView" destination="SKB-f7-Cxs" id="Pn0-pd-2Yo"/>
                         <outlet property="pairNMSFilterSizeLabel" destination="JhN-gy-xf5" id="K56-im-zF7"/>

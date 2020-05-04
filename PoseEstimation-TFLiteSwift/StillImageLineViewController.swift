@@ -14,6 +14,8 @@ class StillImageLineViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var imageView: UIImageView?
     @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
+    @IBOutlet weak var humanTypeSegment: UISegmentedControl?
+    @IBOutlet weak var dimensionSegment: UISegmentedControl?
     @IBOutlet var partButtons: [UIButton]?
     @IBOutlet weak var partThresholdLabel: UILabel?
     @IBOutlet weak var partThresholdSlider: UISlider?
@@ -26,6 +28,11 @@ class StillImageLineViewController: UIViewController {
     
     let autoImportingImageFromAlbum = true
     
+    var isSinglePerson: Bool = true {
+        didSet {
+            humanTypeSegment?.selectedSegmentIndex = isSinglePerson ? 0 : 1
+        }
+    }
     lazy var partIndexes: [String: Int] = {
         var partIndexes: [String: Int] = [:]
         poseEstimator.partNames.enumerated().forEach { offset, partName in
@@ -74,10 +81,16 @@ class StillImageLineViewController: UIViewController {
     var preprocessOptions: PreprocessOptions {
         return PreprocessOptions(cropArea: .squareAspectFill)
     }
+    var humanType: PostprocessOptions.HumanType {
+        if isSinglePerson {
+            return .singlePerson
+        } else {
+            return .multiPerson(pairThreshold: pairThreshold,
+                                nmsFilterSize: pairNMSFilterSize,
+                                maxHumanNumber: humanMaxNumber)
+        }
+    }
     var postprocessOptions: PostprocessOptions {
-        let humanType: PostprocessOptions.HumanType = .multiPerson(pairThreshold: pairThreshold,
-                                                                   nmsFilterSize: pairNMSFilterSize,
-                                                                   maxHumanNumber: humanMaxNumber)
         return PostprocessOptions(partThreshold: partThreshold,
                                   bodyPart: selectedPartIndex,
                                   humanType: humanType)
@@ -98,10 +111,11 @@ class StillImageLineViewController: UIViewController {
         setUpUI()
 
         // setup initial post-process params
-        partThreshold = 0.1 // initial threshold for part (not for pair)
-        pairThreshold = 0.2
-        pairNMSFilterSize = 3
-        humanMaxNumber = nil
+        isSinglePerson = true   /// `multi-pose`
+        partThreshold = 0.1     ///
+        pairThreshold = 3.4     /// Only used on `multi-pose` mode. Before sort edges by cost, filter by pairThreshold for performance
+        pairNMSFilterSize = 3   /// Only used on `multi-pose` mode. If 3, real could be 7X7 filter // (3●2+1)X(3●2+1)
+        humanMaxNumber = nil    /// Only used on `multi-pose` mode. Not support yet
         
         select(on: "ALL")
         
@@ -182,6 +196,15 @@ class StillImageLineViewController: UIViewController {
         let pickerVC = UIImagePickerController()
         pickerVC.delegate = self
         navigationController?.present(pickerVC, animated: true)
+    }
+    
+    @IBAction func didChangeHumanType(_ sender: UISegmentedControl) {
+        isSinglePerson = (sender.selectedSegmentIndex == 0)
+        updateOverlayViewWithOnlyPostprocess()
+    }
+    
+    @IBAction func didChangeDimension(_ sender: UISegmentedControl) {
+        // NOT SUPPORT YET
     }
     
     @IBAction func didChangePartThreshold(_ sender: UISlider) {
