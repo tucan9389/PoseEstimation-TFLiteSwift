@@ -57,3 +57,12 @@ extension UIImage {
         return pxbuffer!;
     }
 }
+
+extension UIView {
+    func uiImage(in rect: CGRect) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: rect)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
+}

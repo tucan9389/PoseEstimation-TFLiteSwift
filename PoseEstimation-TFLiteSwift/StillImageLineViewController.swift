@@ -198,6 +198,17 @@ class StillImageLineViewController: UIViewController {
         navigationController?.present(pickerVC, animated: true)
     }
     
+    @IBAction func export(_ sender: Any) {
+        guard let overlayViewRect = overlayLineDotView?.frame else { return }
+        let image = view.uiImage(in: overlayViewRect)
+        let imageData = image.jpegData(compressionQuality: 0.95)
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let fileURL = paths[0].appendingPathComponent("pose-linedot-demo.jpeg")
+        try? imageData?.write(to: fileURL)
+        let vc = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+        present(vc, animated: true)
+    }
+    
     @IBAction func didChangeHumanType(_ sender: UISegmentedControl) {
         isSinglePerson = (sender.selectedSegmentIndex == 0)
         updateOverlayViewWithOnlyPostprocess()
