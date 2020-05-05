@@ -199,11 +199,11 @@ class StillImageLineViewController: UIViewController {
     }
     
     @IBAction func export(_ sender: Any) {
-        guard let overlayViewRect = overlayLineDotView?.frame else { return }
+        guard let overlayViewRect = overlayLineDotView?.frame,
+            let directoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileURL = directoryPath.appendingPathComponent("pose-linedot-demo.jpeg")
         let image = view.uiImage(in: overlayViewRect)
         let imageData = image.jpegData(compressionQuality: 0.95)
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let fileURL = paths[0].appendingPathComponent("pose-linedot-demo.jpeg")
         try? imageData?.write(to: fileURL)
         let vc = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
         present(vc, animated: true)
