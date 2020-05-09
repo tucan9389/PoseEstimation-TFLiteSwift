@@ -605,11 +605,18 @@
                         <viewLayoutGuide key="safeArea" id="IVH-mz-RwW"/>
                     </view>
                     <navigationItem key="navigationItem" id="84A-g1-NOW">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" style="done" id="lp5-Pe-gA3">
-                            <connections>
-                                <action selector="importImage:" destination="lm4-xm-FJy" id="4MQ-A1-qGG"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem style="done" systemItem="add" id="lp5-Pe-gA3">
+                                <connections>
+                                    <action selector="importImage:" destination="lm4-xm-FJy" id="4MQ-A1-qGG"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="action" id="IZ0-RM-ci0">
+                                <connections>
+                                    <action selector="export:" destination="lm4-xm-FJy" id="B4B-M3-c6d"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
@@ -1961,11 +1968,18 @@
                         <viewLayoutGuide key="safeArea" id="Jv1-3Q-T9Y"/>
                     </view>
                     <navigationItem key="navigationItem" id="fkm-wZ-Wju">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" style="done" id="fGL-rc-lC4">
-                            <connections>
-                                <action selector="importImage:" destination="C8S-Nb-lg5" id="fGp-9R-noc"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem style="done" systemItem="add" id="fGL-rc-lC4">
+                                <connections>
+                                    <action selector="importImage:" destination="C8S-Nb-lg5" id="fGp-9R-noc"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="action" id="XoA-7u-xtH">
+                                <connections>
+                                    <action selector="export:" destination="C8S-Nb-lg5" id="Pog-2A-Hdc"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="1300"/>
@@ -2089,6 +2103,5 @@
     <resources>
         <image name="camera" catalog="system" width="128" height="96"/>
         <image name="photo" catalog="system" width="128" height="93"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>

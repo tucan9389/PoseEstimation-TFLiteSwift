@@ -205,6 +205,20 @@ class StillImageHeatmapViewController: UIViewController {
         pickerVC.delegate = self
         navigationController?.present(pickerVC, animated: true)
     }
+    
+    @IBAction func export(_ sender: Any) {
+        guard let topPaletteViewRect = topPaletteView?.frame,
+            let overlayViewRect = overlayHeatmapView?.frame,
+            let directoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileURL = directoryPath.appendingPathComponent("pose-heatmap-demo.jpeg")
+        let rect = CGRect(x: topPaletteViewRect.origin.x, y: topPaletteViewRect.origin.y,
+                          width: overlayViewRect.width, height: topPaletteViewRect.height + overlayViewRect.height)
+        let image = view.uiImage(in: rect)
+        let imageData = image.jpegData(compressionQuality: 0.95)
+        try? imageData?.write(to: fileURL)
+        let vc = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+        present(vc, animated: true)
+    }
 }
 
 extension StillImageHeatmapViewController: UIImagePickerControllerDelegate {
