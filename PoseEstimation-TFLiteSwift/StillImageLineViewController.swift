@@ -204,7 +204,7 @@ class StillImageLineViewController: UIViewController {
     }
     
     @IBAction func didChangeDimension(_ sender: UISegmentedControl) {
-        // NOT SUPPORT YET
+        // <#TODO#>
     }
     
     @IBAction func didChangePartThreshold(_ sender: UISlider) {

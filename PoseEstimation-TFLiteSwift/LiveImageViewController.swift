@@ -228,7 +228,7 @@ class LiveImageViewController: UIViewController {
     }
     
     @IBAction func didChangeDimension(_ sender: UISegmentedControl) {
-        // NOT SUPPORT YET
+        // <#TODO#>
     }
     
     @IBAction func didChangedPartThreshold(_ sender: UISlider) {
