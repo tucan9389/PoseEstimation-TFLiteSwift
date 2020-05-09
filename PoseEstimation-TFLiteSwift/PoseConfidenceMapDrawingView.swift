@@ -48,10 +48,12 @@ class PoseConfidenceMapDrawingView: UIView {
         }
         rectPath.addLine(to: startingPoint)
         rectPath.close()
-
-        rectPath.lineWidth = DrawingConstant.Line.width
+        
+        // draw line
+        rectPath.lineWidth = (frame.width > 200) ? DrawingConstant.Line.width : 0
         DrawingConstant.Area.lineColor.setStroke()
         rectPath.stroke()
+        // draw color in rect
         fillColor.setFill()
         rectPath.fill()
     }

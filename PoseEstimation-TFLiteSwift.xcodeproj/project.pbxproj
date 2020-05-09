@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7105C916241CE9B5001A4325 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C915241CE9B5001A4325 /* AppDelegate.swift */; };
-		7105C91A241CE9B6001A4325 /* LiveImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C919241CE9B6001A4325 /* LiveImageViewController.swift */; };
 		7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7105C91B241CE9B6001A4325 /* Main.storyboard */; };
 		7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7105C91E241CE9B7001A4325 /* Assets.xcassets */; };
 		7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7105C920241CE9B7001A4325 /* LaunchScreen.storyboard */; };
@@ -45,7 +44,6 @@
 		5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C912241CE9B5001A4325 /* Pose-TFLiteSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pose-TFLiteSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C915241CE9B5001A4325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7105C919241CE9B6001A4325 /* LiveImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveImageViewController.swift; sourceTree = "<group>"; };
 		7105C91C241CE9B6001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7105C91E241CE9B7001A4325 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7105C921241CE9B7001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 				7105C91B241CE9B6001A4325 /* Main.storyboard */,
 				712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */,
 				71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */,
-				7105C919241CE9B6001A4325 /* LiveImageViewController.swift */,
 				71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */,
 				7105C929241D011F001A4325 /* View */,
 				7105C92B241D0150001A4325 /* MLModel */,
@@ -336,7 +333,6 @@
 				7105C93C241E8CE3001A4325 /* CVPixelBufferExtension.swift in Sources */,
 				712A7FC9242667C900B043F9 /* PEFMHourglassPoseEstimator.swift in Sources */,
 				71B07B97245E5C6C001FD385 /* NumericExtension.swift in Sources */,
-				7105C91A241CE9B6001A4325 /* LiveImageViewController.swift in Sources */,
 				7105C916241CE9B5001A4325 /* AppDelegate.swift in Sources */,
 				7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */,
 				712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */,
