@@ -205,6 +205,20 @@ class StillImageHeatmapViewController: UIViewController {
         pickerVC.delegate = self
         navigationController?.present(pickerVC, animated: true)
     }
+    
+    @IBAction func export(_ sender: Any) {
+        guard let topPaletteViewRect = topPaletteView?.frame,
+            let overlayViewRect = overlayHeatmapView?.frame,
+            let directoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileURL = directoryPath.appendingPathComponent("pose-heatmap-demo.jpeg")
+        let rect = CGRect(x: topPaletteViewRect.origin.x, y: topPaletteViewRect.origin.y,
+                          width: overlayViewRect.width, height: topPaletteViewRect.height + overlayViewRect.height)
+        let image = view.uiImage(in: rect)
+        let imageData = image.jpegData(compressionQuality: 0.95)
+        try? imageData?.write(to: fileURL)
+        let vc = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+        present(vc, animated: true)
+    }
 }
 
 extension StillImageHeatmapViewController: UIImagePickerControllerDelegate {
@@ -230,10 +244,17 @@ extension StillImageHeatmapViewController: UINavigationControllerDelegate { }
 
 extension StillImageHeatmapViewController {
     func inference(with uiImage: UIImage) {
-        let input: PoseEstimationInput = .uiImage(uiImage: uiImage, cropArea: .squareAspectFill)
-        let partIndex: Int? = nil
-        let threshold: Float? = nil
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: threshold, on: partIndex)
+        let preprocessOptions = PreprocessOptions(cropArea: .squareAspectFill)
+        let humanType: PostprocessOptions.HumanType = .multiPerson(pairThreshold: 0.2,
+                                                                   nmsFilterSize: 5,
+                                                                   maxHumanNumber: nil)
+        let postprocessOptions = PostprocessOptions(partThreshold: 0.14,
+                                                    bodyPart: nil,
+                                                    humanType: humanType)
+        let input: PoseEstimationInput = .uiImage(uiImage: uiImage,
+                                                  preprocessOptions: preprocessOptions,
+                                                  postprocessOptions: postprocessOptions)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
         switch (result) {
         case .success(let output):
             modelOutput = output.outputs.first
