@@ -25,37 +25,53 @@
 import CoreVideo
 import UIKit
 
-enum PoseEstimationInput {
+struct PreprocessOptions {
+    let cropArea: CropArea
+    
     enum CropArea {
         case customAspectFill(rect: CGRect)
         case squareAspectFill
     }
-    case pixelBuffer(pixelBuffer: CVPixelBuffer, cropArea: CropArea)
-    case uiImage(uiImage: UIImage, cropArea: CropArea)
+}
+
+struct PostprocessOptions {
+    let partThreshold: Float?
+    let bodyPart: Int?
+    let humanType: HumanType
+    
+    enum HumanType {
+        case singlePerson
+        case multiPerson(pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?)
+    }
+}
+
+enum PoseEstimationInput {
+    case pixelBuffer(pixelBuffer: CVPixelBuffer, preprocessOptions: PreprocessOptions, postprocessOptions: PostprocessOptions)
+    case uiImage(uiImage: UIImage, preprocessOptions: PreprocessOptions, postprocessOptions: PostprocessOptions)
     
     var pixelBuffer: CVPixelBuffer? {
         switch self {
-        case .pixelBuffer(let pixelBuffer, _):
+        case .pixelBuffer(let pixelBuffer, _, _):
             return pixelBuffer
-        case .uiImage(let uiImage, _):
+        case .uiImage(let uiImage, _, _):
             return uiImage.pixelBufferFromImage()
         }
     }
     
-    var cropArea: CropArea {
+    var cropArea: PreprocessOptions.CropArea {
         switch self {
-        case .pixelBuffer(_, let cropArea):
-            return cropArea
-        case .uiImage(_, let cropArea):
-            return cropArea
+        case .pixelBuffer(_, let preprocessOptions, _):
+            return preprocessOptions.cropArea
+        case .uiImage(_, let preprocessOptions, _):
+            return preprocessOptions.cropArea
         }
     }
     
     var imageSize: CGSize {
         switch self {
-        case .pixelBuffer(let pixelBuffer, _):
+        case .pixelBuffer(let pixelBuffer, _, _):
             return pixelBuffer.size
-        case .uiImage(let uiImage, _):
+        case .uiImage(let uiImage, _, _):
             return uiImage.size
         }
     }
@@ -70,6 +86,23 @@ enum PoseEstimationInput {
             return CGRect(x: (size.width - minLength) / 2,
                           y: (size.height - minLength) / 2,
                           width: minLength, height: minLength)
+        }
+    }
+    
+    var partThreshold: Float? {
+        return postprocessOptions.partThreshold
+    }
+    
+    var bodyPart: Int? {
+        return postprocessOptions.bodyPart
+    }
+    
+    var postprocessOptions: PostprocessOptions {
+        switch self {
+        case .pixelBuffer(_, _, let options):
+            return options
+        case .uiImage(_, _, let options):
+            return options
         }
     }
     
@@ -113,19 +146,6 @@ struct PoseEstimationOutput {
         typealias Line = (from: Keypoint, to: Keypoint)
         var keypoints: [Keypoint?] = []
         var lines: [Line] = []
-        
-        func filteredKeypoints(with threshold: Float?) -> [Keypoint?] {
-            guard let threshold = threshold else { return keypoints }
-            return keypoints.map {
-                guard let kp = $0, kp.score > threshold else { return nil }
-                return kp
-            }
-        }
-        
-        func filteredLines(with threshold: Float?) -> [Line] {
-            guard let threshold = threshold else { return lines }
-            return lines.filter { $0.from.score > threshold && $0.to.score > threshold }
-        }
     }
 }
 
@@ -135,8 +155,8 @@ enum PoseEstimationError: Error {
 }
 
 protocol PoseEstimator {
-    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> Result<PoseEstimationOutput, PoseEstimationError>
-    func postprocessOnLastOutput(with threshold: Float?, on partIndex: Int?) -> PoseEstimationOutput?
+    func inference(_ input: PoseEstimationInput) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput?
     var partNames: [String] { get }
     var pairNames: [String]? { get }
 }

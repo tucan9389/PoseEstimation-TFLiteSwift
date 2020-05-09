@@ -49,6 +49,9 @@ class PoseKeypointsDrawingView: UIView {
                              width: DrawingConstant.Dot.radius, height: DrawingConstant.Dot.radius)
         let dotPath = UIBezierPath(ovalIn: dotRect)
 
+        dotPath.lineWidth = DrawingConstant.Dot.borderWidth
+        DrawingConstant.Dot.borderColor.setStroke()
+        dotPath.stroke()
         DrawingConstant.Dot.fillColor.setFill()
         dotPath.fill()
     }
@@ -71,12 +74,12 @@ private extension PoseKeypointsDrawingView {
         enum Dot {
             static let radius: CGFloat = 5
             static let borderWidth: CGFloat = 2
-            static let borderColor: UIColor = UIColor.red
-            static let fillColor: UIColor = UIColor.green
+            static let borderColor: UIColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+            static let fillColor: UIColor = UIColor(red: 0.5, green: 1.0, blue: 0.3, alpha: 1)
         }
         enum Line {
-            static let width: CGFloat = 2
-            static let color: UIColor = UIColor(red: 0.5, green: 0.1, blue: 0.1, alpha: 1)
+            static let width: CGFloat = 3
+            static let color: UIColor = UIColor(red: 0.3, green: 1.0, blue: 0.3, alpha: 0.66)
         }
     }
 }

@@ -41,7 +41,7 @@ class OpenPosePoseEstimator: PoseEstimator {
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> OpenPoseResult {
+    func inference(_ input: PoseEstimationInput) -> OpenPoseResult {
         
         // initialize
         modelOutput = nil
@@ -56,20 +56,20 @@ class OpenPosePoseEstimator: PoseEstimator {
             else { return .failure(.failToInference) }
         
         // postprocess
-        let result = OpenPoseResult.success(postprocess(outputs, with: threshold, on: partIndex))
+        let result = OpenPoseResult.success(postprocess(outputs, options: input.postprocessOptions))
         
         return result
     }
     
-    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput {
+    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], options: PostprocessOptions) -> PoseEstimationOutput {
         // if you want to postprocess with only single person, use .singlePerson on humanType
         // in .multiPerson, if the bodyPart is nil, parse all part
-        return PoseEstimationOutput(outputs: outputs, humanType: .multiPerson(threshold: threshold, bodyPart: partIndex))
+        return PoseEstimationOutput(outputs: outputs, postprocessOptions: options)
     }
     
-    func postprocessOnLastOutput(with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput? {
+    func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput? {
         guard let outputs = modelOutput else { return nil }
-        return postprocess(outputs, with: threshold, on: partIndex)
+        return postprocess(outputs, options: options)
     }
     
     var partNames: [String] {
@@ -225,21 +225,22 @@ private extension OpenPosePoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    enum HumanType {
-        case singlePerson
-        case multiPerson(threshold: Float?, bodyPart: Int?)
-    }
-    
-    init(outputs: [TFLiteFlatArray<Float32>], humanType: HumanType = .singlePerson) {
+    init(outputs: [TFLiteFlatArray<Float32>], postprocessOptions: PostprocessOptions) {
         self.outputs = outputs
         
-        switch humanType {
+        switch postprocessOptions.humanType {
         case .singlePerson:
+            // <#TODO#> - use partThreshold & don't use `convertToKeypoints` and `makeLines`
             let keypoints = convertToKeypoints(from: outputs)
             let lines = makeLines(with: keypoints)
             humans = [Human(keypoints: keypoints, lines: lines)]
-        case .multiPerson(threshold: let threshold, let bodyPart):
-            humans = parseMultiHuman(from: outputs, on: bodyPart, with: threshold)
+        case .multiPerson(let pairThreshold, let nmsFilterSize, let maxHumanNumber):
+            humans = parseMultiHuman(outputs,
+                                     partIndex: postprocessOptions.bodyPart,
+                                     partThreshold: postprocessOptions.partThreshold,
+                                     pairThreshold: pairThreshold,
+                                     nmsFilterSize: nmsFilterSize,
+                                     maxHumanNumber: maxHumanNumber)
         }
     }
     
@@ -284,20 +285,30 @@ private extension PoseEstimationOutput {
         }
     }
     
-    func parseMultiHuman(from outputs: [TFLiteFlatArray<Float32>], on partIndex: Int?, with threshold: Float?) -> [Human] {
+    func parseMultiHuman(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human] {
         // openpose_ildoonet.tflite only use the first output
         let output = outputs[0]
         
         if let partIndex = partIndex {
-            return parseSinglePartOnMultiHuman(from: output, on: partIndex, with: threshold)
+            return parseSinglePartOnMultiHuman(output,
+                                               partIndex: partIndex,
+                                               partThreshold: partThreshold,
+                                               nmsFilterSize: nmsFilterSize)
         } else {
-            return parseAllPartOnMultiHuman(from: output, with: threshold)
+            return parseAllPartOnMultiHuman(output,
+                                            partIndex: partIndex,
+                                            partThreshold: partThreshold,
+                                            pairThreshold: pairThreshold,
+                                            nmsFilterSize: nmsFilterSize,
+                                            maxHumanNumber: maxHumanNumber)
         }
     }
     
-    func parseSinglePartOnMultiHuman(from output: TFLiteFlatArray<Float32>, on partIndex: Int, with threshold: Float?) -> [Human] {
+    func parseSinglePartOnMultiHuman(_ output: TFLiteFlatArray<Float32>, partIndex: Int, partThreshold: Float?, nmsFilterSize: Int = 3) -> [Human] {
         // process NMS
-        let keypointIndexes = output.keypoints(partIndex: partIndex, filterSize: 3, threshold: threshold)
+        let keypointIndexes = output.keypoints(partIndex: partIndex,
+                                               filterSize: nmsFilterSize,
+                                               threshold: partThreshold)
         
         // convert col,row to Keypoint
         let kps: [Keypoint] = keypointIndexes.map { keypointInfo in
@@ -317,7 +328,8 @@ private extension PoseEstimationOutput {
         }
     }
     
-    func parseAllPartOnMultiHuman(from output: TFLiteFlatArray<Float32>, with threshold: Float?) -> [Human] {
+    func parseAllPartOnMultiHuman(_ output: TFLiteFlatArray<Float32>, partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human] {
+        
         let parts = OpenPosePoseEstimator.Output.BodyPart.allCases
         var verticesForEachPart: [[KeypointElement]?] = parts.map { _ in nil }
         let pairs = OpenPosePoseEstimator.Output.BodyPart.lines
@@ -331,8 +343,6 @@ private extension PoseEstimationOutput {
             let startingPartIndex = pair.from.offsetValue()
             let endingPartIndex = pair.to.offsetValue()
             
-            let thresholdRatio: Float = 1.0 // 0.5 + (1.0 - (Float(pairIndex+1)/Float(pairCount))) * 0.5 // 1.0~>0.5
-            
             // 1. Non Maximum Suppression, 2. Create Bipartite Graph
             let startingPartVertices: [KeypointElement]
             let endingPartVertices: [KeypointElement]
@@ -341,8 +351,8 @@ private extension PoseEstimationOutput {
                 startingPartVertices = sv
             } else {
                 startingPartVertices = output.keypoints(partIndex: startingPartIndex,
-                                                        filterSize: 5,
-                                                        threshold: threshold*thresholdRatio).map {
+                                                        filterSize: nmsFilterSize,
+                                                        threshold: partThreshold).map {
                     KeypointElement(element: $0)
                 }
                 verticesForEachPart[startingPartIndex] = startingPartVertices
@@ -352,8 +362,8 @@ private extension PoseEstimationOutput {
                 endingPartVertices = ev
             } else {
                 endingPartVertices = output.keypoints(partIndex: endingPartIndex,
-                                                      filterSize: 5,
-                                                      threshold: threshold*thresholdRatio).map {
+                                                      filterSize: nmsFilterSize,
+                                                      threshold: partThreshold).map {
                     KeypointElement(element: $0)
                 }
                 verticesForEachPart[endingPartIndex] = endingPartVertices
@@ -390,7 +400,11 @@ private extension PoseEstimationOutput {
             
             // 4. Assignment
             var edges = edgesForEachPair[pairIndex]
-            edges = edges.filter { $0.cost > 0.2 }
+            // filter by pair threshold
+            if let pairThreshold = pairThreshold {
+                edges = edges.filter { $0.cost > pairThreshold }
+            }
+            // sort by cost
             edges = edges.sorted { $0.cost > $1.cost }
             
             // remove used pairs
@@ -492,18 +506,5 @@ private extension Keypoint {
         let y = (CGFloat(row) + 0.5) / CGFloat(height)
         position = CGPoint(x: x, y: y)
         score = Float(value)
-    }
-}
-
-extension Float32 {
-    func string(_ format: String = "%.2f") -> String {
-        return String(format: format, self)
-    }
-}
-
-extension Optional where Wrapped == Float {
-    static func *(lhs: Wrapped?, rhs: Float) -> Self {
-        guard let lhs = lhs else { return nil }
-        return some(lhs * rhs)
     }
 }

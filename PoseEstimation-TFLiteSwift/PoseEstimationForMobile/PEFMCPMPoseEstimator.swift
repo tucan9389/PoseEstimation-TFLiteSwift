@@ -25,7 +25,7 @@
 import CoreVideo
 
 class PEFMCPMPoseEstimator: PoseEstimator {
-    typealias PoseNetResult = Result<PoseEstimationOutput, PoseEstimationError>
+    typealias PEFMCPMResult = Result<PoseEstimationOutput, PoseEstimationError>
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
@@ -41,7 +41,7 @@ class PEFMCPMPoseEstimator: PoseEstimator {
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> PoseNetResult {
+    func inference(_ input: PoseEstimationInput) -> PEFMCPMResult {
         
         // initialize
         modelOutput = nil
@@ -55,7 +55,7 @@ class PEFMCPMPoseEstimator: PoseEstimator {
             else { return .failure(.failToInference) }
         
         // postprocess
-        let result = PoseNetResult.success(postprocess(with: outputs))
+        let result = PEFMCPMResult.success(postprocess(with: outputs))
         
         return result
     }
@@ -64,7 +64,7 @@ class PEFMCPMPoseEstimator: PoseEstimator {
         return PoseEstimationOutput(outputs: outputs)
     }
     
-    func postprocessOnLastOutput(with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput? {
+    func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput? {
         guard let outputs = modelOutput else { return nil }
         return postprocess(with: outputs)
     }

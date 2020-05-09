@@ -31,6 +31,7 @@
 		71A1ED43245971AC001F796C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 71A1ED42245971AC001F796C /* LICENSE */; };
 		71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */; };
 		71A1ED4124574F2E001F796C /* StillImageHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */; };
+		71B07B97245E5C6C001FD385 /* NumericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B07B96245E5C6C001FD385 /* NumericExtension.swift */; };
 		71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */; };
 		71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */; };
 		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
@@ -67,6 +68,7 @@
 		71A1ED42245971AC001F796C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseConfidenceMapDrawingView.swift; sourceTree = "<group>"; };
 		71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImageHeatmapViewController.swift; sourceTree = "<group>"; };
+		71B07B96245E5C6C001FD385 /* NumericExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericExtension.swift; sourceTree = "<group>"; };
 		71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonMaximumnonSuppression.swift; sourceTree = "<group>"; };
 		71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = openpose_ildoonet.tflite; sourceTree = "<group>"; };
 		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				7105C93B241E8CE3001A4325 /* CVPixelBufferExtension.swift */,
 				712A7FC52425FD7200B043F9 /* UIImageExtension.swift */,
 				7105C93D241E90C2001A4325 /* DataExtension.swift */,
+				71B07B96245E5C6C001FD385 /* NumericExtension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */,
 				7105C93C241E8CE3001A4325 /* CVPixelBufferExtension.swift in Sources */,
 				712A7FC9242667C900B043F9 /* PEFMHourglassPoseEstimator.swift in Sources */,
+				71B07B97245E5C6C001FD385 /* NumericExtension.swift in Sources */,
 				7105C91A241CE9B6001A4325 /* LiveImageViewController.swift in Sources */,
 				7105C916241CE9B5001A4325 /* AppDelegate.swift in Sources */,
 				7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */,
