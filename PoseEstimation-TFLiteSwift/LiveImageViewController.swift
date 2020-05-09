@@ -13,16 +13,90 @@ class LiveImageViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var previewView: UIView?
-    @IBOutlet weak var overlayView: PoseKeypointsDrawingView?
+    @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
+    @IBOutlet weak var humanTypeSegment: UISegmentedControl?
+    @IBOutlet weak var dimensionSegment: UISegmentedControl?
+    @IBOutlet var partButtons: [UIButton]?
+    @IBOutlet weak var partThresholdLabel: UILabel?
+    @IBOutlet weak var partThresholdSlider: UISlider?
+    @IBOutlet weak var pairThresholdLabel: UILabel?
+    @IBOutlet weak var pairThresholdSlider: UISlider?
+    @IBOutlet weak var pairNMSFilterSizeLabel: UILabel?
+    @IBOutlet weak var pairNMSFilterSizeStepper: UIStepper?
+    @IBOutlet weak var humanMaxNumberLabel: UILabel?
+    @IBOutlet weak var humanMaxNumberStepper: UIStepper?
+    
     var overlayViewRelativeRect: CGRect = .zero
+    var pixelBufferWidth: CGFloat = 0
     
-    @IBOutlet weak var thresholdValueLabel: UILabel?
-    @IBOutlet weak var thresholdValueSlider: UISlider?
+    var isSinglePerson: Bool = true {
+        didSet {
+            humanTypeSegment?.selectedSegmentIndex = isSinglePerson ? 0 : 1
+        }
+    }
+    lazy var partIndexes: [String: Int] = {
+        var partIndexes: [String: Int] = [:]
+        poseEstimator.partNames.enumerated().forEach { offset, partName in
+            partIndexes[partName] = offset
+        }
+        return partIndexes
+    }()
+    var selectedPartName: String = "ALL"
+    var selectedPartIndex: Int? {
+        guard let partName = selectedPartName.components(separatedBy: "(").first else { return nil }
+        return partIndexes[partName]
+    }
+    var partThreshold: Float? {
+        didSet {
+            let (slider, label, value) = (partThresholdSlider, partThresholdLabel, partThreshold)
+            if let slider = slider { slider.value = value ?? slider.minimumValue }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    var pairThreshold: Float? {
+        didSet {
+            let (slider, label, value) = (pairThresholdSlider, pairThresholdLabel, pairThreshold)
+            if let slider = slider { slider.value = value ?? slider.minimumValue }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    var pairNMSFilterSize: Int = 3 {
+        didSet {
+            let (stepper, label, value) = (pairNMSFilterSizeStepper, pairNMSFilterSizeLabel, pairNMSFilterSize)
+            if let stepper = stepper { stepper.value = Double(value) }
+            if let label = label { label.text = value.labelString }
+        }
+    }
+    var humanMaxNumber: Int? = 5 {
+        didSet {
+            let (stepper, label, value) = (humanMaxNumberStepper, humanMaxNumberLabel, humanMaxNumber)
+            if let stepper = stepper {
+                guard Int(stepper.minimumValue) != value else { humanMaxNumber = nil; return }
+                if let value = value { stepper.value = Double(value) }
+                else { stepper.value = stepper.minimumValue }
+            }
+            if let label = label { label.text = value.labelString }
+        }
+    }
     
-    var threshold: Float? {
-        guard let slider = thresholdValueSlider,
-            slider.value != slider.minimumValue else { return nil }
-        return slider.value
+    var preprocessOptions: PreprocessOptions {
+        let scalingRatio = pixelBufferWidth / overlayViewRelativeRect.width
+        let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
+        return PreprocessOptions(cropArea: .customAspectFill(rect: targetAreaRect))
+    }
+    var humanType: PostprocessOptions.HumanType {
+        if isSinglePerson {
+            return .singlePerson
+        } else {
+            return .multiPerson(pairThreshold: pairThreshold,
+                                nmsFilterSize: pairNMSFilterSize,
+                                maxHumanNumber: humanMaxNumber)
+        }
+    }
+    var postprocessOptions: PostprocessOptions {
+        return PostprocessOptions(partThreshold: partThreshold,
+                                  bodyPart: selectedPartIndex,
+                                  humanType: humanType)
     }
     
     // MARK: - VideoCapture Properties
@@ -39,6 +113,15 @@ class LiveImageViewController: UIViewController {
         
         // setup UI
         setUpUI()
+        
+        // setup initial post-process params
+        isSinglePerson = true   /// `multi-pose`
+        partThreshold = 0.1     /// 
+        pairThreshold = 3.4     /// Only used on `multi-person` mode. Before sort edges by cost, filter by pairThreshold for performance
+        pairNMSFilterSize = 3   /// Only used on `multi-person` mode. If 3, real could be 7X7 filter // (3●2+1)X(3●2+1)
+        humanMaxNumber = nil    /// Only used on `multi-person` mode. Not support yet
+        
+        select(on: "ALL")
     }
     
     override func didReceiveMemoryWarning() {
@@ -76,17 +159,37 @@ class LiveImageViewController: UIViewController {
     }
     
     func setUpUI() {
-        overlayView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
-        overlayView?.layer.borderWidth = 5
+        overlayLineDotView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
+        overlayLineDotView?.layer.borderWidth = 5
         
-        thresholdValueSlider?.value = thresholdValueSlider?.minimumValue ?? 0
+        let partNames = ["ALL"] + partIndexes.keys.sorted { (partIndexes[$0] ?? -1) < (partIndexes[$1] ?? -1) }
+        partButtons?.enumerated().forEach { offset, button in
+            if offset < partNames.count {
+                if let partIndex = partIndexes[partNames[offset]] {
+                    button.setTitle("\(partNames[offset])(\(partIndex))", for: .normal)
+                } else {
+                    button.setTitle("\(partNames[offset])", for: .normal)
+                }
+                
+                button.isEnabled = true
+                button.layer.cornerRadius = 5
+                button.layer.borderWidth = 1
+                button.layer.borderColor = UIColor.systemBlue.cgColor
+            } else {
+                button.setTitle("-", for: .normal)
+                button.isEnabled = false
+            }
+            button.addTarget(self, action: #selector(selectPart), for: .touchUpInside)
+        }
+        
+        partThresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
     }
     
     override func viewDidLayoutSubviews() {
         resizePreviewLayer()
         
         let previewViewRect = previewView?.frame ?? .zero
-        let overlayViewRect = overlayView?.frame ?? .zero
+        let overlayViewRect = overlayLineDotView?.frame ?? .zero
         let relativeOrigin = CGPoint(x: overlayViewRect.origin.x - previewViewRect.origin.x,
                                      y: overlayViewRect.origin.y - previewViewRect.origin.y)
         overlayViewRelativeRect = CGRect(origin: relativeOrigin, size: overlayViewRect.size)
@@ -96,12 +199,52 @@ class LiveImageViewController: UIViewController {
         videoCapture.previewLayer?.frame = previewView?.bounds ?? .zero
     }
     
-    @IBAction func didChangedThresholdValue(_ sender: UISlider) {
-        if let threshold = threshold {
-            thresholdValueLabel?.text = String(format: "%.2f", threshold)
-        } else {
-            thresholdValueLabel?.text = "nil"
+    func updatePartButton(on targetPartName: String) {
+        partButtons?.enumerated().forEach { offset, button in
+            guard button.isEnabled, let partName = button.title(for: .normal) else { return }
+            if partName.contains(targetPartName) {
+                button.tintColor = UIColor.white
+                button.backgroundColor = UIColor.systemBlue
+            } else {
+                button.tintColor = UIColor.systemBlue
+                button.backgroundColor = UIColor.white
+            }
         }
+    }
+    
+    @objc func selectPart(_ button: UIButton) {
+        guard let partName = button.title(for: .normal) else { return }
+        
+        select(on: partName)
+    }
+    
+    func select(on partName: String) {
+        selectedPartName = partName
+        updatePartButton(on: partName)
+    }
+    
+    @IBAction func didChangeHumanType(_ sender: UISegmentedControl) {
+        isSinglePerson = (sender.selectedSegmentIndex == 0)
+    }
+    
+    @IBAction func didChangeDimension(_ sender: UISegmentedControl) {
+        // <#TODO#>
+    }
+    
+    @IBAction func didChangedPartThreshold(_ sender: UISlider) {
+        partThreshold = (sender.value == sender.minimumValue) ? nil : sender.value
+    }
+    
+    @IBAction func didChangePairThreshold(_ sender: UISlider) {
+        pairThreshold = (sender.value == sender.minimumValue) ? nil : sender.value
+    }
+    
+    @IBAction func didChangePairNMSFilterSize(_ sender: UIStepper) {
+        pairNMSFilterSize = Int(sender.value)
+    }
+    
+    @IBAction func didChangeHumanMaxNumber(_ sender: UIStepper) {
+        humanMaxNumber = (sender.value == sender.minimumValue) ? nil : Int(sender.value)
     }
 }
 
@@ -114,20 +257,24 @@ extension LiveImageViewController: VideoCaptureDelegate {
 
 extension LiveImageViewController {
     func inference(with pixelBuffer: CVPixelBuffer) {
-        let scalingRatio = pixelBuffer.size.width / overlayViewRelativeRect.width
-        let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
-        let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer, cropArea: .customAspectFill(rect: targetAreaRect))
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input, with: nil, on: nil)
+        pixelBufferWidth = pixelBuffer.size.width
+        let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer,
+                                                      preprocessOptions: preprocessOptions,
+                                                      postprocessOptions: postprocessOptions)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
         
         switch (result) {
         case .success(let output):
             DispatchQueue.main.async {
-                guard let human = output.humans.first else { return }
-                let threshold = self.threshold
-                let lines = human.filteredLines(with: threshold)
-                let keypoints = human.filteredKeypoints(with: threshold)
-                self.overlayView?.lines = lines
-                self.overlayView?.keypoints = keypoints
+                self.overlayLineDotView?.alpha = 1
+                
+                if let partOffset = self.partIndexes[self.selectedPartName] {
+                    self.overlayLineDotView?.lines = []
+                    self.overlayLineDotView?.keypoints = output.humans.map { $0.keypoints[partOffset] }
+                } else { // ALL case
+                    self.overlayLineDotView?.lines = output.humans.reduce([]) { $0 + $1.lines }
+                    self.overlayLineDotView?.keypoints = output.humans.reduce([]) { $0 + $1.keypoints }
+                }
             }
         case .failure(_):
             break

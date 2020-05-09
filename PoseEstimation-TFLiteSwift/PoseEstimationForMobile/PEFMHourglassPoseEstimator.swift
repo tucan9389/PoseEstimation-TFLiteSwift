@@ -9,7 +9,7 @@
 import CoreVideo
 
 class PEFMHourglassPoseEstimator: PoseEstimator {
-    typealias PoseNetResult = Result<PoseEstimationOutput, PoseEstimationError>
+    typealias PEFMHourglassResult = Result<PoseEstimationOutput, PoseEstimationError>
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
@@ -25,7 +25,7 @@ class PEFMHourglassPoseEstimator: PoseEstimator {
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> PoseNetResult {
+    func inference(_ input: PoseEstimationInput) -> PEFMHourglassResult {
         
         // initialize
         modelOutput = nil
@@ -39,7 +39,7 @@ class PEFMHourglassPoseEstimator: PoseEstimator {
             else { return .failure(.failToInference) }
         
         // postprocess
-        let result = PoseNetResult.success(postprocess(with: outputs))
+        let result = PEFMHourglassResult.success(postprocess(with: outputs))
         
         return result
     }
@@ -48,7 +48,7 @@ class PEFMHourglassPoseEstimator: PoseEstimator {
         return PoseEstimationOutput(outputs: outputs)
     }
     
-    func postprocessOnLastOutput(with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput? {
+    func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput? {
         guard let outputs = modelOutput else { return nil }
         return postprocess(with: outputs)
     }

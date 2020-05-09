@@ -81,15 +81,6 @@ class TFLiteImageInterpreter {
         // <#TODO#> - check quantization or not
     }
     
-    func preprocessMiddleSquareArea(with pixelBuffer: CVPixelBuffer) -> Data? {
-        let imageSize = pixelBuffer.size
-        let minLength = min(imageSize.width, imageSize.height)
-        let targetSquare = CGRect(x: (imageSize.width - minLength) / 2,
-                                  y: (imageSize.height - minLength) / 2,
-                                  width: minLength, height: minLength)
-        return preprocess(with: pixelBuffer, from: targetSquare)
-    }
-    
     func preprocess(with input: PoseEstimationInput) -> Data? {
         let modelInputSize = CGSize(width: options.inputWidth, height: options.inputHeight)
         guard let thumbnail = input.croppedPixelBuffer(with: modelInputSize) else { return nil }
@@ -163,7 +154,11 @@ extension TFLiteImageInterpreter {
         init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isGrayScale: Bool = false, isNormalized: Bool = false) {
             self.modelName = modelName
             self.threadCount = threadCount
+            #if targetEnvironment(simulator)
+            self.accelerator = .cpu
+            #else
             self.accelerator = accelerator
+            #endif
             self.isQuantized = isQuantized
             self.inputWidth = inputWidth
             self.inputHeight = inputHeight

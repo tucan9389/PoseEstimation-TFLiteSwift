@@ -25,7 +25,7 @@ class PoseNetPoseEstimator: PoseEstimator {
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: PoseEstimationInput, with threshold: Float?, on partIndex: Int?) -> PoseNetResult {
+    func inference(_ input: PoseEstimationInput) -> PoseNetResult {
         
         // initialize
         modelOutput = nil
@@ -48,7 +48,7 @@ class PoseNetPoseEstimator: PoseEstimator {
         return PoseEstimationOutput(outputs: outputs)
     }
     
-    func postprocessOnLastOutput(with threshold: Float?=nil, on partIndex: Int?=nil) -> PoseEstimationOutput? {
+    func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput? {
         guard let outputs = modelOutput else { return nil }
         return postprocess(with: outputs)
     }
