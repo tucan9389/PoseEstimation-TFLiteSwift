@@ -1296,6 +1296,10 @@
                                     <constraint firstAttribute="bottom" secondItem="URS-Vr-0PP" secondAttribute="bottom" id="vEU-CJ-O15"/>
                                 </constraints>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u9j-dt-4Jv">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -1307,13 +1311,17 @@
                             <constraint firstItem="MMQ-SR-YX4" firstAttribute="leading" secondItem="LEf-ei-E9C" secondAttribute="leading" id="QJu-54-adH"/>
                             <constraint firstItem="LEf-ei-E9C" firstAttribute="bottom" secondItem="MMQ-SR-YX4" secondAttribute="bottom" id="Qmz-yG-efb"/>
                             <constraint firstItem="qxT-bK-XMd" firstAttribute="width" secondItem="bxI-tU-3cJ" secondAttribute="width" id="TyY-8C-vYE"/>
+                            <constraint firstItem="u9j-dt-4Jv" firstAttribute="top" secondItem="Wj1-4v-xay" secondAttribute="top" id="Uyd-Hl-5bb"/>
                             <constraint firstItem="MMQ-SR-YX4" firstAttribute="top" secondItem="bxI-tU-3cJ" secondAttribute="bottom" id="Vlp-0Z-FK0"/>
+                            <constraint firstItem="u9j-dt-4Jv" firstAttribute="leading" secondItem="Wj1-4v-xay" secondAttribute="leading" id="Wkb-Yx-lom"/>
+                            <constraint firstItem="bxI-tU-3cJ" firstAttribute="top" secondItem="u9j-dt-4Jv" secondAttribute="bottom" id="ZGD-44-TFy"/>
                             <constraint firstItem="bxI-tU-3cJ" firstAttribute="top" secondItem="LEf-ei-E9C" secondAttribute="top" id="akI-eS-0MR"/>
                             <constraint firstItem="LEf-ei-E9C" firstAttribute="trailing" secondItem="MMQ-SR-YX4" secondAttribute="trailing" id="bZq-uc-qeq"/>
                             <constraint firstItem="3Us-ry-rXj" firstAttribute="width" secondItem="SBB-gY-Rhj" secondAttribute="width" id="bha-Ma-CaT"/>
                             <constraint firstItem="bxI-tU-3cJ" firstAttribute="leading" secondItem="LEf-ei-E9C" secondAttribute="leading" id="bqx-SA-wyC"/>
                             <constraint firstItem="qxT-bK-XMd" firstAttribute="centerY" secondItem="bxI-tU-3cJ" secondAttribute="centerY" id="iNw-fP-pP7"/>
                             <constraint firstItem="3Us-ry-rXj" firstAttribute="top" secondItem="SBB-gY-Rhj" secondAttribute="bottom" id="jgf-ot-KDH"/>
+                            <constraint firstAttribute="trailing" secondItem="u9j-dt-4Jv" secondAttribute="trailing" id="qB0-dx-Wgg"/>
                             <constraint firstItem="SBB-gY-Rhj" firstAttribute="width" secondItem="SBB-gY-Rhj" secondAttribute="height" multiplier="1:1" id="rJ4-oT-sCl"/>
                             <constraint firstItem="bxI-tU-3cJ" firstAttribute="bottom" secondItem="3Us-ry-rXj" secondAttribute="bottom" id="wZi-aw-wHe"/>
                             <constraint firstItem="qxT-bK-XMd" firstAttribute="centerX" secondItem="bxI-tU-3cJ" secondAttribute="centerX" id="woF-Y5-rbD"/>
@@ -1361,7 +1369,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xkk-Cn-2Ai" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1958" y="1865"/>
+            <point key="canvasLocation" x="1957.5999999999999" y="1864.2857142857144"/>
         </scene>
         <!--Still Image Line View Controller-->
         <scene sceneID="Yo0-op-Rmd">
