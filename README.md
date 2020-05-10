@@ -13,7 +13,7 @@ This project is Pose Estimation on iOS with TensorFlow Lite.<br>If you are inter
 
 ### Source Images
 
-- | gif | img-0 | img-1 | img-2
+Name | gif | img-0 | img-1 | img-2
 :---: | :---: | :---: | :---: | :---:
 Source | - | <img src="https://user-images.githubusercontent.com/37643248/81012180-15301c80-8e94-11ea-83ec-bd45a690efb3.jpg" width=200px> | <img src="https://user-images.githubusercontent.com/37643248/81010350-1ca1f680-8e91-11ea-81fd-0ff4c78b8641.png" width=200px> | <img src="https://user-images.githubusercontent.com/37643248/81009122-0135ec00-8e8f-11ea-8a3a-e62929f19d8e.png" width=200px>
 
