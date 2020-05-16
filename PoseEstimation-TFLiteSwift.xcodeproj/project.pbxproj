@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7105C916241CE9B5001A4325 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C915241CE9B5001A4325 /* AppDelegate.swift */; };
-		7105C91A241CE9B6001A4325 /* LiveImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C919241CE9B6001A4325 /* LiveImageViewController.swift */; };
 		7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7105C91B241CE9B6001A4325 /* Main.storyboard */; };
 		7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7105C91E241CE9B7001A4325 /* Assets.xcassets */; };
 		7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7105C920241CE9B7001A4325 /* LaunchScreen.storyboard */; };
@@ -28,14 +27,15 @@
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
-		71A1ED43245971AC001F796C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 71A1ED42245971AC001F796C /* LICENSE */; };
 		71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */; };
 		71A1ED4124574F2E001F796C /* StillImageHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */; };
+		71A1ED43245971AC001F796C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 71A1ED42245971AC001F796C /* LICENSE */; };
 		71B07B97245E5C6C001FD385 /* NumericExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B07B96245E5C6C001FD385 /* NumericExtension.swift */; };
 		71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */; };
 		71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */; };
 		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
+		71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */; };
 		E0C93A920161DEF82C2B75E0 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +44,6 @@
 		5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C912241CE9B5001A4325 /* Pose-TFLiteSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pose-TFLiteSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C915241CE9B5001A4325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7105C919241CE9B6001A4325 /* LiveImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveImageViewController.swift; sourceTree = "<group>"; };
 		7105C91C241CE9B6001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7105C91E241CE9B7001A4325 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7105C921241CE9B7001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -65,14 +64,15 @@
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
-		71A1ED42245971AC001F796C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseConfidenceMapDrawingView.swift; sourceTree = "<group>"; };
 		71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImageHeatmapViewController.swift; sourceTree = "<group>"; };
+		71A1ED42245971AC001F796C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		71B07B96245E5C6C001FD385 /* NumericExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericExtension.swift; sourceTree = "<group>"; };
 		71DD577E2446D7CF0024C146 /* NonMaximumnonSuppression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonMaximumnonSuppression.swift; sourceTree = "<group>"; };
 		71E8D9162438BAC10081DD6E /* openpose_ildoonet.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = openpose_ildoonet.tflite; sourceTree = "<group>"; };
 		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLineHeatmapViewController.swift; sourceTree = "<group>"; };
 		8C8112449130BEE4072F1385 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,7 +115,7 @@
 				7105C91B241CE9B6001A4325 /* Main.storyboard */,
 				712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */,
 				71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */,
-				7105C919241CE9B6001A4325 /* LiveImageViewController.swift */,
+				71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */,
 				7105C929241D011F001A4325 /* View */,
 				7105C92B241D0150001A4325 /* MLModel */,
 				71DD577D2446D7A40024C146 /* Algorithm */,
@@ -333,10 +333,10 @@
 				7105C93C241E8CE3001A4325 /* CVPixelBufferExtension.swift in Sources */,
 				712A7FC9242667C900B043F9 /* PEFMHourglassPoseEstimator.swift in Sources */,
 				71B07B97245E5C6C001FD385 /* NumericExtension.swift in Sources */,
-				7105C91A241CE9B6001A4325 /* LiveImageViewController.swift in Sources */,
 				7105C916241CE9B5001A4325 /* AppDelegate.swift in Sources */,
 				7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */,
 				712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */,
+				71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */,
 				71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */,
 				71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */,
 				712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */,

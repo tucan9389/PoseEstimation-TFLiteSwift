@@ -158,7 +158,7 @@ class StillImageLineViewController: UIViewController {
                 button.backgroundColor = UIColor.systemBlue
             } else {
                 button.tintColor = UIColor.systemBlue
-                button.backgroundColor = UIColor.white
+                button.backgroundColor = UIColor.clear
             }
         }
     }

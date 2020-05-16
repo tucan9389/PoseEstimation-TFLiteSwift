@@ -15,21 +15,24 @@
 */
 
 //
-//  LiveImageViewController.swift
+//  LiveLineHeatmapViewController.swift
 //  PoseEstimation-TFLiteSwift
 //
-//  Created by Doyoung Gwak on 2020/03/14.
+//  Created by Doyoung Gwak on 2020/05/09.
 //  Copyright © 2020 Doyoung Gwak. All rights reserved.
 //
 
 import UIKit
 import CoreMedia
 
-class LiveImageViewController: UIViewController {
-    
+class LiveLineHeatmapViewController: UIViewController {
+
     // MARK: - IBOutlets
     @IBOutlet weak var previewView: UIView?
-    @IBOutlet weak var overlayLineDotView: PoseKeypointsDrawingView?
+    @IBOutlet weak var overlayGuideView: UIView?
+    @IBOutlet weak var heatmapView: PoseConfidenceMapDrawingView?
+    @IBOutlet weak var lineDotView: PoseKeypointsDrawingView?
+    
     @IBOutlet weak var humanTypeSegment: UISegmentedControl?
     @IBOutlet weak var dimensionSegment: UISegmentedControl?
     @IBOutlet var partButtons: [UIButton]?
@@ -42,7 +45,7 @@ class LiveImageViewController: UIViewController {
     @IBOutlet weak var humanMaxNumberLabel: UILabel?
     @IBOutlet weak var humanMaxNumberStepper: UIStepper?
     
-    var overlayViewRelativeRect: CGRect = .zero
+    var overlayGuideViewRelativeRect: CGRect = .zero
     var pixelBufferWidth: CGFloat = 0
     
     var isSinglePerson: Bool = true {
@@ -95,9 +98,13 @@ class LiveImageViewController: UIViewController {
         }
     }
     
+    // MARK: - VideoCapture Properties
+    var videoCapture = VideoCapture()
+    
+    // MARK: - ML Property
     var preprocessOptions: PreprocessOptions {
-        let scalingRatio = pixelBufferWidth / overlayViewRelativeRect.width
-        let targetAreaRect = overlayViewRelativeRect.scaled(to: scalingRatio)
+        let scalingRatio = pixelBufferWidth / overlayGuideViewRelativeRect.width
+        let targetAreaRect = overlayGuideViewRelativeRect.scaled(to: scalingRatio)
         return PreprocessOptions(cropArea: .customAspectFill(rect: targetAreaRect))
     }
     var humanType: PostprocessOptions.HumanType {
@@ -115,12 +122,8 @@ class LiveImageViewController: UIViewController {
                                   humanType: humanType)
     }
     
-    // MARK: - VideoCapture Properties
-    var videoCapture = VideoCapture()
-    
-    // MARK: - ML Property
     let poseEstimator: PoseEstimator = OpenPosePoseEstimator()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -132,10 +135,10 @@ class LiveImageViewController: UIViewController {
         
         // setup initial post-process params
         isSinglePerson = true   /// `multi-pose`
-        partThreshold = 0.1     /// 
-        pairThreshold = 3.4     /// Only used on `multi-person` mode. Before sort edges by cost, filter by pairThreshold for performance
-        pairNMSFilterSize = 3   /// Only used on `multi-person` mode. If 3, real could be 7X7 filter // (3●2+1)X(3●2+1)
-        humanMaxNumber = nil    /// Only used on `multi-person` mode. Not support yet
+        partThreshold = 0.1     ///
+        pairThreshold = 3.4     /// Only used on `multi-pose` mode. Before sort edges by cost, filter by pairThreshold for performance
+        pairNMSFilterSize = 3   /// Only used on `multi-pose` mode. If 3, real could be 7X7 filter // (3●2+1)X(3●2+1)
+        humanMaxNumber = nil    /// Only used on `multi-pose` mode. Not support yet
         
         select(on: "ALL")
     }
@@ -152,6 +155,20 @@ class LiveImageViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         videoCapture.stop()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        resizePreviewLayer()
+        
+        let previewViewRect = previewView?.frame ?? .zero
+        let overlayViewRect = overlayGuideView?.frame ?? .zero
+        let relativeOrigin = CGPoint(x: overlayViewRect.origin.x - previewViewRect.origin.x,
+                                     y: overlayViewRect.origin.y - previewViewRect.origin.y)
+        overlayGuideViewRelativeRect = CGRect(origin: relativeOrigin, size: overlayViewRect.size)
+    }
+    
+    func resizePreviewLayer() {
+        videoCapture.previewLayer?.frame = previewView?.bounds ?? .zero
     }
     
     // MARK: - SetUp Video
@@ -175,8 +192,15 @@ class LiveImageViewController: UIViewController {
     }
     
     func setUpUI() {
-        overlayLineDotView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
-        overlayLineDotView?.layer.borderWidth = 5
+        overlayGuideView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
+        overlayGuideView?.layer.borderWidth = 5
+        
+        heatmapView?.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        heatmapView?.layer.borderColor = UIColor.systemTeal.cgColor
+        heatmapView?.layer.borderWidth = 2
+        lineDotView?.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        lineDotView?.layer.borderColor = UIColor.systemGreen.cgColor
+        lineDotView?.layer.borderWidth = 2
         
         let partNames = ["ALL"] + partIndexes.keys.sorted { (partIndexes[$0] ?? -1) < (partIndexes[$1] ?? -1) }
         partButtons?.enumerated().forEach { offset, button in
@@ -197,22 +221,6 @@ class LiveImageViewController: UIViewController {
             }
             button.addTarget(self, action: #selector(selectPart), for: .touchUpInside)
         }
-        
-        partThresholdSlider?.isContinuous = false // `changeThreshold` will be called when touch up on slider
-    }
-    
-    override func viewDidLayoutSubviews() {
-        resizePreviewLayer()
-        
-        let previewViewRect = previewView?.frame ?? .zero
-        let overlayViewRect = overlayLineDotView?.frame ?? .zero
-        let relativeOrigin = CGPoint(x: overlayViewRect.origin.x - previewViewRect.origin.x,
-                                     y: overlayViewRect.origin.y - previewViewRect.origin.y)
-        overlayViewRelativeRect = CGRect(origin: relativeOrigin, size: overlayViewRect.size)
-    }
-    
-    func resizePreviewLayer() {
-        videoCapture.previewLayer?.frame = previewView?.bounds ?? .zero
     }
     
     func updatePartButton(on targetPartName: String) {
@@ -223,7 +231,7 @@ class LiveImageViewController: UIViewController {
                 button.backgroundColor = UIColor.systemBlue
             } else {
                 button.tintColor = UIColor.systemBlue
-                button.backgroundColor = UIColor.white
+                button.backgroundColor = UIColor.clear
             }
         }
     }
@@ -265,13 +273,13 @@ class LiveImageViewController: UIViewController {
 }
 
 // MARK: - VideoCaptureDelegate
-extension LiveImageViewController: VideoCaptureDelegate {
+extension LiveLineHeatmapViewController: VideoCaptureDelegate {
     func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer, timestamp: CMTime) {
-        inference(with: pixelBuffer)
+         inference(with: pixelBuffer)
     }
 }
 
-extension LiveImageViewController {
+extension LiveLineHeatmapViewController {
     func inference(with pixelBuffer: CVPixelBuffer) {
         pixelBufferWidth = pixelBuffer.size.width
         let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer,
@@ -282,20 +290,26 @@ extension LiveImageViewController {
         switch (result) {
         case .success(let output):
             DispatchQueue.main.async {
-                self.overlayLineDotView?.alpha = 1
-                
-                if let partOffset = self.partIndexes[self.selectedPartName] {
-                    self.overlayLineDotView?.lines = []
-                    self.overlayLineDotView?.keypoints = output.humans.map { $0.keypoints[partOffset] }
+                if let partOffset = self.selectedPartIndex {
+                    self.lineDotView?.lines = []
+                    self.lineDotView?.keypoints = output.humans.map { $0.keypoints[partOffset] }
                 } else { // ALL case
-                    self.overlayLineDotView?.lines = output.humans.reduce([]) { $0 + $1.lines }
-                    self.overlayLineDotView?.keypoints = output.humans.reduce([]) { $0 + $1.keypoints }
+                    self.lineDotView?.lines = output.humans.reduce([]) { $0 + $1.lines }
+                    self.lineDotView?.keypoints = output.humans.reduce([]) { $0 + $1.keypoints }
                 }
+                
+                if let partOffset = self.selectedPartIndex {
+                    self.heatmapView?.outputChannelIndexes = [partOffset]
+                } else {
+                    let startIndex = 0
+                    let endIndex = self.partIndexes.count - 1
+                    self.heatmapView?.outputChannelIndexes = Array(startIndex..<endIndex)
+                }
+                self.heatmapView?.output = output.outputs.first
             }
         case .failure(_):
             break
         }
-        
     }
 }
 
