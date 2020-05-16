@@ -30,8 +30,8 @@ class LiveLineHeatmapViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var previewView: UIView?
     @IBOutlet weak var overlayGuideView: UIView?
-    @IBOutlet weak var lineDotView: PoseKeypointsDrawingView?
     @IBOutlet weak var heatmapView: PoseConfidenceMapDrawingView?
+    @IBOutlet weak var lineDotView: PoseKeypointsDrawingView?
     
     @IBOutlet weak var humanTypeSegment: UISegmentedControl?
     @IBOutlet weak var dimensionSegment: UISegmentedControl?
@@ -53,18 +53,18 @@ class LiveLineHeatmapViewController: UIViewController {
             humanTypeSegment?.selectedSegmentIndex = isSinglePerson ? 0 : 1
         }
     }
-//    lazy var partIndexes: [String: Int] = {
-//        var partIndexes: [String: Int] = [:]
-//        poseEstimator.partNames.enumerated().forEach { offset, partName in
-//            partIndexes[partName] = offset
-//        }
-//        return partIndexes
-//    }()
-//    var selectedPartName: String = "ALL"
-//    var selectedPartIndex: Int? {
-//        guard let partName = selectedPartName.components(separatedBy: "(").first else { return nil }
-//        return partIndexes[partName]
-//    }
+    lazy var partIndexes: [String: Int] = {
+        var partIndexes: [String: Int] = [:]
+        poseEstimator.partNames.enumerated().forEach { offset, partName in
+            partIndexes[partName] = offset
+        }
+        return partIndexes
+    }()
+    var selectedPartName: String = "ALL"
+    var selectedPartIndex: Int? {
+        guard let partName = selectedPartName.components(separatedBy: "(").first else { return nil }
+        return partIndexes[partName]
+    }
     var partThreshold: Float? {
         didSet {
             let (slider, label, value) = (partThresholdSlider, partThresholdLabel, partThreshold)
@@ -101,6 +101,29 @@ class LiveLineHeatmapViewController: UIViewController {
     // MARK: - VideoCapture Properties
     var videoCapture = VideoCapture()
     
+    // MARK: - ML Property
+    var preprocessOptions: PreprocessOptions {
+        let scalingRatio = pixelBufferWidth / overlayGuideViewRelativeRect.width
+        let targetAreaRect = overlayGuideViewRelativeRect.scaled(to: scalingRatio)
+        return PreprocessOptions(cropArea: .customAspectFill(rect: targetAreaRect))
+    }
+    var humanType: PostprocessOptions.HumanType {
+        if isSinglePerson {
+            return .singlePerson
+        } else {
+            return .multiPerson(pairThreshold: pairThreshold,
+                                nmsFilterSize: pairNMSFilterSize,
+                                maxHumanNumber: humanMaxNumber)
+        }
+    }
+    var postprocessOptions: PostprocessOptions {
+        return PostprocessOptions(partThreshold: partThreshold,
+                                  bodyPart: selectedPartIndex,
+                                  humanType: humanType)
+    }
+    
+    let poseEstimator: PoseEstimator = OpenPosePoseEstimator()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -109,6 +132,15 @@ class LiveLineHeatmapViewController: UIViewController {
         
         // setup UI
         setUpUI()
+        
+        // setup initial post-process params
+        isSinglePerson = true   /// `multi-pose`
+        partThreshold = 0.1     ///
+        pairThreshold = 3.4     /// Only used on `multi-pose` mode. Before sort edges by cost, filter by pairThreshold for performance
+        pairNMSFilterSize = 3   /// Only used on `multi-pose` mode. If 3, real could be 7X7 filter // (3●2+1)X(3●2+1)
+        humanMaxNumber = nil    /// Only used on `multi-pose` mode. Not support yet
+        
+        select(on: "ALL")
     }
     
     override func didReceiveMemoryWarning() {
@@ -162,6 +194,46 @@ class LiveLineHeatmapViewController: UIViewController {
     func setUpUI() {
         overlayGuideView?.layer.borderColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).cgColor
         overlayGuideView?.layer.borderWidth = 5
+        
+        heatmapView?.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        heatmapView?.layer.borderColor = UIColor.systemTeal.cgColor
+        heatmapView?.layer.borderWidth = 2
+        lineDotView?.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        lineDotView?.layer.borderColor = UIColor.systemGreen.cgColor
+        lineDotView?.layer.borderWidth = 2
+        
+        let partNames = ["ALL"] + partIndexes.keys.sorted { (partIndexes[$0] ?? -1) < (partIndexes[$1] ?? -1) }
+        partButtons?.enumerated().forEach { offset, button in
+            if offset < partNames.count {
+                if let partIndex = partIndexes[partNames[offset]] {
+                    button.setTitle("\(partNames[offset])(\(partIndex))", for: .normal)
+                } else {
+                    button.setTitle("\(partNames[offset])", for: .normal)
+                }
+                
+                button.isEnabled = true
+                button.layer.cornerRadius = 5
+                button.layer.borderWidth = 1
+                button.layer.borderColor = UIColor.systemBlue.cgColor
+            } else {
+                button.setTitle("-", for: .normal)
+                button.isEnabled = false
+            }
+            button.addTarget(self, action: #selector(selectPart), for: .touchUpInside)
+        }
+    }
+    
+    func updatePartButton(on targetPartName: String) {
+        partButtons?.enumerated().forEach { offset, button in
+            guard button.isEnabled, let partName = button.title(for: .normal) else { return }
+            if partName.contains(targetPartName) {
+                button.tintColor = UIColor.white
+                button.backgroundColor = UIColor.systemBlue
+            } else {
+                button.tintColor = UIColor.systemBlue
+                button.backgroundColor = UIColor.clear
+            }
+        }
     }
     
     @objc func selectPart(_ button: UIButton) {
@@ -171,8 +243,8 @@ class LiveLineHeatmapViewController: UIViewController {
     }
     
     func select(on partName: String) {
-//        selectedPartName = partName
-//        updatePartButton(on: partName)
+        selectedPartName = partName
+        updatePartButton(on: partName)
     }
     
     @IBAction func didChangeHumanType(_ sender: UISegmentedControl) {
@@ -203,6 +275,47 @@ class LiveLineHeatmapViewController: UIViewController {
 // MARK: - VideoCaptureDelegate
 extension LiveLineHeatmapViewController: VideoCaptureDelegate {
     func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer, timestamp: CMTime) {
-        // inference(with: pixelBuffer)
+         inference(with: pixelBuffer)
+    }
+}
+
+extension LiveLineHeatmapViewController {
+    func inference(with pixelBuffer: CVPixelBuffer) {
+        pixelBufferWidth = pixelBuffer.size.width
+        let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer,
+                                                      preprocessOptions: preprocessOptions,
+                                                      postprocessOptions: postprocessOptions)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
+        
+        switch (result) {
+        case .success(let output):
+            DispatchQueue.main.async {
+                if let partOffset = self.selectedPartIndex {
+                    self.lineDotView?.lines = []
+                    self.lineDotView?.keypoints = output.humans.map { $0.keypoints[partOffset] }
+                } else { // ALL case
+                    self.lineDotView?.lines = output.humans.reduce([]) { $0 + $1.lines }
+                    self.lineDotView?.keypoints = output.humans.reduce([]) { $0 + $1.keypoints }
+                }
+                
+                if let partOffset = self.selectedPartIndex {
+                    self.heatmapView?.outputChannelIndexes = [partOffset]
+                } else {
+                    let startIndex = 0
+                    let endIndex = self.partIndexes.count - 1
+                    self.heatmapView?.outputChannelIndexes = Array(startIndex..<endIndex)
+                }
+                self.heatmapView?.output = output.outputs.first
+            }
+        case .failure(_):
+            break
+        }
+    }
+}
+
+private extension CGRect {
+    func scaled(to scalingRatio: CGFloat) -> CGRect {
+        return CGRect(x: origin.x * scalingRatio, y: origin.y * scalingRatio,
+                      width: width * scalingRatio, height: height * scalingRatio)
     }
 }
