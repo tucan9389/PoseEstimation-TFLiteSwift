@@ -250,15 +250,7 @@ private extension PoseEstimationOutput {
         
         // get (col, row)s from heatmaps
         let keypointIndexInfos: [(row: Int, col: Int, val: Float32)] = (0..<OpenPosePoseEstimator.Output.ConfidenceMap.count).map { heatmapIndex in
-            var maxInfo = (row: 0, col: 0, val: output[heatmap: 0, 0, 0, heatmapIndex])
-            for row in 0..<OpenPosePoseEstimator.Output.ConfidenceMap.height {
-                for col in 0..<OpenPosePoseEstimator.Output.ConfidenceMap.width {
-                    if output[heatmap: 0, row, col, heatmapIndex] > maxInfo.val {
-                        maxInfo = (row: row, col: col, val: output[0, row, col, heatmapIndex])
-                    }
-                }
-            }
-            return maxInfo
+            return output.argmax(heatmapIndex)
         }
         
         // get points from (col, row)s and offsets
