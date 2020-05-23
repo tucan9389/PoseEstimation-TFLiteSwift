@@ -27,6 +27,21 @@
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
+		713A0479247905AC00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046B2479056E00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite */; };
+		713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */; };
+		713A047B247905AC00F90C77 /* alphapose_fastseresnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046D2479057B00F90C77 /* alphapose_fastseresnet101b_coco.tflite */; };
+		713A047C247905AC00F90C77 /* simplepose_mobile_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046E2479057D00F90C77 /* simplepose_mobile_resnet18_coco.tflite */; };
+		713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */; };
+		713A047E247905AC00F90C77 /* simplepose_mobile_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04702479058A00F90C77 /* simplepose_mobile_resnet50b_coco.tflite */; };
+		713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */; };
+		713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */; };
+		713A0481247905AC00F90C77 /* simplepose_resneta50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */; };
+		713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */; };
+		713A0483247905AC00F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0475247905A800F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite */; };
+		713A0484247905AC00F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0476247905A900F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite */; };
+		713A0485247905AC00F90C77 /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */; };
+		713A0486247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0478247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite */; };
+		713A04882479071D00F90C77 /* IMGCLSPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */; };
 		71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */; };
 		71A1ED4124574F2E001F796C /* StillImageHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */; };
 		71A1ED43245971AC001F796C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 71A1ED42245971AC001F796C /* LICENSE */; };
@@ -64,6 +79,21 @@
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
+		713A046B2479056E00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_mobilenetv3_small_w1_coco.tflite; sourceTree = "<group>"; };
+		713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet50b_coco.tflite; sourceTree = "<group>"; };
+		713A046D2479057B00F90C77 /* alphapose_fastseresnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = alphapose_fastseresnet101b_coco.tflite; sourceTree = "<group>"; };
+		713A046E2479057D00F90C77 /* simplepose_mobile_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_resnet18_coco.tflite; sourceTree = "<group>"; };
+		713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet152b_coco.tflite; sourceTree = "<group>"; };
+		713A04702479058A00F90C77 /* simplepose_mobile_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_resnet50b_coco.tflite; sourceTree = "<group>"; };
+		713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet101b_coco.tflite; sourceTree = "<group>"; };
+		713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
+		713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta50b_coco.tflite; sourceTree = "<group>"; };
+		713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta101b_coco.tflite; sourceTree = "<group>"; };
+		713A0475247905A800F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_mobilenetv2b_w1_coco.tflite; sourceTree = "<group>"; };
+		713A0476247905A900F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_mobilenetv3_large_w1_coco.tflite; sourceTree = "<group>"; };
+		713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
+		713A0478247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_mobilenet_w1_coco.tflite; sourceTree = "<group>"; };
+		713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMGCLSPoseEstimator.swift; sourceTree = "<group>"; };
 		71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseConfidenceMapDrawingView.swift; sourceTree = "<group>"; };
 		71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImageHeatmapViewController.swift; sourceTree = "<group>"; };
 		71A1ED42245971AC001F796C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -154,6 +184,7 @@
 				7105C92E241D0235001A4325 /* PoseEstimator.swift */,
 				7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */,
 				7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */,
+				71FE62A62478EFB800425708 /* imgclsmob-Pose */,
 				712A7FC22424FEC900B043F9 /* PoseNet */,
 				712A7FC7242667A400B043F9 /* PoseEstimationForMobile */,
 				71E8D9152438BA5B0081DD6E /* OpenPose */,
@@ -205,6 +236,28 @@
 				71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */,
 			);
 			path = OpenPose;
+			sourceTree = "<group>";
+		};
+		71FE62A62478EFB800425708 /* imgclsmob-Pose */ = {
+			isa = PBXGroup;
+			children = (
+				713A046D2479057B00F90C77 /* alphapose_fastseresnet101b_coco.tflite */,
+				713A0478247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite */,
+				713A0475247905A800F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite */,
+				713A046B2479056E00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite */,
+				713A0476247905A900F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite */,
+				713A046E2479057D00F90C77 /* simplepose_mobile_resnet18_coco.tflite */,
+				713A04702479058A00F90C77 /* simplepose_mobile_resnet50b_coco.tflite */,
+				713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */,
+				713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */,
+				713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */,
+				713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */,
+				713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */,
+				713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */,
+				713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */,
+				713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */,
+			);
+			path = "imgclsmob-Pose";
 			sourceTree = "<group>";
 		};
 		C0C61619494007101B3B8411 /* Pods */ = {
@@ -284,15 +337,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */,
+				713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */,
+				713A0481247905AC00F90C77 /* simplepose_resneta50b_coco.tflite in Resources */,
 				7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */,
+				713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */,
 				7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */,
+				713A0479247905AC00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite in Resources */,
 				712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */,
+				713A0486247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite in Resources */,
 				71A1ED43245971AC001F796C /* LICENSE in Resources */,
+				713A0483247905AC00F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite in Resources */,
 				71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */,
+				713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */,
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
 				71E8D93B243CC5330081DD6E /* README.md in Resources */,
+				713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */,
+				713A0485247905AC00F90C77 /* simplepose_resnet18_coco.tflite in Resources */,
+				713A047C247905AC00F90C77 /* simplepose_mobile_resnet18_coco.tflite in Resources */,
+				713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */,
 				712A7FCD242668FF00B043F9 /* pefm_hourglass_v2.tflite in Resources */,
+				713A047B247905AC00F90C77 /* alphapose_fastseresnet101b_coco.tflite in Resources */,
+				713A0484247905AC00F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite in Resources */,
 				7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */,
+				713A047E247905AC00F90C77 /* simplepose_mobile_resnet50b_coco.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +397,7 @@
 			files = (
 				7105C933241D0651001A4325 /* TFLiteImageInterpreter.swift in Sources */,
 				71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */,
+				713A04882479071D00F90C77 /* IMGCLSPoseEstimator.swift in Sources */,
 				7105C93C241E8CE3001A4325 /* CVPixelBufferExtension.swift in Sources */,
 				712A7FC9242667C900B043F9 /* PEFMHourglassPoseEstimator.swift in Sources */,
 				71B07B97245E5C6C001FD385 /* NumericExtension.swift in Sources */,

@@ -97,7 +97,7 @@ class StillImageLineViewController: UIViewController {
     }
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = OpenPosePoseEstimator()
+    let poseEstimator: PoseEstimator = IMGCLSPoseEstimator()
     var outputHumans: [PoseEstimationOutput.Human] = [] {
         didSet {
             updateOverlayView()
