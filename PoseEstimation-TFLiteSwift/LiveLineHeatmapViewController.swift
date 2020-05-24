@@ -122,7 +122,7 @@ class LiveLineHeatmapViewController: UIViewController {
                                   humanType: humanType)
     }
     
-    let poseEstimator: PoseEstimator = OpenPosePoseEstimator()
+    let poseEstimator: PoseEstimator = IMGCLSPoseEstimator()
     
     override func viewDidLoad() {
         super.viewDidLoad()

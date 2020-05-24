@@ -15,21 +15,21 @@
 */
 
 //
-//  PEFMCPMPoseEstimator.swift
+//  IMGCLSPoseEstimator.swift
 //  PoseEstimation-TFLiteSwift
 //
-//  Created by Doyoung Gwak on 2020/03/22.
+//  Created by Doyoung Gwak on 2020/05/23.
 //  Copyright © 2020 Doyoung Gwak. All rights reserved.
 //
 
 import CoreVideo
 
-class PEFMCPMPoseEstimator: PoseEstimator {
-    typealias PEFMCPMResult = Result<PoseEstimationOutput, PoseEstimationError>
+class IMGCLSPoseEstimator: PoseEstimator {
+    typealias IMGCLSResult = Result<PoseEstimationOutput, PoseEstimationError>
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
-            modelName: "pefm_cpm",
+            modelName: MLModelName.simplePoseResnet18.rawValue,
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
@@ -41,7 +41,7 @@ class PEFMCPMPoseEstimator: PoseEstimator {
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: PoseEstimationInput) -> PEFMCPMResult {
+    func inference(_ input: PoseEstimationInput) -> IMGCLSResult {
         
         // initialize
         modelOutput = nil
@@ -55,18 +55,18 @@ class PEFMCPMPoseEstimator: PoseEstimator {
             else { return .failure(.failToInference) }
         
         // postprocess
-        let result = PEFMCPMResult.success(postprocess(with: outputs))
+        let result = IMGCLSResult.success(postprocess(outputs, with: input.postprocessOptions))
         
         return result
     }
-        
-    private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> PoseEstimationOutput {
-        return PoseEstimationOutput(outputs: outputs)
+    
+    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], with options: PostprocessOptions) -> PoseEstimationOutput {
+        return PoseEstimationOutput(outputs: outputs, postprocessOptions: options)
     }
     
     func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput? {
         guard let outputs = modelOutput else { return nil }
-        return postprocess(with: outputs)
+        return postprocess(outputs, with: options)
     }
     
     var partNames: [String] {
@@ -78,39 +78,57 @@ class PEFMCPMPoseEstimator: PoseEstimator {
     }
 }
 
-private extension PEFMCPMPoseEstimator {
+extension IMGCLSPoseEstimator {
+    enum MLModelName: String {
+//        case alphaPose = "alphapose_fastseresnet101b_coco"
+//        case simplePoseMobileNet = "simplepose_mobile_mobilenet_w1_coco"
+//        case simplePoseMobileNetV2 = "simplepose_mobile_mobilenetv2b_w1_coco"
+//        case simplePoseMobileNetV3Small = "simplepose_mobile_mobilenetv3_small_w1_coco"
+//        case simplePoseMobileNetV3Large = "simplepose_mobile_mobilenetv3_large_w1_coco"
+//        case simplePoseMobileResnet18 = "simplepose_mobile_resnet18_coco"
+//        case simplePoseMobileResnet50 = "simplepose_mobile_resnet50b_coco"
+        case simplePoseResnet18 = "simplepose_resnet18_coco"
+        case simplePoseResnet50 = "simplepose_resnet50b_coco"
+        case simplePoseResnet101 = "simplepose_resnet101b_coco"
+        case simplePoseResnet152 = "simplepose_resnet152b_coco"
+        case simplePoseResnetA101 = "simplepose_resneta101b_coco"
+        case simplePoseResnetA152 = "simplepose_resneta152b_coco"
+    }
+}
+
+private extension IMGCLSPoseEstimator {
     struct Input {
-        static let width = 192
-        static let height = 192
+        static let width = 224
+        static let height = 224
         static let isGrayScale = false
-        static let isNormalized = false
+        static let isNormalized = true
     }
     struct Output {
         struct Heatmap {
-            static let width = 96
-            static let height = 96
-            static let count = BodyPart.allCases.count // 14
+            static let width = 56
+            static let height = 56
+            static let count = BodyPart.allCases.count // 17
         }
         enum BodyPart: String, CaseIterable {
-            case TOP = "top"
-            case NECK = "neck"
-            case RIGHT_SHOULDER = "right shoulder"
-            case RIGHT_ELBOW = "right elbow"
-            case RIGHT_WRIST = "right wrist"
+            case NOSE = "nose"
+            case LEFT_EYE = "left eye"
+            case RIGHT_EYE = "right eye"
+            case LEFT_EAR = "left ear"
+            case RIGHT_EAR = "right ear"
             case LEFT_SHOULDER = "left shoulder"
+            case RIGHT_SHOULDER = "right shoulder"
             case LEFT_ELBOW = "left elbow"
+            case RIGHT_ELBOW = "right elbow"
             case LEFT_WRIST = "left wrist"
-            case RIGHT_HIP = "right hip"
-            case RIGHT_KNEE = "right knee"
-            case RIGHT_ANKLE = "right ankle"
+            case RIGHT_WRIST = "right wrist"
             case LEFT_HIP = "left hip"
+            case RIGHT_HIP = "right hip"
             case LEFT_KNEE = "left knee"
+            case RIGHT_KNEE = "right knee"
             case LEFT_ANKLE = "left ankle"
+            case RIGHT_ANKLE = "right ankle"
 
             static let lines = [
-                (from: BodyPart.TOP, to: BodyPart.NECK),
-                (from: BodyPart.NECK, to: BodyPart.RIGHT_SHOULDER),
-                (from: BodyPart.NECK, to: BodyPart.LEFT_SHOULDER),
                 (from: BodyPart.LEFT_WRIST, to: BodyPart.LEFT_ELBOW),
                 (from: BodyPart.LEFT_ELBOW, to: BodyPart.LEFT_SHOULDER),
                 (from: BodyPart.LEFT_SHOULDER, to: BodyPart.RIGHT_SHOULDER),
@@ -129,45 +147,51 @@ private extension PEFMCPMPoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>]) {
+    init(outputs: [TFLiteFlatArray<Float32>], postprocessOptions: PostprocessOptions) {
         self.outputs = outputs
         
-        let keypoints = convertToKeypoints(from: outputs)
-        let lines = makeLines(with: keypoints)
-        
-        humans = [Human(keypoints: keypoints, lines: lines)]
+        let human = parseSinglePerson(outputs,
+                                      partIndex: postprocessOptions.bodyPart,
+                                      partThreshold: postprocessOptions.partThreshold)
+        humans = [human]
     }
     
-    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
-        let heatmaps = outputs[0]
+    func parseSinglePerson(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?) -> Human {
+        let output = outputs[0]
         
         // get (col, row)s from heatmaps
-        let keypointIndexInfos: [(row: Int, col: Int, val: Float32)] = (0..<PEFMCPMPoseEstimator.Output.Heatmap.count).map { heatmapIndex in
-            return heatmaps.argmax(heatmapIndex)
+        let keypointIndexInfos: [(row: Int, col: Int, val: Float32)] = (0..<IMGCLSPoseEstimator.Output.Heatmap.count).map { heatmapIndex in
+            return output.argmax(heatmapIndex)
         }
         
         // get points from (col, row)s and offsets
         let keypointInfos: [(point: CGPoint, score: Float)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
             // (0.0, 0.0)~(1.0, 1.0)
-            let x = (CGFloat(keypointInfo.col) + 0.5) / CGFloat(PEFMCPMPoseEstimator.Output.Heatmap.width)
-            let y = (CGFloat(keypointInfo.row) + 0.5) / CGFloat(PEFMCPMPoseEstimator.Output.Heatmap.height)
+            let x = (CGFloat(keypointInfo.col) + 0.5) / CGFloat(IMGCLSPoseEstimator.Output.Heatmap.width)
+            let y = (CGFloat(keypointInfo.row) + 0.5) / CGFloat(IMGCLSPoseEstimator.Output.Heatmap.height)
             let score = Float(keypointInfo.val)
             
             return (point: CGPoint(x: x, y: y), score: score)
         }
         
-        return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
-    }
-    
-    func makeLines(with keypoints: [Keypoint]) -> [Human.Line] {
-        var keypointWithBodyPart: [PEFMCPMPoseEstimator.Output.BodyPart: Keypoint] = [:]
-        PEFMCPMPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
+        let keypoints: [Keypoint?] = keypointInfos
+            .map { keypointInfo -> Keypoint? in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
+            .map { keypointInfo -> Keypoint? in
+                guard let score = keypointInfo?.score, let partThreshold = partThreshold else { return keypointInfo }
+                return (score > partThreshold) ? keypointInfo : nil
+        }
+        
+        // lines
+        var keypointWithBodyPart: [IMGCLSPoseEstimator.Output.BodyPart: Keypoint] = [:]
+        IMGCLSPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]
         }
-        return PEFMCPMPoseEstimator.Output.BodyPart.lines.compactMap { line in
+        let lines: [Human.Line] = IMGCLSPoseEstimator.Output.BodyPart.lines.compactMap { line in
             guard let fromKeypoint = keypointWithBodyPart[line.from],
                 let toKeypoint = keypointWithBodyPart[line.to] else { return nil }
             return (from: fromKeypoint, to: toKeypoint)
         }
+        
+        return Human(keypoints: keypoints, lines: lines)
     }
 }

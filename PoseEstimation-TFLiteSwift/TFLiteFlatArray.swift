@@ -55,11 +55,7 @@ class TFLiteFlatArray<Element: AdditiveArithmetic> {
     }
     
     subscript(indexes: Int...) -> Element {
-        get {
-            return array[flatIndex(indexes)]
-        }
-        set(newValue) {
-            array[flatIndex(indexes)] = newValue
-        }
+        get { return array[flatIndex(indexes)] }
+        set { array[flatIndex(indexes)] = newValue }
     }
 }

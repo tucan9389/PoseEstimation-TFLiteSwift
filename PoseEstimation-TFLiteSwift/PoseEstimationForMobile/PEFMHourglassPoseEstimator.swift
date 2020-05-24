@@ -143,15 +143,7 @@ private extension PoseEstimationOutput {
         
         // get (col, row)s from heatmaps
         let keypointIndexInfos: [(row: Int, col: Int, val: Float32)] = (0..<PEFMHourglassPoseEstimator.Output.Heatmap.count).map { heatmapIndex in
-            var maxInfo = (row: 0, col: 0, val: heatmaps[0, 0, 0, heatmapIndex])
-            for row in 0..<PEFMHourglassPoseEstimator.Output.Heatmap.height {
-                for col in 0..<PEFMHourglassPoseEstimator.Output.Heatmap.width {
-                    if heatmaps[0, row, col, heatmapIndex] > maxInfo.val {
-                        maxInfo = (row: row, col: col, val: heatmaps[0, row, col, heatmapIndex])
-                    }
-                }
-            }
-            return maxInfo
+            return heatmaps.argmax(heatmapIndex)
         }
         
         // get points from (col, row)s and offsets

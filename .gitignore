@@ -91,3 +91,6 @@ iOSInjectionProject/
 
 Pods/*
 Podfile.lock
+
+# TensorFlow Lite Model
+*.tflite

@@ -230,10 +230,10 @@ private extension PoseEstimationOutput {
         
         switch postprocessOptions.humanType {
         case .singlePerson:
-            // <#TODO#> - use partThreshold & don't use `convertToKeypoints` and `makeLines`
-            let keypoints = convertToKeypoints(from: outputs)
-            let lines = makeLines(with: keypoints)
-            humans = [Human(keypoints: keypoints, lines: lines)]
+            let human = parseSinglePerson(outputs,
+                                          partIndex: postprocessOptions.bodyPart,
+                                          partThreshold: postprocessOptions.partThreshold)
+            humans = [human]
         case .multiPerson(let pairThreshold, let nmsFilterSize, let maxHumanNumber):
             humans = parseMultiHuman(outputs,
                                      partIndex: postprocessOptions.bodyPart,
@@ -244,20 +244,13 @@ private extension PoseEstimationOutput {
         }
     }
     
-    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
-        let output = outputs[0] // openpose_ildoonet.tflite only use the first output
+    func parseSinglePerson(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?) -> Human {
+        // openpose_ildoonet.tflite only use the first output
+        let output = outputs[0]
         
         // get (col, row)s from heatmaps
         let keypointIndexInfos: [(row: Int, col: Int, val: Float32)] = (0..<OpenPosePoseEstimator.Output.ConfidenceMap.count).map { heatmapIndex in
-            var maxInfo = (row: 0, col: 0, val: output[heatmap: 0, 0, 0, heatmapIndex])
-            for row in 0..<OpenPosePoseEstimator.Output.ConfidenceMap.height {
-                for col in 0..<OpenPosePoseEstimator.Output.ConfidenceMap.width {
-                    if output[heatmap: 0, row, col, heatmapIndex] > maxInfo.val {
-                        maxInfo = (row: row, col: col, val: output[0, row, col, heatmapIndex])
-                    }
-                }
-            }
-            return maxInfo
+            return output.argmax(heatmapIndex)
         }
         
         // get points from (col, row)s and offsets
@@ -270,19 +263,25 @@ private extension PoseEstimationOutput {
             return (point: CGPoint(x: x, y: y), score: score)
         }
         
-        return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
-    }
-    
-    func makeLines(with keypoints: [Keypoint]) -> [Human.Line] {
+        let keypoints: [Keypoint?] = keypointInfos
+            .map { keypointInfo -> Keypoint? in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
+            .map { keypointInfo -> Keypoint? in
+                guard let score = keypointInfo?.score, let partThreshold = partThreshold else { return keypointInfo }
+                return (score > partThreshold) ? keypointInfo : nil
+        }
+        
+        // lines
         var keypointWithBodyPart: [OpenPosePoseEstimator.Output.BodyPart: Keypoint] = [:]
         OpenPosePoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]
         }
-        return OpenPosePoseEstimator.Output.BodyPart.lines.compactMap { line in
+        let lines: [Human.Line] = OpenPosePoseEstimator.Output.BodyPart.lines.compactMap { line in
             guard let fromKeypoint = keypointWithBodyPart[line.from],
                 let toKeypoint = keypointWithBodyPart[line.to] else { return nil }
             return (from: fromKeypoint, to: toKeypoint)
         }
+        
+        return Human(keypoints: keypoints, lines: lines)
     }
     
     func parseMultiHuman(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human] {
