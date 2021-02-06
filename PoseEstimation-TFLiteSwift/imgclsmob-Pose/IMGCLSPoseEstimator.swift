@@ -33,7 +33,7 @@ class IMGCLSPoseEstimator: PoseEstimator {
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
-            isNormalized: Input.isNormalized
+            normalization: Input.normalization
         )
         let imageInterpreter = TFLiteImageInterpreter(options: options)
         return imageInterpreter
@@ -101,7 +101,7 @@ private extension IMGCLSPoseEstimator {
         static let width = 224
         static let height = 224
         static let isGrayScale = false
-        static let isNormalized = true
+        static let normalization = TFLiteImageInterpreter.NormalizationOptions.scaledNormalization
     }
     struct Output {
         struct Heatmap {

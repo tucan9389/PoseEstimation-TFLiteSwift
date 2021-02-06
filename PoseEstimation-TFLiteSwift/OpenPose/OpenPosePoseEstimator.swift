@@ -33,7 +33,7 @@ class OpenPosePoseEstimator: PoseEstimator {
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
-            isNormalized: Input.isNormalized
+            normalization: Input.normalization
         )
         let imageInterpreter = TFLiteImageInterpreter(options: options)
         return imageInterpreter
@@ -88,7 +88,7 @@ private extension OpenPosePoseEstimator {
         static let width = 432
         static let height = 368
         static let isGrayScale = false
-        static let isNormalized = false
+        static let normalization = TFLiteImageInterpreter.NormalizationOptions.none
     }
     struct Output {
         struct ConfidenceMap { // similar to Heatmap

@@ -33,7 +33,7 @@ class PEFMHourglassPoseEstimator: PoseEstimator {
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
-            isNormalized: Input.isNormalized
+            normalization: Input.normalization
         )
         let imageInterpreter = TFLiteImageInterpreter(options: options)
         return imageInterpreter
@@ -83,7 +83,7 @@ private extension PEFMHourglassPoseEstimator {
         static let width = 192
         static let height = 192
         static let isGrayScale = false
-        static let isNormalized = false
+        static let normalization = TFLiteImageInterpreter.NormalizationOptions.none
     }
     struct Output {
         struct Heatmap {
