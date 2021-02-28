@@ -137,6 +137,25 @@ struct KeypointElement: Equatable {
     }
 }
 
+struct Keypoint3D {
+    
+    struct Point3D {
+        let x: CGFloat
+        let y: CGFloat
+        let z: CGFloat
+    }
+    
+    let position: Point3D
+    
+    init(x: CGFloat, y: CGFloat, z: CGFloat) {
+        position = Point3D(x: x, y: y, z: z)
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.position.x == rhs.position.x && lhs.position.y == rhs.position.y && lhs.position.z == rhs.position.z
+    }
+}
+
 struct PoseEstimationOutput {
     
     var outputs: [TFLiteFlatArray<Float32>]

@@ -23,6 +23,7 @@
 //
 
 import CoreVideo
+import Accelerate
 
 class Baseline3DPoseEstimator: PoseEstimator {
     typealias PEFMCPMResult = Result<PoseEstimationOutput, PoseEstimationError>
@@ -148,23 +149,7 @@ private extension PoseEstimationOutput {
     func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
         let heatmaps = outputs[0]
         
-        // get (col, row)s from heatmaps
-        let keypointIndexInfos: [(row: Int, col: Int, dep: Int, val: Float32)] = (0..<Baseline3DPoseEstimator.Output.Heatmap.count).map { heatmapIndex in
-            return heatmaps.argmax3d(heatmapIndex)
-        }
-        
-        // get points from (col, row)s and offsets
-        let keypointInfos: [(point: CGPoint, score: Float)] = keypointIndexInfos.enumerated().map { (index, keypointInfo) in
-            // (0.0, 0.0)~(1.0, 1.0)
-            let x = (CGFloat(keypointInfo.col) + 0.5) / CGFloat(Baseline3DPoseEstimator.Output.Heatmap.width)
-            let y = (CGFloat(keypointInfo.row) + 0.5) / CGFloat(Baseline3DPoseEstimator.Output.Heatmap.height)
-            let z = (CGFloat(keypointInfo.dep) + 0.5) / CGFloat(Baseline3DPoseEstimator.Output.Heatmap.depth)
-            let score = Float(keypointInfo.val)
-            
-            return (point: CGPoint(x: x, y: y), score: score)
-        }
-        
-        return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
+        return heatmaps.softArgmax3d().map { Keypoint(position: CGPoint(x: $0.position.x, y: $0.position.y), score: 1.0) }
     }
     
     func makeLines(with keypoints: [Keypoint]) -> [Human.Line] {
@@ -181,20 +166,232 @@ private extension PoseEstimationOutput {
 }
 
 extension TFLiteFlatArray where Element==Float32 {
-    func argmax3d(_ heatmapIndex: Int) -> (row: Int, col: Int, dep: Int, val: Element) {
+    
+    func softArgmax3d() -> [Keypoint3D] {
         let depth = 64
         let height = dimensions[2]
         let width = dimensions[3]
-        var maxInfo = (row: 0, col: 0, dep: 0, val: self[heatmap: 0, (heatmapIndex * height) + 0, 0, 0])
-        for row in 0..<height {
-            for col in 0..<width {
-                for dep in 0..<depth {
-                    if self[heatmap: 0, (heatmapIndex * height) + dep, row, col] > maxInfo.val {
-                        maxInfo = (row: row, col: col, dep: dep, val: self[0, (heatmapIndex * height) + dep, row, col])
-                    }
-                }
-            }
+        let numberOfKeypoints = dimensions[1] / depth
+        
+        // softmax per keypoints
+        for keypointIndex in 0..<numberOfKeypoints {
+            let startIndex = TensorShape.flatIndex(from: [0, keypointIndex + 0, 0, 0, 0], with: [1, keypointIndex, depth, height, width])
+            let endIndex   = TensorShape.flatIndex(from: [0, keypointIndex + 1, 0, 0, 0], with: [1, keypointIndex, depth, height, width])
+            let heatmapsAtKeypoint = Array(array[startIndex..<endIndex])
+            array.replaceSubrange(startIndex..<endIndex, with: Self.softmax(heatmapsAtKeypoint))
         }
-        return maxInfo
+        
+        // print(array.count)
+        // print(array[0..<(numberOfKeypoints*depth)])
+        
+        // sum each
+        // (1, 18, 64, 64, 64)
+        // ex) (18, 64, 12)
+        
+        var xs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 3])
+        var ys = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 4])
+        var zs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [3, 4])
+        
+        // print(xs)
+        // print(xs.count)
+        
+        let rangeWidthFloat  = (0..<(numberOfKeypoints * width)).map { Float($0 % width) }
+        let rangeHeightFloat = (0..<(numberOfKeypoints * height)).map { Float($0 % height) }
+        let rangeDepthFloat  = (0..<(numberOfKeypoints * depth)).map { Float($0 % depth) }
+        
+        xs *= rangeWidthFloat
+        ys *= rangeHeightFloat
+        zs *= rangeDepthFloat
+        
+        xs = xs.sum(originalShape: [1, numberOfKeypoints, width], targetDimension: [2])
+        ys = ys.sum(originalShape: [1, numberOfKeypoints, height], targetDimension: [2])
+        zs = zs.sum(originalShape: [1, numberOfKeypoints, depth], targetDimension: [2])
+        
+        xs = xs.map { 1.0 - (($0 - 0.5) / Float(width)) }
+        ys = ys.map { 1.0 - (($0 - 0.5) / Float(height)) }
+        zs = zs.map { 1.0 - (($0 - 0.5) / Float(depth)) }
+        
+        // print("x:", xs)
+        // print("y:", ys)
+        // print("z:", zs)
+        
+        return (0..<xs.count).map { Keypoint3D(x: CGFloat(xs[$0]), y: CGFloat(ys[$0]), z: CGFloat(zs[$0])) }
     }
+    
+    /**
+     Computes the "softmax" function over an array.
+     Based on code from https://github.com/nikolaypavlov/MLPNeuralNet/
+     This is what softmax looks like in "pseudocode" (actually using Python
+     and numpy):
+     x -= np.max(x)
+     exp_scores = np.exp(x)
+     softmax = exp_scores / np.sum(exp_scores)
+     First we shift the values of x so that the highest value in the array is 0.
+     This ensures numerical stability with the exponents, so they don't blow up.
+     */
+    static func softmax(_ x: [Float]) -> [Float] {
+        var x = x
+        let len = vDSP_Length(x.count)
+        
+        // Find the maximum value in the input array.
+        var max: Float = 0
+        vDSP_maxv(x, 1, &max, len)
+        
+        // Subtract the maximum from all the elements in the array.
+        // Now the highest value in the array is 0.
+        max = -max
+        vDSP_vsadd(x, 1, &max, &x, 1, len)
+        
+        // Exponentiate all the elements in the array.
+        var count = Int32(x.count)
+        vvexpf(&x, x, &count)
+        
+        // Compute the sum of all exponentiated values.
+        var sum: Float = 0
+        vDSP_sve(x, 1, &sum, len)
+        
+        // Divide each element by the sum. This normalizes the array contents
+        // so that they all add up to 1.
+        vDSP_vsdiv(x, 1, &sum, &x, 1, len)
+        
+        return x
+    }
+    
+    
+}
+
+extension Array where Element == Float {
+    func sum(originalShape: [Int], targetDimension: [Int]) -> [Float] {
+        
+        let outputShape = originalShape.enumerated()
+            .filter { !targetDimension.contains($0.offset) }
+            .map { $0.element }
+        let totalLength = outputShape.reduce(1) { $0 * $1 }
+        let targetShape: [Int] = targetDimension.map { originalShape[$0] }
+        var resultArray = Array<Float>(repeating: 0.0, count: totalLength)
+        let notTargetDimension: [Int] = (0..<originalShape.count).filter { !targetDimension.contains($0) }
+        // let targetTotalLength = targetShape.reduce(1) { $0 * $1 } // with swift
+        let sumTargetDimension = targetDimension.enumerated().filter { $0.offset != targetDimension.count - 1 }.map { $0.element } // with accelerate
+        let sumTargetShape = targetShape.enumerated() // with accelerate
+            .filter { $0.offset != targetShape.count - 1 }
+            .map { $0.element }
+        let sumTargetLength = sumTargetShape.reduce(1) { $0 * $1 } // with accelerate
+        print("sum ->", "originalShape:", originalShape, "targetDimension:", targetDimension, "targetShape:", targetShape, "notTargetDimension:", notTargetDimension)
+        
+        let lastDimension = targetDimension[targetDimension.count-1]
+        let lastRank = originalShape[lastDimension]
+        let lastRankLength = vDSP_Length(lastRank)
+        var indexesAsOriginalTensor: [Int] = originalShape.map { _ in return 0 }
+        for (flatIndexAsResultTensor, indexesAsResultTensor) in TensorShape(shape: outputShape) {
+            indexesAsOriginalTensor = originalShape.map { _ in return 0 }
+            indexesAsResultTensor.enumerated().forEach { indexesAsOriginalTensor[notTargetDimension[$0.offset]] = $0.element }
+            
+            let firstIndexesAsOriginalTensor = indexesAsOriginalTensor
+            let secondIndexesAsOriginalTensor = indexesAsOriginalTensor.enumerated().map { $0.offset == lastDimension ? 1 : $0.element }
+            let firstFlatIndex = TensorShape.flatIndex(from: firstIndexesAsOriginalTensor, with: originalShape)
+            let secondFlatIndex = TensorShape.flatIndex(from: secondIndexesAsOriginalTensor, with: originalShape)
+            let strideValue = secondFlatIndex - firstFlatIndex
+            let stride = vDSP_Stride(strideValue)
+            // print(secondIndexesAsOriginalTensor, firstIndexesAsOriginalTensor)
+            // print(secondFlatIndex, "-", firstFlatIndex, "->", strideValue)
+            
+            // with accelerate
+            var sumedValue: Float = 0.0
+            for flatIndex in 0..<sumTargetLength {
+                let sumTargetIndexes = TensorShape.indexes(from: flatIndex, with: sumTargetShape)
+                sumTargetIndexes.enumerated().forEach { indexesAsOriginalTensor[sumTargetDimension[$0.offset]] = $0.element }
+                let startingFlatIndex = TensorShape.flatIndex(from: indexesAsOriginalTensor, with: originalShape)
+                sumedValue = 0.0
+                self.withUnsafeBufferPointer {
+                    vDSP_sve($0.baseAddress! + startingFlatIndex, stride, &sumedValue, lastRankLength)
+                }
+                resultArray[flatIndexAsResultTensor] += sumedValue
+            }
+            
+            /* with swift
+            resultArray[flatIndexAsResultTensor] = 0.0
+            // sum and assign at flatIndexAsResultTensor
+            for flatIndex in 0..<targetTotalLength {
+                let targetIndexes = TensorShape.indexes(from: flatIndex, with: targetShape)
+                targetIndexes.enumerated().forEach { indexesAsOriginalTensor[targetDimension[$0.offset]] = $0.element }
+                resultArray[flatIndexAsResultTensor] += self[TensorShape.flatIndex(from: indexesAsOriginalTensor, with: originalShape)]
+            }
+             */
+        }
+        
+        return resultArray
+    }
+}
+
+extension Array where Element == Float {
+    static func *=(lhs: inout Array<Float>, rhs: Array<Float>) {
+        let stride = vDSP_Stride(1)
+        let n = vDSP_Length(lhs.count)
+        vDSP_vmul(rhs, stride, lhs, stride, &lhs, stride, n)
+    }
+}
+
+class TensorShape: Sequence {
+    var shape: [Int]
+    
+    init(shape: [Int]) {
+        self.shape = shape
+    }
+    
+    func makeIterator() -> TensorShapeIterator {
+        return TensorShapeIterator(shape: shape)
+    }
+    
+    static func indexes(from flatIndex: Int, with shape: [Int]) -> [Int] {
+        var flatIndex = flatIndex
+        let reversedShape = shape.reversed()
+        let reversedIndexes: [Int] = reversedShape.map { rank in
+            let result = flatIndex % rank
+            flatIndex -= result
+            flatIndex /= rank
+            return result
+        }
+        let indexes = reversedIndexes.reversed()
+        return Array<Int>(indexes)
+    }
+    
+    static func flatIndex(from indexes: [Int], with shape: [Int]) -> Int {
+        var multipleSize = 1
+        return zip(indexes, shape).reversed().reduce(0) { (beforeIndex, IndexesAndDimension) in
+            let (index, rank) = IndexesAndDimension
+            let currentMultipleSize = multipleSize
+            multipleSize *= rank
+            return beforeIndex + (index * currentMultipleSize)
+        }
+    }
+}
+
+class TensorShapeIterator: IteratorProtocol {
+    var shape: [Int]
+    var currentFlatIndex: Int
+    var length: Int
+    
+    init(shape: [Int]) {
+        self.shape = shape
+        self.length = shape.reduce(1) { $0 * $1 }
+        self.currentFlatIndex = 0
+    }
+    func next() -> (Int, [Int])? {
+        guard currentFlatIndex < length else { return nil }
+        let reversedShape = shape.reversed()
+        var flatIndex = currentFlatIndex
+        
+        let reversedIndexes: [Int] = reversedShape.map { rank in
+            let result = flatIndex % rank
+            flatIndex = flatIndex / rank
+            return result
+        }
+        let indexes = reversedIndexes.reversed()
+        flatIndex = currentFlatIndex
+        currentFlatIndex += 1
+        
+        return (flatIndex, Array<Int>(indexes))
+    }
+    
+    typealias Element = (Int, [Int])
 }
