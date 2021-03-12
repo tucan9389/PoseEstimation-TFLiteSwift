@@ -233,18 +233,18 @@ private extension PoseEstimationOutput {
             let human = parseSinglePerson(outputs,
                                           partIndex: postprocessOptions.bodyPart,
                                           partThreshold: postprocessOptions.partThreshold)
-            humans = [human]
+            humans = [.human2d(human: human)]
         case .multiPerson(let pairThreshold, let nmsFilterSize, let maxHumanNumber):
             humans = parseMultiHuman(outputs,
                                      partIndex: postprocessOptions.bodyPart,
                                      partThreshold: postprocessOptions.partThreshold,
                                      pairThreshold: pairThreshold,
                                      nmsFilterSize: nmsFilterSize,
-                                     maxHumanNumber: maxHumanNumber)
+                                     maxHumanNumber: maxHumanNumber).map { .human2d(human: $0) }
         }
     }
     
-    func parseSinglePerson(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?) -> Human {
+    func parseSinglePerson(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?) -> Human2D {
         // openpose_ildoonet.tflite only use the first output
         let output = outputs[0]
         
@@ -263,28 +263,28 @@ private extension PoseEstimationOutput {
             return (point: CGPoint(x: x, y: y), score: score)
         }
         
-        let keypoints: [Keypoint?] = keypointInfos
-            .map { keypointInfo -> Keypoint? in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
-            .map { keypointInfo -> Keypoint? in
+        let keypoints: [Keypoint2D?] = keypointInfos
+            .map { keypointInfo -> Keypoint2D? in Keypoint2D(position: keypointInfo.point, score: keypointInfo.score) }
+            .map { keypointInfo -> Keypoint2D? in
                 guard let score = keypointInfo?.score, let partThreshold = partThreshold else { return keypointInfo }
                 return (score > partThreshold) ? keypointInfo : nil
         }
         
         // lines
-        var keypointWithBodyPart: [OpenPosePoseEstimator.Output.BodyPart: Keypoint] = [:]
+        var keypointWithBodyPart: [OpenPosePoseEstimator.Output.BodyPart: Keypoint2D] = [:]
         OpenPosePoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]
         }
-        let lines: [Human.Line] = OpenPosePoseEstimator.Output.BodyPart.lines.compactMap { line in
+        let lines: [Human2D.Line2D] = OpenPosePoseEstimator.Output.BodyPart.lines.compactMap { line in
             guard let fromKeypoint = keypointWithBodyPart[line.from],
                 let toKeypoint = keypointWithBodyPart[line.to] else { return nil }
             return (from: fromKeypoint, to: toKeypoint)
         }
         
-        return Human(keypoints: keypoints, lines: lines)
+        return Human2D(keypoints: keypoints, lines: lines)
     }
     
-    func parseMultiHuman(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human] {
+    func parseMultiHuman(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human2D] {
         // openpose_ildoonet.tflite only use the first output
         let output = outputs[0]
         
@@ -303,15 +303,15 @@ private extension PoseEstimationOutput {
         }
     }
     
-    func parseSinglePartOnMultiHuman(_ output: TFLiteFlatArray<Float32>, partIndex: Int, partThreshold: Float?, nmsFilterSize: Int = 3) -> [Human] {
+    func parseSinglePartOnMultiHuman(_ output: TFLiteFlatArray<Float32>, partIndex: Int, partThreshold: Float?, nmsFilterSize: Int = 3) -> [Human2D] {
         // process NMS
         let keypointIndexes = output.keypoints(partIndex: partIndex,
                                                filterSize: nmsFilterSize,
                                                threshold: partThreshold)
         
         // convert col,row to Keypoint
-        let kps: [Keypoint] = keypointIndexes.map { keypointInfo in
-            return Keypoint(column: keypointInfo.col,
+        let kps: [Keypoint2D] = keypointIndexes.map { keypointInfo in
+            return Keypoint2D(column: keypointInfo.col,
                             row: keypointInfo.row,
                             width: OpenPosePoseEstimator.Output.ConfidenceMap.width,
                             height: OpenPosePoseEstimator.Output.ConfidenceMap.height,
@@ -320,14 +320,14 @@ private extension PoseEstimationOutput {
         
         // Make [Human]
         return kps.map { keypoint in
-            let keypoints: [Keypoint?] = OpenPosePoseEstimator.Output.BodyPart.allCases.enumerated().map { offset, _ in
+            let keypoints: [Keypoint2D?] = OpenPosePoseEstimator.Output.BodyPart.allCases.enumerated().map { offset, _ in
                 return (offset == partIndex) ? keypoint : nil
             }
-            return Human(keypoints: keypoints, lines: [])
+            return Human2D(keypoints: keypoints, lines: [])
         }
     }
     
-    func parseAllPartOnMultiHuman(_ output: TFLiteFlatArray<Float32>, partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human] {
+    func parseAllPartOnMultiHuman(_ output: TFLiteFlatArray<Float32>, partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human2D] {
         
         let parts = OpenPosePoseEstimator.Output.BodyPart.allCases
         var verticesForEachPart: [[KeypointElement]?] = parts.map { _ in nil }
@@ -447,21 +447,21 @@ private extension PoseEstimationOutput {
             }
         }
         
-        let humans: [Human] = tmpHumans.map { tmpHuman in
-            let keypoints: [Keypoint?] = tmpHuman.enumerated().map { (offset, locationInfo) in
+        let humans: [Human2D] = tmpHumans.map { tmpHuman in
+            let keypoints: [Keypoint2D?] = tmpHuman.enumerated().map { (offset, locationInfo) in
                 guard let locationInfo = locationInfo else { return nil }
-                return Keypoint(column: locationInfo.col,
+                return Keypoint2D(column: locationInfo.col,
                                 row: locationInfo.row,
                                 width: colSize,
                                 height: rowSize,
                                 value: locationInfo.val)
             }
-            let lines: [(from: Keypoint, to: Keypoint)] = pairs.compactMap { pair in
+            let lines: [(from: Keypoint2D, to: Keypoint2D)] = pairs.compactMap { pair in
                 guard let startingKeypoint = keypoints[pair.from.offsetValue()],
                     let endingKeypoint = keypoints[pair.to.offsetValue()] else { return nil }
                 return (from: startingKeypoint, to: endingKeypoint)
             }
-            return Human(keypoints: keypoints, lines: lines)
+            return Human2D(keypoints: keypoints, lines: lines)
         }
         return humans
     }
@@ -499,7 +499,7 @@ private extension TFLiteFlatArray where Element == Float32 {
     }
 }
 
-private extension Keypoint {
+private extension Keypoint2D {
     init(column: Int, row: Int, width: Int, height: Int, value: Float32) {
         let x = (CGFloat(column) + 0.5) / CGFloat(width)
         let y = (CGFloat(row) + 0.5) / CGFloat(height)

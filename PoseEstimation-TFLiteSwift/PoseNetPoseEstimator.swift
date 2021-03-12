@@ -140,10 +140,10 @@ private extension PoseEstimationOutput {
         let keypoints = convertToKeypoints(from: outputs)
         let lines = makeLines(with: keypoints)
         
-        humans = [Human(keypoints: keypoints, lines: lines)]
+        humans = [Human.human2d(human: Human2D(keypoints: keypoints, lines: lines))]
     }
     
-    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
+    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint2D] {
         let heatmaps = outputs[0]
         let offsets = outputs[1]
         
@@ -174,11 +174,11 @@ private extension PoseEstimationOutput {
             return (point: CGPoint(x: x, y: y), score: score)
         }
         
-        return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
+        return keypointInfos.map { keypointInfo in Keypoint2D(position: keypointInfo.point, score: keypointInfo.score) }
     }
     
-    func makeLines(with keypoints: [Keypoint]) -> [Human.Line] {
-        var keypointWithBodyPart: [PoseNetPoseEstimator.Output.BodyPart: Keypoint] = [:]
+    func makeLines(with keypoints: [Keypoint2D]) -> [Human2D.Line2D] {
+        var keypointWithBodyPart: [PoseNetPoseEstimator.Output.BodyPart: Keypoint2D] = [:]
         PoseNetPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]
         }

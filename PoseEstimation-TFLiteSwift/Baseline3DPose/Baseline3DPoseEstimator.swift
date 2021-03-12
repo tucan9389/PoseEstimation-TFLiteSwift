@@ -26,7 +26,7 @@ import CoreVideo
 import Accelerate
 
 class Baseline3DPoseEstimator: PoseEstimator {
-    typealias PEFMCPMResult = Result<PoseEstimationOutput, PoseEstimationError>
+    typealias Baseline3DResult = Result<PoseEstimationOutput, PoseEstimationError>
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
@@ -43,7 +43,7 @@ class Baseline3DPoseEstimator: PoseEstimator {
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: PoseEstimationInput) -> PEFMCPMResult {
+    func inference(_ input: PoseEstimationInput) -> Baseline3DResult {
         
         // initialize
         modelOutput = nil
@@ -57,7 +57,7 @@ class Baseline3DPoseEstimator: PoseEstimator {
             else { return .failure(.failToInference) }
         
         // postprocess
-        let result = PEFMCPMResult.success(postprocess(with: outputs))
+        let result = Baseline3DResult.success(postprocess(with: outputs))
         
         return result
     }
@@ -128,9 +128,10 @@ private extension Baseline3DPoseEstimator {
                 (from: BodyPart.RIGHT_ELBOW, to: BodyPart.RIGHT_WRIST),
                 (from: BodyPart.PELVIS, to: BodyPart.RIGHT_HIP),
                 (from: BodyPart.RIGHT_HIP, to: BodyPart.RIGHT_KNEE),
+                (from: BodyPart.RIGHT_KNEE, to: BodyPart.RIGHT_ANKLE),
                 (from: BodyPart.PELVIS, to: BodyPart.LEFT_HIP),
                 (from: BodyPart.LEFT_HIP, to: BodyPart.LEFT_KNEE),
-                (from: BodyPart.LEFT_HIP, to: BodyPart.LEFT_KNEE),
+                (from: BodyPart.LEFT_KNEE, to: BodyPart.LEFT_ANKLE),
             ]
         }
     }
@@ -143,17 +144,16 @@ private extension PoseEstimationOutput {
         let keypoints = convertToKeypoints(from: outputs)
         let lines = makeLines(with: keypoints)
         
-        humans = [Human(keypoints: keypoints, lines: lines)]
+        humans = [.human3d(human: Human3D(keypoints: keypoints, lines: lines))]
     }
     
-    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
+    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint3D] {
         let heatmaps = outputs[0]
-        
-        return heatmaps.softArgmax3d().map { Keypoint(position: CGPoint(x: $0.position.x, y: $0.position.y), score: 1.0) }
+        return heatmaps.softArgmax3d().map { Keypoint3D(x: $0.position.x, y: $0.position.y, z: $0.position.z) }
     }
     
-    func makeLines(with keypoints: [Keypoint]) -> [Human.Line] {
-        var keypointWithBodyPart: [Baseline3DPoseEstimator.Output.BodyPart: Keypoint] = [:]
+    func makeLines(with keypoints: [Keypoint3D]) -> [Human3D.Line3D] {
+        var keypointWithBodyPart: [Baseline3DPoseEstimator.Output.BodyPart: Keypoint3D] = [:]
         Baseline3DPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]
         }
@@ -207,9 +207,9 @@ extension TFLiteFlatArray where Element==Float32 {
         ys = ys.sum(originalShape: [1, numberOfKeypoints, height], targetDimension: [2])
         zs = zs.sum(originalShape: [1, numberOfKeypoints, depth], targetDimension: [2])
         
-        xs = xs.map { 1.0 - (($0 - 0.5) / Float(width)) }
-        ys = ys.map { 1.0 - (($0 - 0.5) / Float(height)) }
-        zs = zs.map { 1.0 - (($0 - 0.5) / Float(depth)) }
+        xs = xs.map { ($0 - 0.5) / Float(width)  }
+        ys = ys.map { ($0 - 0.5) / Float(height) }
+        zs = zs.map { ($0 - 0.5) / Float(depth) }
         
         // print("x:", xs)
         // print("y:", ys)

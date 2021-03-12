@@ -116,7 +116,7 @@ enum PoseEstimationInput {
     }
 }
 
-struct Keypoint {
+struct Keypoint2D {
     let position: CGPoint
     let score: Float
 }
@@ -146,26 +146,47 @@ struct Keypoint3D {
     }
     
     let position: Point3D
+    //let score: Float
     
     init(x: CGFloat, y: CGFloat, z: CGFloat) {
         position = Point3D(x: x, y: y, z: z)
-    }
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.position.x == rhs.position.x && lhs.position.y == rhs.position.y && lhs.position.z == rhs.position.z
     }
 }
 
 struct PoseEstimationOutput {
     
+    struct Human2D {
+        typealias Line2D = (from: Keypoint2D, to: Keypoint2D)
+        var keypoints: [Keypoint2D?] = []
+        var lines: [Line2D] = []
+    }
+    
+    struct Human3D {
+        typealias Line3D = (from: Keypoint3D, to: Keypoint3D)
+        var keypoints: [Keypoint3D?] = []
+        var lines: [Line3D] = []
+    }
+    
+    enum Human {
+        case human2d(human: Human2D)
+        case human3d(human: Human3D)
+        
+        var human2d: Human2D? {
+            if case .human2d(let human) = self {
+                return human
+            } else { return nil }
+        }
+        var human3d: Human3D? {
+            if case .human3d(let human) = self {
+                return human
+            } else { return nil }
+        }
+    }
+    
     var outputs: [TFLiteFlatArray<Float32>]
     var humans: [Human] = []
-    
-    struct Human {
-        typealias Line = (from: Keypoint, to: Keypoint)
-        var keypoints: [Keypoint?] = []
-        var lines: [Line] = []
-    }
+    var humans2d: [Human2D?] { return humans.map { $0.human2d } }
+    var humans3d: [Human3D?] { return humans.map { $0.human3d } }
 }
 
 enum PoseEstimationError: Error {

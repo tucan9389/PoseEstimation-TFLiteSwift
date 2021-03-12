@@ -169,11 +169,12 @@ extension CVPixelBuffer {
         if normalization == .scaledNormalization {
             bytes = imageBytes.map { Float($0) / 255.0 } // normalization
         } else if normalization == .pytorchNormalization {
+            // bytes = imageBytes.map { Float($0) / 255.0 } // normalization
             bytes = imageBytes.map { Float($0) } // normalization
             for i in 0 ..< width * height {
-                bytes[i                     ] = (Float32(imageBytes[i * 3 + 0]) / 255.0 - 0.485) / 0.229 // R
-                bytes[width * height + i    ] = (Float32(imageBytes[i * 3 + 1]) / 255.0 - 0.456) / 0.224 // G
-                bytes[width * height * 2 + i] = (Float32(imageBytes[i * 3 + 2]) / 255.0 - 0.406) / 0.225 // B
+                bytes[i                     ] = (Float32(imageBytes[i * 3 + 0]) - 0.485) / 0.229 // R
+                bytes[width * height + i    ] = (Float32(imageBytes[i * 3 + 1]) - 0.456) / 0.224 // G
+                bytes[width * height * 2 + i] = (Float32(imageBytes[i * 3 + 2]) - 0.406) / 0.225 // B
             }
         } else if normalization == .meanStdNormalization {
             assert(false, "not support '.meanStdNormalization'")

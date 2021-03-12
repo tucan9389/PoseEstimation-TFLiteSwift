@@ -45,6 +45,7 @@
 		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
 		71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */; };
+		C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */; };
 		C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */; };
 		C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */; };
 		C4A4C6F925CB38F000EDF20A /* simplepose_resnet152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F325CB38F000EDF20A /* simplepose_resnet152b_coco.tflite */; };
@@ -54,6 +55,7 @@
 		C4A4C6FF25CB391600EDF20A /* simplepose_resneta50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */; };
 		C4A4C70525CC5AA500EDF20A /* Baseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */; };
 		C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */; };
+		C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */; };
 		D51A1EFC85F761AFD77DA2B7 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184391DD02E90170864FB5E1 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +103,7 @@
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLineHeatmapViewController.swift; sourceTree = "<group>"; };
 		8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pose3DSceneView.swift; sourceTree = "<group>"; };
 		C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
 		C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
 		C4A4C6F325CB38F000EDF20A /* simplepose_resnet152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet152b_coco.tflite; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta50b_coco.tflite; sourceTree = "<group>"; };
 		C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Baseline3DPoseEstimator.swift; sourceTree = "<group>"; };
 		C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = baseline_moon_noS.tflite; sourceTree = "<group>"; };
+		C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImage3DRenderingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +156,7 @@
 				712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */,
 				71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */,
 				71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */,
+				C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */,
 				7105C929241D011F001A4325 /* View */,
 				7105C92B241D0150001A4325 /* MLModel */,
 				71DD577D2446D7A40024C146 /* Algorithm */,
@@ -169,6 +174,7 @@
 			children = (
 				712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */,
 				71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */,
+				C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -425,8 +431,10 @@
 				712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */,
 				71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */,
 				71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */,
+				C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */,
 				71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */,
 				71A1BC1624793BC5004EA5D9 /* Argmax.swift in Sources */,
+				C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */,
 				712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */,
 				7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */,
 				7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */,
@@ -581,6 +589,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5WXJ4Z4H69;
+				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "PoseEstimation-TFLiteSwift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -589,6 +598,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tucan9389.PoseEstimation-TFLiteSwift";
 				PRODUCT_NAME = "Pose-TFLiteSwift";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -98,7 +98,7 @@ class StillImageLineViewController: UIViewController {
     
     // MARK: - ML Property
     let poseEstimator: PoseEstimator = Baseline3DPoseEstimator()
-    var outputHumans: [PoseEstimationOutput.Human] = [] {
+    var outputHumans: [PoseEstimationOutput.Human2D] = [] {
         didSet {
             updateOverlayView()
         }
@@ -240,7 +240,7 @@ class StillImageLineViewController: UIViewController {
     
     func updateOverlayViewWithOnlyPostprocess() {
         guard let output = poseEstimator.postprocessOnLastOutput(options: postprocessOptions) else { return }
-        outputHumans = output.humans
+        outputHumans = output.humans2d.compactMap { $0 }
     }
 }
 
@@ -273,7 +273,7 @@ extension StillImageLineViewController {
         let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
         switch (result) {
         case .success(let output):
-            outputHumans = output.humans
+            outputHumans = output.humans2d.compactMap { $0 }
             // modelOutput = output.outputs.first
         case .failure(_):
             break
