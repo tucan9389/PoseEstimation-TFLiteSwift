@@ -45,6 +45,7 @@
 		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
 		71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */; };
+		C419403425FC08A500637FAF /* Live3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */; };
 		C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */; };
 		C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */; };
 		C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */; };
@@ -103,6 +104,7 @@
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLineHeatmapViewController.swift; sourceTree = "<group>"; };
 		8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live3DRenderingViewController.swift; sourceTree = "<group>"; };
 		C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pose3DSceneView.swift; sourceTree = "<group>"; };
 		C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
 		C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */,
 				71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */,
 				C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */,
+				C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */,
 				7105C929241D011F001A4325 /* View */,
 				7105C92B241D0150001A4325 /* MLModel */,
 				71DD577D2446D7A40024C146 /* Algorithm */,
@@ -431,6 +434,7 @@
 				712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */,
 				71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */,
 				71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */,
+				C419403425FC08A500637FAF /* Live3DRenderingViewController.swift in Sources */,
 				C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */,
 				71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */,
 				71A1BC1624793BC5004EA5D9 /* Argmax.swift in Sources */,

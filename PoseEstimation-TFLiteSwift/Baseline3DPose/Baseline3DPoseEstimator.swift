@@ -276,7 +276,6 @@ extension Array where Element == Float {
             .filter { $0.offset != targetShape.count - 1 }
             .map { $0.element }
         let sumTargetLength = sumTargetShape.reduce(1) { $0 * $1 } // with accelerate
-        print("sum ->", "originalShape:", originalShape, "targetDimension:", targetDimension, "targetShape:", targetShape, "notTargetDimension:", notTargetDimension)
         
         let lastDimension = targetDimension[targetDimension.count-1]
         let lastRank = originalShape[lastDimension]
