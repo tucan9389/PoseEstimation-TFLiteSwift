@@ -7,15 +7,24 @@
 
 This project is Pose Estimation on iOS with TensorFlow Lite.<br>If you are interested in iOS + Machine Learning, visit [here](https://github.com/motlabs/iOS-Proejcts-with-ML-Models) you can see various DEMOs.<br>
 
-![pose-demo-002](https://user-images.githubusercontent.com/37643248/77227994-99ba2a80-6bc7-11ea-9b08-9bb57723bc42.gif)
+|               2D pose estimation in real-time                |                      3D pose estimation                      |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/37643248/77227994-99ba2a80-6bc7-11ea-9b08-9bb57723bc42.gif" width=240px> | <img src="https://user-images.githubusercontent.com/37643248/110994933-e68ca780-83bc-11eb-8331-d827e19d2d36.gif" width=240px> |
+
+
 
 ## Models
 
-### Source Images
+<details><summary>Source Images</summary>
+<p>
 
 Name | gif | img-0 | img-1 | img-2
 :---: | :---: | :---: | :---: | :---:
 Source | - | <img src="https://user-images.githubusercontent.com/37643248/81012180-15301c80-8e94-11ea-83ec-bd45a690efb3.jpg" width=200px> | <img src="https://user-images.githubusercontent.com/37643248/81010350-1ca1f680-8e91-11ea-81fd-0ff4c78b8641.png" width=200px> | <img src="https://user-images.githubusercontent.com/37643248/81009122-0135ec00-8e8f-11ea-8a3a-e62929f19d8e.png" width=200px>
+
+</p>
+</details>
+
 
 ### Joint Samples
 
@@ -43,16 +52,16 @@ Model Names | gif | img-0 | img-1 | img-2
 OpenPose (PAF x) | - | ![pose-demo-heatmap-pafx-PEFMHourglass-0](https://user-images.githubusercontent.com/37643248/81033830-fea7b680-8ecf-11ea-991d-37868d902c64.jpeg) | ![pose-demo-heatmap-pafx-PEFMHourglass-2](https://user-images.githubusercontent.com/37643248/81033840-07988800-8ed0-11ea-8c71-8474399e8660.jpeg) | ![pose-demo-heatmap-pafx-PEFMHourglass-3](https://user-images.githubusercontent.com/37643248/81033842-09624b80-8ed0-11ea-9374-3812b5702917.jpeg)
 OpenPose (PAF y) | - | ![pose-demo-heatmap-pafy-PEFMHourglass-0](https://user-images.githubusercontent.com/37643248/81033852-12531d00-8ed0-11ea-85b4-c8efa8e61232.jpeg) | ![pose-demo-heatmap-pafy-PEFMHourglass-2](https://user-images.githubusercontent.com/37643248/81033861-17b06780-8ed0-11ea-9806-6b819d3c78ff.jpeg) | ![pose-demo-heatmap-pafy-PEFMHourglass-3](https://user-images.githubusercontent.com/37643248/81033864-1848fe00-8ed0-11ea-8ccc-1adc358a85b3.jpeg) 
 
-### Meta
+### Meta Data
 
-✅ vs ☑️ | Name | Size | Inference<br>Time | Post-process<br>Time | PCKh-0.5 | multi person <br>vs<br> single person | 2D vs 3D | Model Source | Paper
+✅ vs ☑️ | Name | Size | Inference<br>Time<br>on iPhone11Pro | Post-process<br>Time<br>on iPhone11Pro | PCKh-0.5 | multi person <br>vs<br> single person | 2D vs 3D | Model Source | Paper
 :---: | --- | --- | --- | --- | --- | :---: | :---: | --- | ---
 ✅ | **PoseNet** | 13.3 MB | - | - | - | single | 2D | [tensorflow/tensorflow](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios) | [PersonLab](https://arxiv.org/abs/1803.08225)
 ✅ | **PEFM CPM** | 2.4 MB | - | - | - | single | 2D | [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile) | [Convolutional Pose Machines](https://arxiv.org/abs/1602.00134)
 ✅ | **PEFM Hourglass v1** | 1.8 MB | - | - | - | single | 2D | [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile) | [Stacked Hourglass Networks](https://arxiv.org/abs/1603.06937)
 ✅ | **PEFM Hourglass v2** | 1.7 MB | - | - | - | single | 2D | [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile) | [Stacked Hourglass Networks](https://arxiv.org/abs/1603.06937)
 ✅ | **OpenPose** | 7.8 MB | - | - | - | multi | 2D | [ildoonet/tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation/issues/355) | [OpenPose](https://arxiv.org/abs/1812.08008)
-☑️ | **SimplePose** | - | - | - | - | single | 2D | [osmr/imgclsmob](https://github.com/osmr/imgclsmob) | [Simple Baselines](https://arxiv.org/abs/1804.06208)
+✅ | **SimplePose** | 137.1 MB | 347 ms | 79 ms | - | single | 3D | [mks0601/3DMPPE_POSENET_RELEASE](https://github.com/mks0601/3DMPPE_POSENET_RELEASE) | [3DMPPE PoseNet](https://arxiv.org/abs/1907.11346) 
 ☑️ | **AlphaPose** | - | - | - | - | single | 2D | [osmr/imgclsmob](https://github.com/osmr/imgclsmob) | [RMPE](https://arxiv.org/abs/1612.00137)
 ☑️ | **SelecSLS** | - | - | - | - | single | 2D | [osmr/imgclsmob](https://github.com/osmr/imgclsmob) | -
 ☑️ | **IBPPose** | - | - | - | - | single | 2D | [osmr/imgclsmob](https://github.com/osmr/imgclsmob) | -
@@ -82,11 +91,12 @@ pod install
 ## See also
 
 - [motlabs/awesome-ml-demos-with-ios](https://github.com/motlabs/awesome-ml-demos-with-ios)
-- TensorFlow Lite models provided by:
+- TensorFlow Lite or Tensorflow models provided by:
   - CPM and Hourglass model provided by  [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile)
   - PoseNet model provided by [tensorflow/examples](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios)
   - OpenPose model provided by [ildoonet/tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation)
   - Various model provided by [osmr/imgclsmob](https://github.com/osmr/imgclsmob)
+  - 3DMPPE PoseNet model provided by [mks0601/3DMPPE_POSENET_RELEASE](https://github.com/mks0601/3DMPPE_POSENET_RELEASE)
 - Pose estimation with Core ML - [tucan9389/PoseEstimation-CoreML](https://github.com/tucan9389/PoseEstimation-CoreML)
 
 ## License
