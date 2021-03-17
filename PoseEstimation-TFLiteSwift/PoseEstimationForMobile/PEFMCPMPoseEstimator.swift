@@ -33,7 +33,7 @@ class PEFMCPMPoseEstimator: PoseEstimator {
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
-            isNormalized: Input.isNormalized
+            normalization: Input.normalization
         )
         let imageInterpreter = TFLiteImageInterpreter(options: options)
         return imageInterpreter
@@ -83,7 +83,7 @@ private extension PEFMCPMPoseEstimator {
         static let width = 192
         static let height = 192
         static let isGrayScale = false
-        static let isNormalized = false
+        static let normalization = TFLiteImageInterpreter.NormalizationOptions.none
     }
     struct Output {
         struct Heatmap {
@@ -135,10 +135,10 @@ private extension PoseEstimationOutput {
         let keypoints = convertToKeypoints(from: outputs)
         let lines = makeLines(with: keypoints)
         
-        humans = [Human(keypoints: keypoints, lines: lines)]
+        humans = [Human.human2d(human: Human2D(keypoints: keypoints, lines: lines))]
     }
     
-    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint] {
+    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint2D] {
         let heatmaps = outputs[0]
         
         // get (col, row)s from heatmaps
@@ -156,11 +156,11 @@ private extension PoseEstimationOutput {
             return (point: CGPoint(x: x, y: y), score: score)
         }
         
-        return keypointInfos.map { keypointInfo in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
+        return keypointInfos.map { keypointInfo in Keypoint2D(position: keypointInfo.point, score: keypointInfo.score) }
     }
     
-    func makeLines(with keypoints: [Keypoint]) -> [Human.Line] {
-        var keypointWithBodyPart: [PEFMCPMPoseEstimator.Output.BodyPart: Keypoint] = [:]
+    func makeLines(with keypoints: [Keypoint2D]) -> [Human2D.Line2D] {
+        var keypointWithBodyPart: [PEFMCPMPoseEstimator.Output.BodyPart: Keypoint2D] = [:]
         PEFMCPMPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]
         }

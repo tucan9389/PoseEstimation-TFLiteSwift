@@ -115,7 +115,7 @@ extension CVPixelBuffer {
     ///       floating point values).
     /// - Returns: The RGB data representation of the image buffer or `nil` if the buffer could not be
     ///     converted.
-    func rgbData(byteCount: Int, isNormalized: Bool = false, isModelQuantized: Bool) -> Data? {
+    func rgbData(byteCount: Int, normalization: TFLiteImageInterpreter.NormalizationOptions = .none, isModelQuantized: Bool) -> Data? {
         CVPixelBufferLockBaseAddress(self, .readOnly)
         defer { CVPixelBufferUnlockBaseAddress(self, .readOnly) }
         guard let sourceData = CVPixelBufferGetBaseAddress(self) else {
@@ -165,9 +165,19 @@ extension CVPixelBuffer {
         if isModelQuantized { return imageByteData }
         
         let imageBytes = [UInt8](imageByteData)
-        let bytes: [Float]
-        if isNormalized {
+        var bytes: [Float] = []
+        if normalization == .scaledNormalization {
             bytes = imageBytes.map { Float($0) / 255.0 } // normalization
+        } else if normalization == .pytorchNormalization {
+            // bytes = imageBytes.map { Float($0) / 255.0 } // normalization
+            bytes = imageBytes.map { Float($0) } // normalization
+            for i in 0 ..< width * height {
+                bytes[i                     ] = (Float32(imageBytes[i * 3 + 0]) - 0.485) / 0.229 // R
+                bytes[width * height + i    ] = (Float32(imageBytes[i * 3 + 1]) - 0.456) / 0.224 // G
+                bytes[width * height * 2 + i] = (Float32(imageBytes[i * 3 + 2]) - 0.406) / 0.225 // B
+            }
+        } else if normalization == .meanStdNormalization {
+            assert(false, "not support '.meanStdNormalization'")
         } else {
             bytes = imageBytes.map { Float($0) } // not normalization
         }

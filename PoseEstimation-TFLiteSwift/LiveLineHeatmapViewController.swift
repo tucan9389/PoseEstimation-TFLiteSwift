@@ -122,7 +122,7 @@ class LiveLineHeatmapViewController: UIViewController {
                                   humanType: humanType)
     }
     
-    let poseEstimator: PoseEstimator = IMGCLSPoseEstimator()
+    let poseEstimator: PoseEstimator = Baseline3DPoseEstimator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -292,10 +292,10 @@ extension LiveLineHeatmapViewController {
             DispatchQueue.main.async {
                 if let partOffset = self.selectedPartIndex {
                     self.lineDotView?.lines = []
-                    self.lineDotView?.keypoints = output.humans.map { $0.keypoints[partOffset] }
+                    self.lineDotView?.keypoints = output.humans2d.compactMap { $0 }.map { $0.keypoints[partOffset] }
                 } else { // ALL case
-                    self.lineDotView?.lines = output.humans.reduce([]) { $0 + $1.lines }
-                    self.lineDotView?.keypoints = output.humans.reduce([]) { $0 + $1.keypoints }
+                    self.lineDotView?.lines = output.humans2d.compactMap { $0 }.reduce([]) { $0 + $1.lines }
+                    self.lineDotView?.keypoints = output.humans2d.compactMap { $0 }.reduce([]) { $0 + $1.keypoints }
                 }
                 
                 if let partOffset = self.selectedPartIndex {

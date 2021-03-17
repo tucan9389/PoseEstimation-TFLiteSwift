@@ -33,7 +33,7 @@ class IMGCLSPoseEstimator: PoseEstimator {
             inputWidth: Input.width,
             inputHeight: Input.height,
             isGrayScale: Input.isGrayScale,
-            isNormalized: Input.isNormalized
+            normalization: Input.normalization
         )
         let imageInterpreter = TFLiteImageInterpreter(options: options)
         return imageInterpreter
@@ -101,7 +101,7 @@ private extension IMGCLSPoseEstimator {
         static let width = 224
         static let height = 224
         static let isGrayScale = false
-        static let isNormalized = true
+        static let normalization = TFLiteImageInterpreter.NormalizationOptions.scaledNormalization
     }
     struct Output {
         struct Heatmap {
@@ -153,10 +153,10 @@ private extension PoseEstimationOutput {
         let human = parseSinglePerson(outputs,
                                       partIndex: postprocessOptions.bodyPart,
                                       partThreshold: postprocessOptions.partThreshold)
-        humans = [human]
+        humans = [.human2d(human: human)]
     }
     
-    func parseSinglePerson(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?) -> Human {
+    func parseSinglePerson(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?) -> Human2D {
         let output = outputs[0]
         
         // get (col, row)s from heatmaps
@@ -174,24 +174,24 @@ private extension PoseEstimationOutput {
             return (point: CGPoint(x: x, y: y), score: score)
         }
         
-        let keypoints: [Keypoint?] = keypointInfos
-            .map { keypointInfo -> Keypoint? in Keypoint(position: keypointInfo.point, score: keypointInfo.score) }
-            .map { keypointInfo -> Keypoint? in
+        let keypoints: [Keypoint2D?] = keypointInfos
+            .map { keypointInfo -> Keypoint2D? in Keypoint2D(position: keypointInfo.point, score: keypointInfo.score) }
+            .map { keypointInfo -> Keypoint2D? in
                 guard let score = keypointInfo?.score, let partThreshold = partThreshold else { return keypointInfo }
                 return (score > partThreshold) ? keypointInfo : nil
         }
         
         // lines
-        var keypointWithBodyPart: [IMGCLSPoseEstimator.Output.BodyPart: Keypoint] = [:]
+        var keypointWithBodyPart: [IMGCLSPoseEstimator.Output.BodyPart: Keypoint2D] = [:]
         IMGCLSPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]
         }
-        let lines: [Human.Line] = IMGCLSPoseEstimator.Output.BodyPart.lines.compactMap { line in
+        let lines: [Human2D.Line2D] = IMGCLSPoseEstimator.Output.BodyPart.lines.compactMap { line in
             guard let fromKeypoint = keypointWithBodyPart[line.from],
                 let toKeypoint = keypointWithBodyPart[line.to] else { return nil }
             return (from: fromKeypoint, to: toKeypoint)
         }
         
-        return Human(keypoints: keypoints, lines: lines)
+        return Human2D(keypoints: keypoints, lines: lines)
     }
 }

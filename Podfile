@@ -6,6 +6,6 @@ target 'PoseEstimation-TFLiteSwift' do
   use_frameworks!
 
   # Pods for PoseEstimation-TFLiteSwift
-  pod 'TensorFlowLiteSwift'
+  pod 'TensorFlowLiteSwift/CoreML', '~> 2.4.0'
 
 end

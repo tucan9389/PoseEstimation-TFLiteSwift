@@ -27,8 +27,8 @@ import UIKit
 class PoseKeypointsDrawingView: UIView {
     typealias CGLine = (from: CGPoint, to: CGPoint)
     
-    var lines: [PoseEstimationOutput.Human.Line]? { didSet { setNeedsDisplay() } }
-    var keypoints: [Keypoint?]? { didSet { setNeedsDisplay() } }
+    var lines: [PoseEstimationOutput.Human2D.Line2D]? { didSet { setNeedsDisplay() } }
+    var keypoints: [Keypoint2D?]? { didSet { setNeedsDisplay() } }
     
     override func draw(_ rect: CGRect) {
         lines?.forEach { line in

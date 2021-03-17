@@ -27,20 +27,13 @@
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
-		713A0479247905AC00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046B2479056E00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite */; };
 		713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */; };
-		713A047B247905AC00F90C77 /* alphapose_fastseresnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046D2479057B00F90C77 /* alphapose_fastseresnet101b_coco.tflite */; };
-		713A047C247905AC00F90C77 /* simplepose_mobile_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046E2479057D00F90C77 /* simplepose_mobile_resnet18_coco.tflite */; };
 		713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */; };
-		713A047E247905AC00F90C77 /* simplepose_mobile_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04702479058A00F90C77 /* simplepose_mobile_resnet50b_coco.tflite */; };
 		713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */; };
 		713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */; };
 		713A0481247905AC00F90C77 /* simplepose_resneta50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */; };
 		713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */; };
-		713A0483247905AC00F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0475247905A800F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite */; };
-		713A0484247905AC00F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0476247905A900F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite */; };
 		713A0485247905AC00F90C77 /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */; };
-		713A0486247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0478247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite */; };
 		713A04882479071D00F90C77 /* IMGCLSPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */; };
 		71A1BC1624793BC5004EA5D9 /* Argmax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1BC1524793BC5004EA5D9 /* Argmax.swift */; };
 		71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */; };
@@ -52,12 +45,23 @@
 		71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */; };
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
 		71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */; };
-		E0C93A920161DEF82C2B75E0 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
+		C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */; };
+		C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */; };
+		C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */; };
+		C4A4C6F925CB38F000EDF20A /* simplepose_resnet152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F325CB38F000EDF20A /* simplepose_resnet152b_coco.tflite */; };
+		C4A4C6FA25CB38F000EDF20A /* simplepose_resneta101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F425CB38F000EDF20A /* simplepose_resneta101b_coco.tflite */; };
+		C4A4C6FB25CB38F000EDF20A /* simplepose_resnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F525CB38F000EDF20A /* simplepose_resnet101b_coco.tflite */; };
+		C4A4C6FC25CB38F000EDF20A /* simplepose_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F625CB38F000EDF20A /* simplepose_resnet50b_coco.tflite */; };
+		C4A4C6FF25CB391600EDF20A /* simplepose_resneta50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */; };
+		C4A4C70525CC5AA500EDF20A /* Baseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */; };
+		C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */; };
+		C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */; };
+		D51A1EFC85F761AFD77DA2B7 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184391DD02E90170864FB5E1 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2CB3B8CB51A6B2D98D208272 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
-		5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		020D24DEDF99BE11C2D24825 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
+		184391DD02E90170864FB5E1 /* Pods_PoseEstimation_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C912241CE9B5001A4325 /* Pose-TFLiteSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pose-TFLiteSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C915241CE9B5001A4325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7105C91C241CE9B6001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,20 +84,13 @@
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
-		713A046B2479056E00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_mobilenetv3_small_w1_coco.tflite; sourceTree = "<group>"; };
 		713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet50b_coco.tflite; sourceTree = "<group>"; };
-		713A046D2479057B00F90C77 /* alphapose_fastseresnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = alphapose_fastseresnet101b_coco.tflite; sourceTree = "<group>"; };
-		713A046E2479057D00F90C77 /* simplepose_mobile_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_resnet18_coco.tflite; sourceTree = "<group>"; };
 		713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet152b_coco.tflite; sourceTree = "<group>"; };
-		713A04702479058A00F90C77 /* simplepose_mobile_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_resnet50b_coco.tflite; sourceTree = "<group>"; };
 		713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet101b_coco.tflite; sourceTree = "<group>"; };
 		713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
 		713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta50b_coco.tflite; sourceTree = "<group>"; };
 		713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta101b_coco.tflite; sourceTree = "<group>"; };
-		713A0475247905A800F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_mobilenetv2b_w1_coco.tflite; sourceTree = "<group>"; };
-		713A0476247905A900F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_mobilenetv3_large_w1_coco.tflite; sourceTree = "<group>"; };
 		713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
-		713A0478247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_mobile_mobilenet_w1_coco.tflite; sourceTree = "<group>"; };
 		713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMGCLSPoseEstimator.swift; sourceTree = "<group>"; };
 		71A1BC1524793BC5004EA5D9 /* Argmax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Argmax.swift; sourceTree = "<group>"; };
 		71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseConfidenceMapDrawingView.swift; sourceTree = "<group>"; };
@@ -105,7 +102,18 @@
 		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLineHeatmapViewController.swift; sourceTree = "<group>"; };
-		8C8112449130BEE4072F1385 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
+		8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pose3DSceneView.swift; sourceTree = "<group>"; };
+		C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
+		C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
+		C4A4C6F325CB38F000EDF20A /* simplepose_resnet152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet152b_coco.tflite; sourceTree = "<group>"; };
+		C4A4C6F425CB38F000EDF20A /* simplepose_resneta101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta101b_coco.tflite; sourceTree = "<group>"; };
+		C4A4C6F525CB38F000EDF20A /* simplepose_resnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet101b_coco.tflite; sourceTree = "<group>"; };
+		C4A4C6F625CB38F000EDF20A /* simplepose_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet50b_coco.tflite; sourceTree = "<group>"; };
+		C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta50b_coco.tflite; sourceTree = "<group>"; };
+		C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Baseline3DPoseEstimator.swift; sourceTree = "<group>"; };
+		C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = baseline_moon_noS.tflite; sourceTree = "<group>"; };
+		C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImage3DRenderingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0C93A920161DEF82C2B75E0 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */,
+				D51A1EFC85F761AFD77DA2B7 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,7 +136,7 @@
 				7105C914241CE9B5001A4325 /* PoseEstimation-TFLiteSwift */,
 				7105C913241CE9B5001A4325 /* Products */,
 				C0C61619494007101B3B8411 /* Pods */,
-				EFFA07E263F3660EF980109A /* Frameworks */,
+				7BEDCA85229068A392EF9B15 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,6 +156,7 @@
 				712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */,
 				71A1ED4024574F2E001F796C /* StillImageHeatmapViewController.swift */,
 				71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */,
+				C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */,
 				7105C929241D011F001A4325 /* View */,
 				7105C92B241D0150001A4325 /* MLModel */,
 				71DD577D2446D7A40024C146 /* Algorithm */,
@@ -165,6 +174,7 @@
 			children = (
 				712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */,
 				71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */,
+				C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -186,6 +196,7 @@
 				7105C92E241D0235001A4325 /* PoseEstimator.swift */,
 				7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */,
 				7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */,
+				C4A4C70325CC5A4100EDF20A /* Baseline3DPose */,
 				71FE62A62478EFB800425708 /* imgclsmob-Pose */,
 				712A7FC22424FEC900B043F9 /* PoseNet */,
 				712A7FC7242667A400B043F9 /* PoseEstimationForMobile */,
@@ -244,13 +255,13 @@
 		71FE62A62478EFB800425708 /* imgclsmob-Pose */ = {
 			isa = PBXGroup;
 			children = (
-				713A046D2479057B00F90C77 /* alphapose_fastseresnet101b_coco.tflite */,
-				713A0478247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite */,
-				713A0475247905A800F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite */,
-				713A046B2479056E00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite */,
-				713A0476247905A900F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite */,
-				713A046E2479057D00F90C77 /* simplepose_mobile_resnet18_coco.tflite */,
-				713A04702479058A00F90C77 /* simplepose_mobile_resnet50b_coco.tflite */,
+				C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */,
+				C4A4C6F625CB38F000EDF20A /* simplepose_resnet50b_coco.tflite */,
+				C4A4C6F525CB38F000EDF20A /* simplepose_resnet101b_coco.tflite */,
+				C4A4C6F325CB38F000EDF20A /* simplepose_resnet152b_coco.tflite */,
+				C4A4C6F425CB38F000EDF20A /* simplepose_resneta101b_coco.tflite */,
+				C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */,
+				C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */,
 				713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */,
 				713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */,
 				713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */,
@@ -263,21 +274,30 @@
 			path = "imgclsmob-Pose";
 			sourceTree = "<group>";
 		};
+		7BEDCA85229068A392EF9B15 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				184391DD02E90170864FB5E1 /* Pods_PoseEstimation_TFLiteSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C0C61619494007101B3B8411 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2CB3B8CB51A6B2D98D208272 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */,
-				8C8112449130BEE4072F1385 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */,
+				8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */,
+				020D24DEDF99BE11C2D24825 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		EFFA07E263F3660EF980109A /* Frameworks */ = {
+		C4A4C70325CC5A4100EDF20A /* Baseline3DPose */ = {
 			isa = PBXGroup;
 			children = (
-				5D99304E5824CB3ABF8752B4 /* Pods_PoseEstimation_TFLiteSwift.framework */,
+				C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */,
+				C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */,
 			);
-			name = Frameworks;
+			path = Baseline3DPose;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,7 +307,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7105C926241CE9B7001A4325 /* Build configuration list for PBXNativeTarget "PoseEstimation-TFLiteSwift" */;
 			buildPhases = (
-				D7E4DA84AF8463F0CAB33710 /* [CP] Check Pods Manifest.lock */,
+				254EACA739080881EAFC1452 /* [CP] Check Pods Manifest.lock */,
 				7105C90E241CE9B5001A4325 /* Sources */,
 				7105C90F241CE9B5001A4325 /* Frameworks */,
 				7105C910241CE9B5001A4325 /* Resources */,
@@ -342,34 +362,35 @@
 				712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */,
 				713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */,
 				713A0481247905AC00F90C77 /* simplepose_resneta50b_coco.tflite in Resources */,
+				C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */,
 				7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */,
 				713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */,
 				7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */,
-				713A0479247905AC00F90C77 /* simplepose_mobile_mobilenetv3_small_w1_coco.tflite in Resources */,
 				712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */,
-				713A0486247905AC00F90C77 /* simplepose_mobile_mobilenet_w1_coco.tflite in Resources */,
 				71A1ED43245971AC001F796C /* LICENSE in Resources */,
-				713A0483247905AC00F90C77 /* simplepose_mobile_mobilenetv2b_w1_coco.tflite in Resources */,
 				71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */,
 				713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */,
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
+				C4A4C6FC25CB38F000EDF20A /* simplepose_resnet50b_coco.tflite in Resources */,
+				C4A4C6FB25CB38F000EDF20A /* simplepose_resnet101b_coco.tflite in Resources */,
 				71E8D93B243CC5330081DD6E /* README.md in Resources */,
 				713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */,
+				C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */,
+				C4A4C6FA25CB38F000EDF20A /* simplepose_resneta101b_coco.tflite in Resources */,
 				713A0485247905AC00F90C77 /* simplepose_resnet18_coco.tflite in Resources */,
-				713A047C247905AC00F90C77 /* simplepose_mobile_resnet18_coco.tflite in Resources */,
 				713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */,
 				712A7FCD242668FF00B043F9 /* pefm_hourglass_v2.tflite in Resources */,
-				713A047B247905AC00F90C77 /* alphapose_fastseresnet101b_coco.tflite in Resources */,
-				713A0484247905AC00F90C77 /* simplepose_mobile_mobilenetv3_large_w1_coco.tflite in Resources */,
+				C4A4C6FF25CB391600EDF20A /* simplepose_resneta50b_coco.tflite in Resources */,
 				7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */,
-				713A047E247905AC00F90C77 /* simplepose_mobile_resnet50b_coco.tflite in Resources */,
+				C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */,
+				C4A4C6F925CB38F000EDF20A /* simplepose_resnet152b_coco.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D7E4DA84AF8463F0CAB33710 /* [CP] Check Pods Manifest.lock */ = {
+		254EACA739080881EAFC1452 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -405,12 +426,15 @@
 				712A7FC9242667C900B043F9 /* PEFMHourglassPoseEstimator.swift in Sources */,
 				71B07B97245E5C6C001FD385 /* NumericExtension.swift in Sources */,
 				7105C916241CE9B5001A4325 /* AppDelegate.swift in Sources */,
+				C4A4C70525CC5AA500EDF20A /* Baseline3DPoseEstimator.swift in Sources */,
 				7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */,
 				712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */,
 				71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */,
 				71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */,
+				C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */,
 				71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */,
 				71A1BC1624793BC5004EA5D9 /* Argmax.swift in Sources */,
+				C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */,
 				712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */,
 				7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */,
 				7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */,
@@ -560,11 +584,12 @@
 		};
 		7105C927241CE9B7001A4325 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2CB3B8CB51A6B2D98D208272 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */;
+			baseConfigurationReference = 8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5WXJ4Z4H69;
+				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "PoseEstimation-TFLiteSwift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -573,6 +598,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tucan9389.PoseEstimation-TFLiteSwift";
 				PRODUCT_NAME = "Pose-TFLiteSwift";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -580,7 +606,7 @@
 		};
 		7105C928241CE9B7001A4325 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8C8112449130BEE4072F1385 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */;
+			baseConfigurationReference = 020D24DEDF99BE11C2D24825 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

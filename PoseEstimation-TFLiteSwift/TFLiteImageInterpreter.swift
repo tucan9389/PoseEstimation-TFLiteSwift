@@ -44,13 +44,18 @@ class TFLiteImageInterpreter {
         interpreterOptions.threadCount = options.threadCount
         
         // Specify the delegates for the `Interpreter`.
-        var delegates: [Delegate]?
-        switch options.accelerator {
-        case .metal:
-            delegates = [MetalDelegate()]
-        default:
-            delegates = nil
+        let delegates: [CoreMLDelegate]
+        if let delegate = CoreMLDelegate() {
+            delegates = [delegate]
+        } else {
+            delegates = []
         }
+//        switch options.accelerator {
+//        case .metal:
+//            delegates = [MetalDelegate()]
+//        default:
+//            delegates = nil
+//        }
         
         guard let interpreter = try? Interpreter(modelPath: modelPath, options: interpreterOptions, delegates: delegates) else {
             fatalError("Failed to craete interpreter")
@@ -74,13 +79,24 @@ class TFLiteImageInterpreter {
         // input tensor
         let inputTensor = try interpreter.input(at: 0)
         // check input tensor dimension
-        guard inputTensor.shape.dimensions[0] == 1,
-            inputTensor.shape.dimensions[1] == options.inputHeight,
-            inputTensor.shape.dimensions[2] == options.inputWidth,
-            inputTensor.shape.dimensions[3] == options.inputChannel
-        else {
-            fatalError("Unexpected Model: input shape \n\(inputTensor.shape) != [\(1), \(options.inputHeight), \(options.inputWidth), \(options.inputChannel)]")
+        if options.inputRankType == .bwhc {
+            guard inputTensor.shape.dimensions[0] == 1,
+                inputTensor.shape.dimensions[1] == options.inputWidth,
+                inputTensor.shape.dimensions[2] == options.inputHeight,
+                inputTensor.shape.dimensions[3] == options.inputChannel
+            else {
+                fatalError("Unexpected Model: input shape \n\(inputTensor.shape) != [\(1), \(options.inputWidth), \(options.inputHeight), \(options.inputChannel)]")
+            }
+        } else if options.inputRankType == .bchw {
+            guard inputTensor.shape.dimensions[0] == 1,
+                inputTensor.shape.dimensions[1] == options.inputChannel,
+                inputTensor.shape.dimensions[2] == options.inputHeight,
+                inputTensor.shape.dimensions[3] == options.inputWidth
+            else {
+                fatalError("Unexpected Model: input shape \n\(inputTensor.shape) != [\(1), \(options.inputChannel), \(options.inputHeight), \(options.inputWidth)]")
+            }
         }
+        
         self.inputTensor = inputTensor
         
         // output tensor
@@ -104,7 +120,7 @@ class TFLiteImageInterpreter {
         // Remove the alpha component from the image buffer to get the initialized `Data`.
         let byteCount = 1 * options.inputHeight * options.inputWidth * options.inputChannel
         guard let inputData = thumbnail.rgbData(byteCount: byteCount,
-                                                isNormalized: options.isNormalized,
+                                                normalization: options.normalization,
                                                 isModelQuantized: options.isQuantized) else {
             print("Failed to convert the image buffer to RGB data.")
             return nil
@@ -124,7 +140,7 @@ class TFLiteImageInterpreter {
         // Remove the alpha component from the image buffer to get the initialized `Data`.
         let byteCount = 1 * options.inputHeight * options.inputWidth * options.inputChannel
         guard let inputData = thumbnail.rgbData(byteCount: byteCount,
-                                                isNormalized: options.isNormalized,
+                                                normalization: options.normalization,
                                                 isModelQuantized: options.isQuantized) else {
             print("Failed to convert the image buffer to RGB data.")
             return nil
@@ -156,6 +172,18 @@ class TFLiteImageInterpreter {
 }
 
 extension TFLiteImageInterpreter {
+    enum NormalizationOptions {
+        case none
+        case scaledNormalization
+        case pytorchNormalization
+        case meanStdNormalization
+    }
+    
+    enum RankType {
+        case bwhc // usually tensorflow model
+        case bchw // usually pytorch model
+    }
+    
     struct Options {
         let modelName: String
         let threadCount: Int
@@ -163,11 +191,12 @@ extension TFLiteImageInterpreter {
         let isQuantized: Bool
         let inputWidth: Int
         let inputHeight: Int
+        let inputRankType: RankType
         let isGrayScale: Bool
         var inputChannel: Int { return isGrayScale ? 1 : 3 }
-        let isNormalized: Bool // true: 0.0~1.0, false: 0.0~255.0
+        let normalization: NormalizationOptions // true: 0.0~1.0, false: 0.0~255.0
         
-        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, isGrayScale: Bool = false, isNormalized: Bool = false) {
+        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, inputRankType: RankType = .bwhc, isGrayScale: Bool = false, normalization: NormalizationOptions = .none) {
             self.modelName = modelName
             self.threadCount = threadCount
             #if targetEnvironment(simulator)
@@ -178,8 +207,9 @@ extension TFLiteImageInterpreter {
             self.isQuantized = isQuantized
             self.inputWidth = inputWidth
             self.inputHeight = inputHeight
+            self.inputRankType = inputRankType
             self.isGrayScale = isGrayScale
-            self.isNormalized = isNormalized
+            self.normalization = normalization
         }
     }
 }

@@ -94,3 +94,4 @@ Podfile.lock
 
 # TensorFlow Lite Model
 *.tflite
+.DS_Store
