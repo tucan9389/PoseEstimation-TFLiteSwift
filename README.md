@@ -54,14 +54,14 @@ OpenPose (PAF y) | - | ![pose-demo-heatmap-pafy-PEFMHourglass-0](https://user-im
 
 ### Meta Data
 
-✅ vs ☑️ | Name | Size | Inference<br>Time<br>on iPhone11Pro | Post-process<br>Time<br>on iPhone11Pro | PCKh-0.5 | multi person <br>vs<br> single person | 2D vs 3D | Model Source | Paper
-:---: | --- | --- | --- | --- | --- | :---: | :---: | --- | ---
+✅ vs ☑️ | Name | Size | Inference<br>Time<br>on iPhone11Pro | Post-process<br>Time<br>on iPhone11Pro | PCKh-0.5 | multi person <br>vs<br> single person | 2D vs 3D | Model Source | Paper | tflite<br>download
+:---: | --- | --- | --- | --- | --- | :---: | :---: | --- | --- | ---
 ✅ | **PoseNet** | 13.3 MB | - | - | - | single | 2D | [tensorflow/tensorflow](https://github.com/tensorflow/examples/blob/master/lite/examples/posenet/ios) | [PersonLab](https://arxiv.org/abs/1803.08225)
 ✅ | **PEFM CPM** | 2.4 MB | - | - | - | single | 2D | [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile) | [Convolutional Pose Machines](https://arxiv.org/abs/1602.00134)
 ✅ | **PEFM Hourglass v1** | 1.8 MB | - | - | - | single | 2D | [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile) | [Stacked Hourglass Networks](https://arxiv.org/abs/1603.06937)
 ✅ | **PEFM Hourglass v2** | 1.7 MB | - | - | - | single | 2D | [edvardHua/PoseEstimationForMobile](https://github.com/edvardHua/PoseEstimationForMobile) | [Stacked Hourglass Networks](https://arxiv.org/abs/1603.06937)
 ✅ | **OpenPose** | 7.8 MB | - | - | - | multi | 2D | [ildoonet/tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation/issues/355) | [OpenPose](https://arxiv.org/abs/1812.08008)
-✅ | **SimplePose** | 137.1 MB | 347 ms | 79 ms | - | single | 3D | [mks0601/3DMPPE_POSENET_RELEASE](https://github.com/mks0601/3DMPPE_POSENET_RELEASE) | [3DMPPE PoseNet](https://arxiv.org/abs/1907.11346) 
+✅ | **Baseline3DPose** | 137.1 MB | 347 ms | 79 ms | - | single | 3D | [mks0601/3DMPPE_POSENET_RELEASE](https://github.com/mks0601/3DMPPE_POSENET_RELEASE) | [3DMPPE PoseNet](https://arxiv.org/abs/1907.11346) | [download](https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v2.0.0/baseline_moon_noS.tflite)
 ☑️ | **AlphaPose** | - | - | - | - | single | 2D | [osmr/imgclsmob](https://github.com/osmr/imgclsmob) | [RMPE](https://arxiv.org/abs/1612.00137)
 ☑️ | **SelecSLS** | - | - | - | - | single | 2D | [osmr/imgclsmob](https://github.com/osmr/imgclsmob) | -
 ☑️ | **IBPPose** | - | - | - | - | single | 2D | [osmr/imgclsmob](https://github.com/osmr/imgclsmob) | -
