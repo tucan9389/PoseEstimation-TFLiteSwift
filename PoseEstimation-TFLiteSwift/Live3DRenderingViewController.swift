@@ -32,7 +32,7 @@ class Live3DRenderingViewController: UIViewController {
     }
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = LiteBaseline3DPoseEstimator()
+    let poseEstimator: PoseEstimator = Baseline3DPoseEstimator()
     var outputHuman: PoseEstimationOutput.Human3D? {
         didSet {
             DispatchQueue.main.async {
@@ -70,8 +70,6 @@ class Live3DRenderingViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         resizePreviewLayer()
-        
-        // let previewViewRect = previewView?.frame ?? .zero
     }
     
     func resizePreviewLayer() {
@@ -82,7 +80,9 @@ class Live3DRenderingViewController: UIViewController {
     func setUpCamera() {
         videoCapture.delegate = self
         videoCapture.fps = 30
-        videoCapture.setUp(sessionPreset: .vga640x480) { success in
+        videoCapture.setUp(sessionPreset: .vga640x480,
+                           cameraPosition: .front,
+                           videoGravity: .resizeAspectFill) { success in
             DispatchQueue.main.async {
                 if success {
                     // add preview view on the layer
