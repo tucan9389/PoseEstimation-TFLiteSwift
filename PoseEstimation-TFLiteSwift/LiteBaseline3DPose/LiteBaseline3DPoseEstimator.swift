@@ -50,21 +50,21 @@ class LiteBaseline3DPoseEstimator: PoseEstimator {
         modelOutput = nil
         
         // preprocss
-        var t = CACurrentMediaTime()
+        // var t = CACurrentMediaTime()
         guard let inputData = imageInterpreter.preprocess(with: input)
             else { return .failure(.failToCreateInputData) }
-        print("preprocess time :\(CACurrentMediaTime() - t)")
+        // print("preprocess time :\(CACurrentMediaTime() - t)")
         
         // inference
-        t = CACurrentMediaTime()
+        // t = CACurrentMediaTime()
         guard let outputs = imageInterpreter.inference(with: inputData)
             else { return .failure(.failToInference) }
-        print("inference time  :\(CACurrentMediaTime() - t)")
+        // print("inference time  :\(CACurrentMediaTime() - t)")
         
         // postprocess
-        t = CACurrentMediaTime()
+        // t = CACurrentMediaTime()
         let result = LiteBaseline3DResult.success(postprocess(with: outputs))
-        print("postprocess time:\(CACurrentMediaTime() - t)")
+        // print("postprocess time:\(CACurrentMediaTime() - t)")
         
         print()
         

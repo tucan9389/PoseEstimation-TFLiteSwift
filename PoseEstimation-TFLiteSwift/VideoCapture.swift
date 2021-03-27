@@ -27,17 +27,23 @@ public class VideoCapture: NSObject {
     
     public func setUp(sessionPreset: AVCaptureSession.Preset = .vga640x480,
                       cameraPosition: AVCaptureDevice.Position = .back,
+                      videoGravity: AVLayerVideoGravity = .resizeAspect,
                       completion: @escaping (Bool) -> Void) {
         sessionQueue.async {
             self.setUpCamera(sessionPreset: sessionPreset,
                              cameraPosition: cameraPosition,
+                             videoGravity: videoGravity,
                              completion: { success in
                 completion(success)
             })
         }
     }
     
-    func setUpCamera(sessionPreset: AVCaptureSession.Preset, cameraPosition: AVCaptureDevice.Position, completion: @escaping (_ success: Bool) -> Void) {
+    func setUpCamera(
+        sessionPreset: AVCaptureSession.Preset,
+        cameraPosition: AVCaptureDevice.Position,
+        videoGravity: AVLayerVideoGravity,
+        completion: @escaping (_ success: Bool) -> Void) {
         
         captureSession.beginConfiguration()
         captureSession.sessionPreset = sessionPreset
@@ -55,7 +61,7 @@ public class VideoCapture: NSObject {
         }
         
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspect
+        previewLayer.videoGravity = videoGravity
         previewLayer.connection?.videoOrientation = .portrait
         self.previewLayer = previewLayer
         
@@ -72,7 +78,10 @@ public class VideoCapture: NSObject {
         
         // We want the buffers to be in portrait orientation otherwise they are
         // rotated by 90 degrees. Need to set this _after_ addOutput()!
-        videoOutput.connection(with: AVMediaType.video)?.videoOrientation = .portrait
+        if let connection = videoOutput.connection(with: AVMediaType.video) {
+            connection.videoOrientation = .portrait
+            connection.isVideoMirrored = cameraPosition == .front
+        }
         
         captureSession.commitConfiguration()
         
