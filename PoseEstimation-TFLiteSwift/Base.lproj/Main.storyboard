@@ -2113,6 +2113,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <segue destination="YdA-t0-MD9" kind="relationship" relationship="viewControllers" id="wMY-uf-rDw"/>
                         <segue destination="Owz-1P-YF2" kind="relationship" relationship="viewControllers" id="Qp1-1P-fYG"/>
                         <segue destination="GR1-ZX-0A4" kind="relationship" relationship="viewControllers" id="ENT-Bn-XoA"/>
                         <segue destination="LFU-qX-fBF" kind="relationship" relationship="viewControllers" id="S61-v7-NFw"/>
@@ -2161,11 +2162,11 @@
             </objects>
             <point key="canvasLocation" x="1045.5999999999999" y="906.6502463054187"/>
         </scene>
-        <!--3D pose-->
+        <!--3D Still-->
         <scene sceneID="4Ed-O6-Uj6">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Owz-1P-YF2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="3D pose" image="mappin.and.ellipse" catalog="system" id="Z8W-qq-3Cp"/>
+                    <tabBarItem key="tabBarItem" title="3D Still" image="mappin.and.ellipse" catalog="system" id="Z8W-qq-3Cp"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3WR-mu-Hbe">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -2179,6 +2180,66 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L57-bW-6Fv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1045.5999999999999" y="2716.9950738916259"/>
+        </scene>
+        <!--Live3D Rendering View Controller-->
+        <scene sceneID="Ozm-jT-Ibd">
+            <objects>
+                <viewController id="cTa-EC-xBr" customClass="Live3DRenderingViewController" customModule="Pose_TFLiteSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BA4-2C-qdi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C22-RT-EhJ">
+                                <rect key="frame" x="78" y="88" width="219" height="292"/>
+                                <color key="backgroundColor" systemColor="systemTealColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="C22-RT-EhJ" secondAttribute="height" multiplier="3:4" id="LVO-21-dFS"/>
+                                </constraints>
+                            </view>
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jkq-Rb-Jrj" customClass="Pose3DSceneView" customModule="Pose_TFLiteSwift" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="380" width="375" height="349"/>
+                            </sceneKitView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="laA-uJ-4KK"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Jkq-Rb-Jrj" firstAttribute="top" secondItem="C22-RT-EhJ" secondAttribute="bottom" id="LTv-4U-nxw"/>
+                            <constraint firstItem="laA-uJ-4KK" firstAttribute="bottom" secondItem="Jkq-Rb-Jrj" secondAttribute="bottom" id="R4z-Hl-8zQ"/>
+                            <constraint firstItem="Jkq-Rb-Jrj" firstAttribute="leading" secondItem="laA-uJ-4KK" secondAttribute="leading" id="Tk9-iH-9q6"/>
+                            <constraint firstItem="C22-RT-EhJ" firstAttribute="centerX" secondItem="BA4-2C-qdi" secondAttribute="centerX" id="Waa-De-7YN"/>
+                            <constraint firstItem="C22-RT-EhJ" firstAttribute="top" secondItem="laA-uJ-4KK" secondAttribute="top" id="kU0-ce-KaX"/>
+                            <constraint firstItem="laA-uJ-4KK" firstAttribute="trailing" secondItem="Jkq-Rb-Jrj" secondAttribute="trailing" id="m4A-5a-wIA"/>
+                            <constraint firstItem="C22-RT-EhJ" firstAttribute="leading" secondItem="laA-uJ-4KK" secondAttribute="leading" constant="78" id="q6B-tz-4jI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="4L0-jV-FOm"/>
+                    <connections>
+                        <outlet property="outputRenderingView" destination="Jkq-Rb-Jrj" id="Q13-b8-X6d"/>
+                        <outlet property="previewView" destination="C22-RT-EhJ" id="2hG-tK-A65"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sUi-Mc-DkZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1956" y="3437"/>
+        </scene>
+        <!--3D Live-->
+        <scene sceneID="u4B-ei-Y6U">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YdA-t0-MD9" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="3D Live" image="mappin.and.ellipse" catalog="system" id="B7K-gn-XDY"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5Mv-hd-wNM">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cTa-EC-xBr" kind="relationship" relationship="rootViewController" id="PeF-tA-Ecm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wBo-6a-UCk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1045.5999999999999" y="3436.6995073891626"/>
         </scene>
     </scenes>
     <resources>

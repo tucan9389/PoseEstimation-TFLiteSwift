@@ -15,7 +15,7 @@
 */
 
 //
-//  Baseline3DPoseEstimator.swift
+//  LiteBaseline3DPoseEstimator.swift
 //  PoseEstimation-TFLiteSwift
 //
 //  Created by Doyoung Gwak on 2020/03/22.
@@ -24,13 +24,14 @@
 
 import CoreVideo
 import Accelerate
+import UIKit
 
-class Baseline3DPoseEstimator: PoseEstimator {
-    typealias Baseline3DResult = Result<PoseEstimationOutput, PoseEstimationError>
+class LiteBaseline3DPoseEstimator: PoseEstimator {
+    typealias LiteBaseline3DResult = Result<PoseEstimationOutput, PoseEstimationError>
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
-            modelName: "baseline_moon_noS",
+            modelName: "litebaseline_3dpose_large",
             inputWidth: Input.width,
             inputHeight: Input.height,
             inputRankType: Input.inputRankType,
@@ -43,21 +44,29 @@ class Baseline3DPoseEstimator: PoseEstimator {
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: PoseEstimationInput) -> Baseline3DResult {
+    func inference(_ input: PoseEstimationInput) -> LiteBaseline3DResult {
         
         // initialize
         modelOutput = nil
         
         // preprocss
+        var t = CACurrentMediaTime()
         guard let inputData = imageInterpreter.preprocess(with: input)
             else { return .failure(.failToCreateInputData) }
+        print("preprocess time :\(CACurrentMediaTime() - t)")
         
         // inference
+        t = CACurrentMediaTime()
         guard let outputs = imageInterpreter.inference(with: inputData)
             else { return .failure(.failToInference) }
+        print("inference time  :\(CACurrentMediaTime() - t)")
         
         // postprocess
-        let result = Baseline3DResult.success(postprocess(with: outputs))
+        t = CACurrentMediaTime()
+        let result = LiteBaseline3DResult.success(postprocess(with: outputs))
+        print("postprocess time:\(CACurrentMediaTime() - t)")
+        
+        print()
         
         return result
     }
@@ -80,19 +89,19 @@ class Baseline3DPoseEstimator: PoseEstimator {
     }
 }
 
-private extension Baseline3DPoseEstimator {
+private extension LiteBaseline3DPoseEstimator {
     struct Input {
         static let width = 256
         static let height = 256
-        static let inputRankType = TFLiteImageInterpreter.RankType.bchw
+        static let inputRankType = TFLiteImageInterpreter.RankType.bwhc
         static let isGrayScale = false
         static let normalization = TFLiteImageInterpreter.NormalizationOptions.pytorchNormalization
     }
     struct Output {
         struct Heatmap {
-            static let width = 64
-            static let height = 64
-            static let depth = 64
+            static let width = 32
+            static let height = 32
+            static let depth = 32
             static let count = BodyPart.allCases.count // 18
         }
         enum BodyPart: String, CaseIterable {
@@ -153,11 +162,11 @@ private extension PoseEstimationOutput {
     }
     
     func makeLines(with keypoints: [Keypoint3D]) -> [Human3D.Line3D] {
-        var keypointWithBodyPart: [Baseline3DPoseEstimator.Output.BodyPart: Keypoint3D] = [:]
-        Baseline3DPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
+        var keypointWithBodyPart: [LiteBaseline3DPoseEstimator.Output.BodyPart: Keypoint3D] = [:]
+        LiteBaseline3DPoseEstimator.Output.BodyPart.allCases.enumerated().forEach { (index, bodyPart) in
             keypointWithBodyPart[bodyPart] = keypoints[index]
         }
-        return Baseline3DPoseEstimator.Output.BodyPart.lines.compactMap { line in
+        return LiteBaseline3DPoseEstimator.Output.BodyPart.lines.compactMap { line in
             guard let fromKeypoint = keypointWithBodyPart[line.from],
                 let toKeypoint = keypointWithBodyPart[line.to] else { return nil }
             return (from: fromKeypoint, to: toKeypoint)
@@ -168,10 +177,10 @@ private extension PoseEstimationOutput {
 private extension TFLiteFlatArray where Element==Float32 {
     
     func softArgmax3d() -> [Keypoint3D] {
-        let depth = 64
+        let depth = LiteBaseline3DPoseEstimator.Output.Heatmap.depth
         let height = dimensions[2]
-        let width = dimensions[3]
-        let numberOfKeypoints = dimensions[1] / depth
+        let width = dimensions[1]
+        let numberOfKeypoints = dimensions[3] / depth
         
         // softmax per keypoints
         for keypointIndex in 0..<numberOfKeypoints {
@@ -188,9 +197,13 @@ private extension TFLiteFlatArray where Element==Float32 {
         // (1, 18, 64, 64, 64)
         // ex) (18, 64, 12)
         
-        var xs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 3])
-        var ys = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 4])
-        var zs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [3, 4])
+//        var xs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 3])
+//        var ys = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 4])
+//        var zs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [3, 4])
+        
+        var xs = array.sum(originalShape: [1, width, height, depth, numberOfKeypoints], targetDimension: [2, 3])
+        var ys = array.sum(originalShape: [1, width, height, depth, numberOfKeypoints], targetDimension: [1, 3])
+        var zs = array.sum(originalShape: [1, width, height, depth, numberOfKeypoints], targetDimension: [1, 2])
         
         // print(xs)
         // print(xs.count)
@@ -258,139 +271,4 @@ private extension TFLiteFlatArray where Element==Float32 {
     }
     
     
-}
-
-extension Array where Element == Float {
-    func sum(originalShape: [Int], targetDimension: [Int]) -> [Float] {
-        
-        let outputShape = originalShape.enumerated()
-            .filter { !targetDimension.contains($0.offset) }
-            .map { $0.element }
-        let totalLength = outputShape.reduce(1) { $0 * $1 }
-        let targetShape: [Int] = targetDimension.map { originalShape[$0] }
-        var resultArray = Array<Float>(repeating: 0.0, count: totalLength)
-        let notTargetDimension: [Int] = (0..<originalShape.count).filter { !targetDimension.contains($0) }
-        // let targetTotalLength = targetShape.reduce(1) { $0 * $1 } // with swift
-        let sumTargetDimension = targetDimension.enumerated().filter { $0.offset != targetDimension.count - 1 }.map { $0.element } // with accelerate
-        let sumTargetShape = targetShape.enumerated() // with accelerate
-            .filter { $0.offset != targetShape.count - 1 }
-            .map { $0.element }
-        let sumTargetLength = sumTargetShape.reduce(1) { $0 * $1 } // with accelerate
-        
-        let lastDimension = targetDimension[targetDimension.count-1]
-        let lastRank = originalShape[lastDimension]
-        let lastRankLength = vDSP_Length(lastRank)
-        var indexesAsOriginalTensor: [Int] = originalShape.map { _ in return 0 }
-        for (flatIndexAsResultTensor, indexesAsResultTensor) in TensorShape(shape: outputShape) {
-            indexesAsOriginalTensor = originalShape.map { _ in return 0 }
-            indexesAsResultTensor.enumerated().forEach { indexesAsOriginalTensor[notTargetDimension[$0.offset]] = $0.element }
-            
-            let firstIndexesAsOriginalTensor = indexesAsOriginalTensor
-            let secondIndexesAsOriginalTensor = indexesAsOriginalTensor.enumerated().map { $0.offset == lastDimension ? 1 : $0.element }
-            let firstFlatIndex = TensorShape.flatIndex(from: firstIndexesAsOriginalTensor, with: originalShape)
-            let secondFlatIndex = TensorShape.flatIndex(from: secondIndexesAsOriginalTensor, with: originalShape)
-            let strideValue = secondFlatIndex - firstFlatIndex
-            let stride = vDSP_Stride(strideValue)
-            // print(secondIndexesAsOriginalTensor, firstIndexesAsOriginalTensor)
-            // print(secondFlatIndex, "-", firstFlatIndex, "->", strideValue)
-            
-            // with accelerate
-            var sumedValue: Float = 0.0
-            for flatIndex in 0..<sumTargetLength {
-                let sumTargetIndexes = TensorShape.indexes(from: flatIndex, with: sumTargetShape)
-                sumTargetIndexes.enumerated().forEach { indexesAsOriginalTensor[sumTargetDimension[$0.offset]] = $0.element }
-                let startingFlatIndex = TensorShape.flatIndex(from: indexesAsOriginalTensor, with: originalShape)
-                sumedValue = 0.0
-                self.withUnsafeBufferPointer {
-                    vDSP_sve($0.baseAddress! + startingFlatIndex, stride, &sumedValue, lastRankLength)
-                }
-                resultArray[flatIndexAsResultTensor] += sumedValue
-            }
-            
-            /* with swift
-            resultArray[flatIndexAsResultTensor] = 0.0
-            // sum and assign at flatIndexAsResultTensor
-            for flatIndex in 0..<targetTotalLength {
-                let targetIndexes = TensorShape.indexes(from: flatIndex, with: targetShape)
-                targetIndexes.enumerated().forEach { indexesAsOriginalTensor[targetDimension[$0.offset]] = $0.element }
-                resultArray[flatIndexAsResultTensor] += self[TensorShape.flatIndex(from: indexesAsOriginalTensor, with: originalShape)]
-            }
-             */
-        }
-        
-        return resultArray
-    }
-}
-
-extension Array where Element == Float {
-    static func *=(lhs: inout Array<Float>, rhs: Array<Float>) {
-        let stride = vDSP_Stride(1)
-        let n = vDSP_Length(lhs.count)
-        vDSP_vmul(rhs, stride, lhs, stride, &lhs, stride, n)
-    }
-}
-
-class TensorShape: Sequence {
-    var shape: [Int]
-    
-    init(shape: [Int]) {
-        self.shape = shape
-    }
-    
-    func makeIterator() -> TensorShapeIterator {
-        return TensorShapeIterator(shape: shape)
-    }
-    
-    static func indexes(from flatIndex: Int, with shape: [Int]) -> [Int] {
-        var flatIndex = flatIndex
-        let reversedShape = shape.reversed()
-        let reversedIndexes: [Int] = reversedShape.map { rank in
-            let result = flatIndex % rank
-            flatIndex -= result
-            flatIndex /= rank
-            return result
-        }
-        let indexes = reversedIndexes.reversed()
-        return Array<Int>(indexes)
-    }
-    
-    static func flatIndex(from indexes: [Int], with shape: [Int]) -> Int {
-        var multipleSize = 1
-        return zip(indexes, shape).reversed().reduce(0) { (beforeIndex, IndexesAndDimension) in
-            let (index, rank) = IndexesAndDimension
-            let currentMultipleSize = multipleSize
-            multipleSize *= rank
-            return beforeIndex + (index * currentMultipleSize)
-        }
-    }
-}
-
-class TensorShapeIterator: IteratorProtocol {
-    var shape: [Int]
-    var currentFlatIndex: Int
-    var length: Int
-    
-    init(shape: [Int]) {
-        self.shape = shape
-        self.length = shape.reduce(1) { $0 * $1 }
-        self.currentFlatIndex = 0
-    }
-    func next() -> (Int, [Int])? {
-        guard currentFlatIndex < length else { return nil }
-        let reversedShape = shape.reversed()
-        var flatIndex = currentFlatIndex
-        
-        let reversedIndexes: [Int] = reversedShape.map { rank in
-            let result = flatIndex % rank
-            flatIndex = flatIndex / rank
-            return result
-        }
-        let indexes = reversedIndexes.reversed()
-        flatIndex = currentFlatIndex
-        currentFlatIndex += 1
-        
-        return (flatIndex, Array<Int>(indexes))
-    }
-    
-    typealias Element = (Int, [Int])
 }
