@@ -11,7 +11,7 @@ import CoreMedia
 import Speech
 
 class Live3DRenderingAndCapturingViewController: UIViewController {
-
+    
     // MARK: - IBOutlets
     @IBOutlet weak var speechStatusLabel: UILabel?
     @IBOutlet weak var previewView: UIView?
@@ -21,6 +21,7 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
     @IBOutlet weak var listeningButtonItem: UIBarButtonItem?
     
     // capturedRenderingViews
+    var capturedHumanResults: [PoseEstimationOutput.Human3D] = []
     
     // MARK: - VideoCapture Properties
     var videoCapture = VideoCapture()
@@ -187,6 +188,10 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
             capturedRenderingView.keypoints = capturedOutputHuman.keypoints
             capturedRenderingView.lines = capturedOutputHuman.lines
         }
+        capturedHumanResults.insert(capturedHuman, at: 0)
+        while capturedHumanResults.count > capturedRenderingViews.count {
+            capturedHumanResults.removeLast()
+        }
     }
     
     
@@ -266,7 +271,7 @@ extension Live3DRenderingAndCapturingViewController {
             var highestSimliarityAndIndex: (similarity: CGFloat, index: Int?) = (0.0, nil)
             for (idx, capturedRenderingView) in (self.capturedRenderingViews ?? []).enumerated() {
                 guard precitedPoseResult.lines.count == capturedRenderingView.lines.count else { continue }
-                let similarity = precitedPoseResult.lines.matchVector(with: capturedRenderingView.lines)
+                let similarity = precitedPoseResult.adjustLines().matchVector(with: self.capturedHumanResults[idx].adjustLines())
                 self.capturedSimilarityLabels?[idx].text = "similarity: \(String(format: "%.3f", similarity))"
                 
                 if highestSimliarityAndIndex.similarity < similarity {
@@ -402,5 +407,102 @@ private extension Array where Element == PoseEstimationOutput.Human3D.Line3D {
         let averageSilirarity = cosineSimilaries.reduce(0.0) { $0 + $1 } / CGFloat(cosineSimilaries.count)
         
         return averageSilirarity
+    }
+    
+    
+}
+
+private extension PoseEstimationOutput.Human3D {
+    func adjustLines() -> [PoseEstimationOutput.Human3D.Line3D] {
+        guard let baselineKeypointIndexes = baselineKeypointIndexes else { return [] }
+        let index1 = baselineKeypointIndexes.0
+        let index2 = baselineKeypointIndexes.1
+        guard let kp1 = keypoints[index1], let kp2 = keypoints[index2] else { return [] }
+        
+        let kp1_f = kp1.position.simdVector
+        let kp2_f = kp2.position.simdVector
+        let kp_m_f = (kp1_f + kp2_f) / 2.0
+        
+        let moved_kp1_f = kp1_f - kp_m_f
+        let theta1: Float = atan(moved_kp1_f.y / moved_kp1_f.x) // radian
+        let roated_kp1_f = moved_kp1_f.rotate(angle: -theta1, axis: .zAxis)
+        let theta2: Float = atan(roated_kp1_f.z / roated_kp1_f.x) // radian
+        
+        return lines.map { line -> (from: Keypoint3D, to: Keypoint3D) in
+            let to = ((line.to.position.simdVector - kp_m_f).rotate(angle: -theta1, axis: .zAxis).rotate(angle: -theta2, axis: .yAxis) + kp_m_f).keypoint
+            let from = ((line.from.position.simdVector - kp_m_f).rotate(angle: -theta1, axis: .zAxis).rotate(angle: -theta2, axis: .yAxis) + kp_m_f).keypoint
+            return (from: from, to: to)
+        }
+    }
+    
+    func adjustKeypoints() -> [Keypoint3D?] {
+        guard let baselineKeypointIndexes = baselineKeypointIndexes else { return [] }
+        let index1 = baselineKeypointIndexes.0
+        let index2 = baselineKeypointIndexes.1
+        guard let kp1 = keypoints[index1], let kp2 = keypoints[index2] else { return [] }
+        
+        let kp1_f = kp1.position.simdVector
+        let kp2_f = kp2.position.simdVector
+        let kp_m_f = (kp1_f + kp2_f) / 2.0
+        
+        let moved_kp1_f = kp1_f - kp_m_f
+        let theta1: Float = atan(moved_kp1_f.y / moved_kp1_f.x) // radian
+        let roated_kp1_f = moved_kp1_f.rotate(angle: -theta1, axis: .zAxis)
+        let theta2: Float = atan(roated_kp1_f.z / roated_kp1_f.x) // radian
+        
+        return keypoints.map { keypoint in
+            guard let keypoint = keypoint else { return nil }
+            let kp_f = keypoint.position.simdVector
+            let moved_kp_f = kp_f - kp_m_f
+            let roated_kp_f = moved_kp_f.rotate(angle: -theta1, axis: .zAxis).rotate(angle: -theta2, axis: .yAxis)
+            let movebaced_kp_f = roated_kp_f + kp_m_f
+            return movebaced_kp_f.keypoint
+        }
+    }
+}
+
+extension simd_float3 {
+    enum RotateAxis {
+        case xAxis
+        case yAxis
+        case zAxis
+    }
+    
+    func rotate(angle: Float, axis: RotateAxis) -> simd_float3 {
+        let rows: [simd_float3]
+        switch axis {
+        case .xAxis:
+            rows = [
+                simd_float3(1,          0,           0),
+                simd_float3(0, cos(angle), -sin(angle)),
+                simd_float3(0, sin(angle),  cos(angle)),
+            ]
+        case .yAxis:
+            rows = [
+                simd_float3(cos(angle), 0, -sin(angle)),
+                simd_float3(0,          1,           0),
+                simd_float3(sin(angle), 0,  cos(angle)),
+            ]
+        case .zAxis:
+            rows = [
+                simd_float3(cos(angle), -sin(angle), 0),
+                simd_float3(sin(angle),  cos(angle), 0),
+                simd_float3(0,           0,          1),
+            ]
+        }
+        
+        return float3x3(rows: rows) * self
+    }
+    
+    static func + (lhs: simd_float3, rhs: simd_float3) -> simd_float3 {
+        return simd_float3(x: lhs.x + rhs.x, y: lhs.y + rhs.y, z: lhs.z + rhs.z)
+    }
+    
+    static func - (lhs: simd_float3, rhs: simd_float3) -> simd_float3 {
+        return simd_float3(x: lhs.x - rhs.x, y: lhs.y - rhs.y, z: lhs.z - rhs.z)
+    }
+    
+    static func / (lhs: simd_float3, rhs: Float) -> simd_float3 {
+        return simd_float3(x: lhs.x / rhs, y: lhs.y / rhs, z: lhs.z / rhs)
     }
 }

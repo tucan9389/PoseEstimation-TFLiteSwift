@@ -123,6 +123,8 @@ private extension LiteBaseline3DPoseEstimator {
             case RIGHT_ELBOW = "R_Elbow"        // 15
             case RIGHT_WRIST = "R_Wrist"        // 16
             case THORAX = "Thorax"              // 17
+            
+            static let baselineKeypointIndexes = (11, 14)  // L_Shoulder, R_Shoulder
 
             static let lines = [
                 (from: BodyPart.PELVIS, to: BodyPart.TORSO),
@@ -153,7 +155,7 @@ private extension PoseEstimationOutput {
         let keypoints = convertToKeypoints(from: outputs)
         let lines = makeLines(with: keypoints)
         
-        humans = [.human3d(human: Human3D(keypoints: keypoints, lines: lines))]
+        humans = [.human3d(human: Human3D(keypoints: keypoints, lines: lines, baselineKeypointIndexes: LiteBaseline3DPoseEstimator.Output.BodyPart.baselineKeypointIndexes))]
     }
     
     func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint3D] {
