@@ -12,6 +12,23 @@ This project is Pose Estimation on iOS with TensorFlow Lite.<br>If you are inter
 | <img src="https://user-images.githubusercontent.com/37643248/77227994-99ba2a80-6bc7-11ea-9b08-9bb57723bc42.gif" width=240px> | <img src="https://user-images.githubusercontent.com/37643248/110994933-e68ca780-83bc-11eb-8331-d827e19d2d36.gif" width=240px> |
 
 
+## Features
+
+- [x] Support 2D pose estimaiton TFLite models
+    - [x] Real-time demo with Metal framwork
+    - [x] Photo album demo
+- [x] Support 3D pose estimation TFLite model
+    - [x] Real-time demo with Metal framwork (but realtime model is not ready yet)
+    - [x] Real-time pose matching demo
+    - [x] Photo album demo
+- [x] Render the result keypoints of 2D pose estimation in 2D demo page
+- [x] Render the result keypoints of 3D pose estimation with SceneKit
+- [x] Render the heatmaps of 2D pose estimation output
+    - [x] Part Confidence Maps for typical heatmap based models
+    - [x] Part Affinity Fields for OpenPose (2D multi-person)
+- [x] Implemented pose-matching with cosine similiarity in 3D pose demo
+- [x] Implemented to fix the shoulders' keypoints in 3D pose estimation to pre-process for pose-matching
+
 
 ## Models
 
