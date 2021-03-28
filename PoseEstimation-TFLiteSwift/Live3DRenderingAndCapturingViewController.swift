@@ -14,6 +14,7 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var speechStatusLabel: UILabel?
+    @IBOutlet weak var shoulderFixingSwitch: UISwitch?
     @IBOutlet weak var previewView: UIView?
     @IBOutlet weak var outputRenderingView: Pose3DSceneView?
     @IBOutlet var capturedRenderingViews: [Pose3DSceneView]?
@@ -44,8 +45,13 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
     var outputHuman: PoseEstimationOutput.Human3D? {
         didSet {
             DispatchQueue.main.async {
-                self.outputRenderingView?.keypoints = self.outputHuman?.keypoints ?? []
-                self.outputRenderingView?.lines = self.outputHuman?.lines ?? []
+                if self.shoulderFixingSwitch?.isOn == true {
+                    self.outputRenderingView?.keypoints = self.outputHuman?.adjustKeypoints() ?? []
+                    self.outputRenderingView?.lines = self.outputHuman?.adjustLines() ?? []
+                } else {
+                    self.outputRenderingView?.keypoints = self.outputHuman?.keypoints ?? []
+                    self.outputRenderingView?.lines = self.outputHuman?.lines ?? []
+                }
             }
         }
     }
@@ -185,8 +191,13 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
             capturedOutputHumans.removeLast()
         }
         for (capturedOutputHuman, capturedRenderingView) in zip(capturedOutputHumans, capturedRenderingViews) {
-            capturedRenderingView.keypoints = capturedOutputHuman.keypoints
-            capturedRenderingView.lines = capturedOutputHuman.lines
+            if self.shoulderFixingSwitch?.isOn == true {
+                capturedRenderingView.keypoints = capturedOutputHuman.adjustKeypoints()
+                capturedRenderingView.lines = capturedOutputHuman.adjustLines()
+            } else {
+                capturedRenderingView.keypoints = capturedOutputHuman.keypoints
+                capturedRenderingView.lines = capturedOutputHuman.lines
+            }
         }
         capturedHumanResults.insert(capturedHuman, at: 0)
         while capturedHumanResults.count > capturedRenderingViews.count {
@@ -412,52 +423,56 @@ private extension Array where Element == PoseEstimationOutput.Human3D.Line3D {
     
 }
 
-private extension PoseEstimationOutput.Human3D {
+extension PoseEstimationOutput.Human3D {
     func adjustLines() -> [PoseEstimationOutput.Human3D.Line3D] {
-        guard let baselineKeypointIndexes = baselineKeypointIndexes else { return [] }
-        let index1 = baselineKeypointIndexes.0
-        let index2 = baselineKeypointIndexes.1
+        guard let index1 = baselineKeypointIndexes?.0, let index2 = baselineKeypointIndexes?.1 else { return [] }
         guard let kp1 = keypoints[index1], let kp2 = keypoints[index2] else { return [] }
         
         let kp1_f = kp1.position.simdVector
         let kp2_f = kp2.position.simdVector
         let kp_m_f = (kp1_f + kp2_f) / 2.0
         
-        let moved_kp1_f = kp1_f - kp_m_f
-        let theta1: Float = atan(moved_kp1_f.y / moved_kp1_f.x) // radian
-        let roated_kp1_f = moved_kp1_f.rotate(angle: -theta1, axis: .zAxis)
-        let theta2: Float = atan(roated_kp1_f.z / roated_kp1_f.x) // radian
+        let (theta1, theta2) = getThetas(kp_f: kp1_f, kp_m_f: kp_m_f)
         
         return lines.map { line -> (from: Keypoint3D, to: Keypoint3D) in
-            let to = ((line.to.position.simdVector - kp_m_f).rotate(angle: -theta1, axis: .zAxis).rotate(angle: -theta2, axis: .yAxis) + kp_m_f).keypoint
-            let from = ((line.from.position.simdVector - kp_m_f).rotate(angle: -theta1, axis: .zAxis).rotate(angle: -theta2, axis: .yAxis) + kp_m_f).keypoint
+            let from = line.from.adjustKeypoint(theta1: theta1, theta2: theta2, kp_m_f: kp_m_f)
+            let to = line.to.adjustKeypoint(theta1: theta1, theta2: theta2, kp_m_f: kp_m_f)
             return (from: from, to: to)
         }
     }
     
     func adjustKeypoints() -> [Keypoint3D?] {
-        guard let baselineKeypointIndexes = baselineKeypointIndexes else { return [] }
-        let index1 = baselineKeypointIndexes.0
-        let index2 = baselineKeypointIndexes.1
+        guard let index1 = baselineKeypointIndexes?.0, let index2 = baselineKeypointIndexes?.1 else { return [] }
         guard let kp1 = keypoints[index1], let kp2 = keypoints[index2] else { return [] }
         
         let kp1_f = kp1.position.simdVector
         let kp2_f = kp2.position.simdVector
         let kp_m_f = (kp1_f + kp2_f) / 2.0
         
-        let moved_kp1_f = kp1_f - kp_m_f
-        let theta1: Float = atan(moved_kp1_f.y / moved_kp1_f.x) // radian
-        let roated_kp1_f = moved_kp1_f.rotate(angle: -theta1, axis: .zAxis)
-        let theta2: Float = atan(roated_kp1_f.z / roated_kp1_f.x) // radian
+        let (theta1, theta2) = getThetas(kp_f: kp1_f, kp_m_f: kp_m_f)
         
         return keypoints.map { keypoint in
-            guard let keypoint = keypoint else { return nil }
-            let kp_f = keypoint.position.simdVector
-            let moved_kp_f = kp_f - kp_m_f
-            let roated_kp_f = moved_kp_f.rotate(angle: -theta1, axis: .zAxis).rotate(angle: -theta2, axis: .yAxis)
-            let movebaced_kp_f = roated_kp_f + kp_m_f
-            return movebaced_kp_f.keypoint
+            return keypoint?.adjustKeypoint(theta1: theta1, theta2: theta2, kp_m_f: kp_m_f)
         }
+    }
+    
+    func getThetas(kp_f: simd_float3, kp_m_f: simd_float3) -> (theta1: Float, theta2: Float) {
+        let moved_kp_f = kp_f - kp_m_f
+        let theta1: Float = atan(moved_kp_f.y / moved_kp_f.x) // radian
+        let roated_kp_f = moved_kp_f.rotate(angle: -theta1, axis: .zAxis)
+        let theta2: Float = atan(roated_kp_f.z / roated_kp_f.x) // radian
+        return (theta1, theta2)
+    }
+}
+
+extension Keypoint3D {
+    func adjustKeypoint(theta1: Float, theta2: Float, kp_m_f: simd_float3) -> Keypoint3D {
+        let kp_f = position.simdVector
+        let moved_kp_f = kp_f - kp_m_f
+        let roated_kp_f = moved_kp_f.rotate(angle: -theta1, axis: .zAxis).rotate(angle: -theta2, axis: .yAxis)
+        let middlex_kp_m_f = simd_float3(x: 0.5, y: kp_m_f.y, z: kp_m_f.z)
+        let movebacked_kp_f = roated_kp_f + middlex_kp_m_f
+        return movebacked_kp_f.keypoint
     }
 }
 
