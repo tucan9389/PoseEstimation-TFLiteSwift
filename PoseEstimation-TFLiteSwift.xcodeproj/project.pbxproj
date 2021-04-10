@@ -27,13 +27,6 @@
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
 		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
-		713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */; };
-		713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */; };
-		713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */; };
-		713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */; };
-		713A0481247905AC00F90C77 /* simplepose_resneta50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */; };
-		713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */; };
-		713A0485247905AC00F90C77 /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */; };
 		713A04882479071D00F90C77 /* IMGCLSPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */; };
 		71A1BC1624793BC5004EA5D9 /* Argmax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1BC1524793BC5004EA5D9 /* Argmax.swift */; };
 		71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */; };
@@ -46,20 +39,11 @@
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
 		71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */; };
 		C419403425FC08A500637FAF /* Live3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */; };
+		C4465AC226205F280066C9A2 /* mhp_litebaseline_MuCo_32.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4465AC026205F280066C9A2 /* mhp_litebaseline_MuCo_32.tflite */; };
+		C4465AC326205F280066C9A2 /* mhp_litebaseline_MuCo_64.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4465AC126205F280066C9A2 /* mhp_litebaseline_MuCo_64.tflite */; };
 		C44E90E5260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44E90E4260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift */; };
 		C4543D0225FC7054006528DB /* LiteBaseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */; };
-		C4543D0825FC7129006528DB /* litebaseline_3dpose_real_S.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4543D0425FC7129006528DB /* litebaseline_3dpose_real_S.tflite */; };
-		C4543D0925FC7129006528DB /* litebaseline_3dpose_extra_small.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4543D0525FC7129006528DB /* litebaseline_3dpose_extra_small.tflite */; };
-		C4543D0A25FC7129006528DB /* litebaseline_3dpose_real_L.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4543D0625FC7129006528DB /* litebaseline_3dpose_real_L.tflite */; };
-		C4543D0B25FC7129006528DB /* litebaseline_3dpose_large.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4543D0725FC7129006528DB /* litebaseline_3dpose_large.tflite */; };
 		C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */; };
-		C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */; };
-		C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */; };
-		C4A4C6F925CB38F000EDF20A /* simplepose_resnet152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F325CB38F000EDF20A /* simplepose_resnet152b_coco.tflite */; };
-		C4A4C6FA25CB38F000EDF20A /* simplepose_resneta101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F425CB38F000EDF20A /* simplepose_resneta101b_coco.tflite */; };
-		C4A4C6FB25CB38F000EDF20A /* simplepose_resnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F525CB38F000EDF20A /* simplepose_resnet101b_coco.tflite */; };
-		C4A4C6FC25CB38F000EDF20A /* simplepose_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F625CB38F000EDF20A /* simplepose_resnet50b_coco.tflite */; };
-		C4A4C6FF25CB391600EDF20A /* simplepose_resneta50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */; };
 		C4A4C70525CC5AA500EDF20A /* Baseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */; };
 		C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */; };
 		C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */; };
@@ -91,13 +75,6 @@
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
 		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
-		713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet50b_coco.tflite; sourceTree = "<group>"; };
-		713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet152b_coco.tflite; sourceTree = "<group>"; };
-		713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet101b_coco.tflite; sourceTree = "<group>"; };
-		713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
-		713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta50b_coco.tflite; sourceTree = "<group>"; };
-		713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta101b_coco.tflite; sourceTree = "<group>"; };
-		713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
 		713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMGCLSPoseEstimator.swift; sourceTree = "<group>"; };
 		71A1BC1524793BC5004EA5D9 /* Argmax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Argmax.swift; sourceTree = "<group>"; };
 		71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseConfidenceMapDrawingView.swift; sourceTree = "<group>"; };
@@ -111,20 +88,11 @@
 		71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLineHeatmapViewController.swift; sourceTree = "<group>"; };
 		8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live3DRenderingViewController.swift; sourceTree = "<group>"; };
+		C4465AC026205F280066C9A2 /* mhp_litebaseline_MuCo_32.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = mhp_litebaseline_MuCo_32.tflite; sourceTree = "<group>"; };
+		C4465AC126205F280066C9A2 /* mhp_litebaseline_MuCo_64.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = mhp_litebaseline_MuCo_64.tflite; sourceTree = "<group>"; };
 		C44E90E4260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live3DRenderingAndCapturingViewController.swift; sourceTree = "<group>"; };
 		C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteBaseline3DPoseEstimator.swift; sourceTree = "<group>"; };
-		C4543D0425FC7129006528DB /* litebaseline_3dpose_real_S.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = litebaseline_3dpose_real_S.tflite; sourceTree = "<group>"; };
-		C4543D0525FC7129006528DB /* litebaseline_3dpose_extra_small.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = litebaseline_3dpose_extra_small.tflite; sourceTree = "<group>"; };
-		C4543D0625FC7129006528DB /* litebaseline_3dpose_real_L.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = litebaseline_3dpose_real_L.tflite; sourceTree = "<group>"; };
-		C4543D0725FC7129006528DB /* litebaseline_3dpose_large.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = litebaseline_3dpose_large.tflite; sourceTree = "<group>"; };
 		C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pose3DSceneView.swift; sourceTree = "<group>"; };
-		C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
-		C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
-		C4A4C6F325CB38F000EDF20A /* simplepose_resnet152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet152b_coco.tflite; sourceTree = "<group>"; };
-		C4A4C6F425CB38F000EDF20A /* simplepose_resneta101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta101b_coco.tflite; sourceTree = "<group>"; };
-		C4A4C6F525CB38F000EDF20A /* simplepose_resnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet101b_coco.tflite; sourceTree = "<group>"; };
-		C4A4C6F625CB38F000EDF20A /* simplepose_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet50b_coco.tflite; sourceTree = "<group>"; };
-		C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta50b_coco.tflite; sourceTree = "<group>"; };
 		C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Baseline3DPoseEstimator.swift; sourceTree = "<group>"; };
 		C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = baseline_moon_noS.tflite; sourceTree = "<group>"; };
 		C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImage3DRenderingViewController.swift; sourceTree = "<group>"; };
@@ -272,20 +240,6 @@
 		71FE62A62478EFB800425708 /* imgclsmob-Pose */ = {
 			isa = PBXGroup;
 			children = (
-				C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */,
-				C4A4C6F625CB38F000EDF20A /* simplepose_resnet50b_coco.tflite */,
-				C4A4C6F525CB38F000EDF20A /* simplepose_resnet101b_coco.tflite */,
-				C4A4C6F325CB38F000EDF20A /* simplepose_resnet152b_coco.tflite */,
-				C4A4C6F425CB38F000EDF20A /* simplepose_resneta101b_coco.tflite */,
-				C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */,
-				C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */,
-				713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */,
-				713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */,
-				713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */,
-				713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */,
-				713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */,
-				713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */,
-				713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */,
 				713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */,
 			);
 			path = "imgclsmob-Pose";
@@ -311,10 +265,8 @@
 		C4543D0025FC7038006528DB /* LiteBaseline3DPose */ = {
 			isa = PBXGroup;
 			children = (
-				C4543D0525FC7129006528DB /* litebaseline_3dpose_extra_small.tflite */,
-				C4543D0725FC7129006528DB /* litebaseline_3dpose_large.tflite */,
-				C4543D0625FC7129006528DB /* litebaseline_3dpose_real_L.tflite */,
-				C4543D0425FC7129006528DB /* litebaseline_3dpose_real_S.tflite */,
+				C4465AC026205F280066C9A2 /* mhp_litebaseline_MuCo_32.tflite */,
+				C4465AC126205F280066C9A2 /* mhp_litebaseline_MuCo_64.tflite */,
 				C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */,
 			);
 			path = LiteBaseline3DPose;
@@ -388,35 +340,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4465AC326205F280066C9A2 /* mhp_litebaseline_MuCo_64.tflite in Resources */,
 				712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */,
-				713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */,
-				713A0481247905AC00F90C77 /* simplepose_resneta50b_coco.tflite in Resources */,
 				C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */,
 				7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */,
-				713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */,
 				7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */,
 				712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */,
-				C4543D0925FC7129006528DB /* litebaseline_3dpose_extra_small.tflite in Resources */,
+				C4465AC226205F280066C9A2 /* mhp_litebaseline_MuCo_32.tflite in Resources */,
 				71A1ED43245971AC001F796C /* LICENSE in Resources */,
 				71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */,
-				C4543D0825FC7129006528DB /* litebaseline_3dpose_real_S.tflite in Resources */,
-				713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */,
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
-				C4A4C6FC25CB38F000EDF20A /* simplepose_resnet50b_coco.tflite in Resources */,
-				C4A4C6FB25CB38F000EDF20A /* simplepose_resnet101b_coco.tflite in Resources */,
 				71E8D93B243CC5330081DD6E /* README.md in Resources */,
-				713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */,
-				C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */,
-				C4A4C6FA25CB38F000EDF20A /* simplepose_resneta101b_coco.tflite in Resources */,
-				713A0485247905AC00F90C77 /* simplepose_resnet18_coco.tflite in Resources */,
-				713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */,
 				712A7FCD242668FF00B043F9 /* pefm_hourglass_v2.tflite in Resources */,
-				C4A4C6FF25CB391600EDF20A /* simplepose_resneta50b_coco.tflite in Resources */,
 				7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */,
-				C4543D0A25FC7129006528DB /* litebaseline_3dpose_real_L.tflite in Resources */,
-				C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */,
-				C4A4C6F925CB38F000EDF20A /* simplepose_resnet152b_coco.tflite in Resources */,
-				C4543D0B25FC7129006528DB /* litebaseline_3dpose_large.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

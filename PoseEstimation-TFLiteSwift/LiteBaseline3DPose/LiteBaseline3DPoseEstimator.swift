@@ -31,7 +31,7 @@ class LiteBaseline3DPoseEstimator: PoseEstimator {
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
-            modelName: "litebaseline_3dpose_large",
+            modelName: "mhp_litebaseline_MuCo_64",
             inputWidth: Input.width,
             inputHeight: Input.height,
             inputRankType: Input.inputRankType,
@@ -99,50 +99,57 @@ private extension LiteBaseline3DPoseEstimator {
     }
     struct Output {
         struct Heatmap {
-            static let width = 32
-            static let height = 32
-            static let depth = 32
+            static let width = 64
+            static let height = 64
+            static let depth = 64
             static let count = BodyPart.allCases.count // 18
         }
         enum BodyPart: String, CaseIterable {
-            case PELVIS = "Pelvis"          // 0
-            case RIGHT_HIP = "R_Hip"        // 1
-            case RIGHT_KNEE = "R_Knee"      // 2
-            case RIGHT_ANKLE = "R_Ankle"    // 3
-            case LEFT_HIP = "L_Hip"         // 4
-            case LEFT_KNEE = "L_Knee"       // 5
-            case LEFT_ANKLE = "L_Ankle"     // 6
-            case TORSO = "Torso"            // 7
-            case NECK = "Neck"              // 8
-            case NOSE = "Nose"              // 9
-            case HEAD = "Head"              // 10
-            case LEFT_SHOULDER = "L_Shoulder"   // 11
-            case LEFT_ELBOW = "L_Elbow"         // 12
-            case LEFT_WRIST = "L_Wrist"         // 13
-            case RIGHT_SHOULDER = "R_Shoulder"  // 14
-            case RIGHT_ELBOW = "R_Elbow"        // 15
-            case RIGHT_WRIST = "R_Wrist"        // 16
-            case THORAX = "Thorax"              // 17
+            case Head_top = "Head_top"          // 0
+            case Thorax = "Thorax"              // 1
+            case R_Shoulder = "R_Shoulder"      // 2
+            case R_Elbow = "R_Elbow"            // 3
+            case R_Wrist = "R_Wrist"            // 4
+            case L_Shoulder = "L_Shoulder"      // 5
+            case L_Elbow = "L_Elbow"            // 6
+            case L_Wrist = "L_Wrist"            // 7
+            case R_Hip = "R_Hip"                // 8
+            case R_Knee = "R_Knee"              // 9
+            case R_Ankle = "R_Ankle"            // 10
+            case L_Hip = "L_Hip"                // 11
+            case L_Knee = "L_Knee"              // 12
+            case L_Ankle = "L_Ankle"            // 13
+            case Pelvis = "Pelvis"              // 14
+            case Spine = "Spine"                // 15
+            case Head = "Head"                  // 16
+            case R_Hand = "R_Hand"              // 17
+            case L_Hand = "L_Hand"              // 18
+            case R_Toe = "R_Toe"                // 19
+            case L_Toe = "L_Toe"                // 20
             
-            static let baselineKeypointIndexes = (11, 14)  // L_Shoulder, R_Shoulder
+            static let baselineKeypointIndexes = (2, 5)  // R_Shoulder, L_Shoulder
 
             static let lines = [
-                (from: BodyPart.PELVIS, to: BodyPart.TORSO),
-                (from: BodyPart.TORSO, to: BodyPart.NECK),
-                (from: BodyPart.NECK, to: BodyPart.NOSE),
-                (from: BodyPart.NOSE, to: BodyPart.HEAD),
-                (from: BodyPart.NECK, to: BodyPart.LEFT_SHOULDER),
-                (from: BodyPart.LEFT_SHOULDER, to: BodyPart.LEFT_ELBOW),
-                (from: BodyPart.LEFT_ELBOW, to: BodyPart.LEFT_WRIST),
-                (from: BodyPart.NECK, to: BodyPart.RIGHT_SHOULDER),
-                (from: BodyPart.RIGHT_SHOULDER, to: BodyPart.RIGHT_ELBOW),
-                (from: BodyPart.RIGHT_ELBOW, to: BodyPart.RIGHT_WRIST),
-                (from: BodyPart.PELVIS, to: BodyPart.RIGHT_HIP),
-                (from: BodyPart.RIGHT_HIP, to: BodyPart.RIGHT_KNEE),
-                (from: BodyPart.RIGHT_KNEE, to: BodyPart.RIGHT_ANKLE),
-                (from: BodyPart.PELVIS, to: BodyPart.LEFT_HIP),
-                (from: BodyPart.LEFT_HIP, to: BodyPart.LEFT_KNEE),
-                (from: BodyPart.LEFT_KNEE, to: BodyPart.LEFT_ANKLE),
+                (from: BodyPart.Head_top, to: BodyPart.Head),
+                (from: BodyPart.Head, to: BodyPart.Thorax),
+                (from: BodyPart.Thorax, to: BodyPart.Spine),
+                (from: BodyPart.Spine, to: BodyPart.Pelvis),
+                (from: BodyPart.Pelvis, to: BodyPart.R_Hip),
+                (from: BodyPart.Pelvis, to: BodyPart.L_Hip),
+                (from: BodyPart.R_Hip, to: BodyPart.R_Knee),
+                (from: BodyPart.R_Knee, to: BodyPart.R_Ankle),
+                (from: BodyPart.R_Ankle, to: BodyPart.R_Toe),
+                (from: BodyPart.L_Hip, to: BodyPart.L_Knee),
+                (from: BodyPart.L_Knee, to: BodyPart.L_Ankle),
+                (from: BodyPart.L_Ankle, to: BodyPart.L_Toe),
+                (from: BodyPart.Thorax, to: BodyPart.R_Shoulder),
+                (from: BodyPart.R_Shoulder, to: BodyPart.R_Elbow),
+                (from: BodyPart.R_Elbow, to: BodyPart.R_Wrist),
+                (from: BodyPart.R_Wrist, to: BodyPart.R_Hand),
+                (from: BodyPart.Thorax, to: BodyPart.L_Shoulder),
+                (from: BodyPart.L_Shoulder, to: BodyPart.L_Elbow),
+                (from: BodyPart.L_Elbow, to: BodyPart.L_Wrist),
+                (from: BodyPart.L_Wrist, to: BodyPart.L_Hand),
             ]
         }
     }
