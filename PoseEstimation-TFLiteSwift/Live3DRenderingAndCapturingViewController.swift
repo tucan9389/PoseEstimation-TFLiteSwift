@@ -17,6 +17,7 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
     @IBOutlet weak var previewView: UIView?
     @IBOutlet weak var outputRenderingView: Pose3DSceneView?
     @IBOutlet var capturedRenderingViews: [Pose3DSceneView]?
+    @IBOutlet var capturedSimilarityLabels: [UILabel]?
     @IBOutlet weak var listeningButtonItem: UIBarButtonItem?
     
     // capturedRenderingViews
@@ -229,7 +230,8 @@ extension Live3DRenderingAndCapturingViewController: VideoCaptureDelegate {
         DispatchQueue(label: "inference").async { [weak self] in
             guard let self = self else { return }
             
-            self.inference(with: pixelBuffer)
+            let poseResult = self.inference(with: pixelBuffer)
+            self.matchPose(with: poseResult)
             
             self.isInferencing = false
         }
@@ -237,18 +239,53 @@ extension Live3DRenderingAndCapturingViewController: VideoCaptureDelegate {
 }
 
 extension Live3DRenderingAndCapturingViewController {
-    func inference(with pixelBuffer: CVPixelBuffer) {
+    func inference(with pixelBuffer: CVPixelBuffer) -> PoseEstimationOutput.Human3D? {
         let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer,
                                                       preprocessOptions: preprocessOptions,
                                                       postprocessOptions: postprocessOptions)
         let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
-        
+        var poseResult: PoseEstimationOutput.Human3D?
         switch (result) {
         case .success(let output):
-            outputHuman = output.humans3d.first ?? nil
+            poseResult = output.humans3d.first ?? nil
         case .failure(_):
             break
         }
+        
+        outputHuman = poseResult
+        
+        return poseResult
+    }
+    
+    func matchPose(with precitedPoseResult: PoseEstimationOutput.Human3D?) {
+        guard let precitedPoseResult = precitedPoseResult else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            var highestSimliarityAndIndex: (similarity: CGFloat, index: Int?) = (0.0, nil)
+            for (idx, capturedRenderingView) in (self.capturedRenderingViews ?? []).enumerated() {
+                guard precitedPoseResult.lines.count == capturedRenderingView.lines.count else { continue }
+                let similarity = precitedPoseResult.lines.matchVector(with: capturedRenderingView.lines)
+                self.capturedSimilarityLabels?[idx].text = "similarity: \(String(format: "%.3f", similarity))"
+                
+                if highestSimliarityAndIndex.similarity < similarity {
+                    highestSimliarityAndIndex.similarity = similarity
+                    highestSimliarityAndIndex.index = idx
+                }
+                
+                capturedRenderingView.layer.borderWidth = 2
+                capturedRenderingView.layer.borderColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3).cgColor
+            }
+            
+            let thresholdScore: CGFloat = 0.8
+            if highestSimliarityAndIndex.similarity > thresholdScore, let highestIndex = highestSimliarityAndIndex.index {
+                self.capturedRenderingViews?[highestIndex].layer.borderWidth = 4
+                self.capturedRenderingViews?[highestIndex].layer.borderColor = UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 0.5).cgColor
+            }
+        }
+        
+        
     }
 }
 
@@ -352,5 +389,18 @@ private extension CGRect {
     func scaled(to scalingRatio: CGFloat) -> CGRect {
         return CGRect(x: origin.x * scalingRatio, y: origin.y * scalingRatio,
                       width: width * scalingRatio, height: height * scalingRatio)
+    }
+}
+
+private extension Array where Element == PoseEstimationOutput.Human3D.Line3D {
+    func matchVector(with capturedLines: [PoseEstimationOutput.Human3D.Line3D]) -> CGFloat {
+        let cosineSimilaries = zip(capturedLines, self).map { (capturedLine, predictedLine) -> CGFloat in
+            let v1 = capturedLine.to - capturedLine.from
+            let v2 = predictedLine.to - predictedLine.from
+            return v1.product(rhs: v2) / (v1.distance * v2.distance)
+        }
+        let averageSilirarity = cosineSimilaries.reduce(0.0) { $0 + $1 } / CGFloat(cosineSimilaries.count)
+        
+        return averageSilirarity
     }
 }

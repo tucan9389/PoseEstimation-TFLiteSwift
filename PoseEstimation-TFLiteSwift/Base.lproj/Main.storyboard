@@ -2279,29 +2279,49 @@
                                     <constraint firstAttribute="width" secondItem="xRB-hD-k7k" secondAttribute="height" multiplier="203:128" id="6VX-ez-W2L"/>
                                 </constraints>
                             </sceneKitView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="similarity: n/a" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuE-YC-bgN">
+                                <rect key="frame" x="6" y="612" width="201" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="similarity: n/a" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTf-hF-75a">
+                                <rect key="frame" x="207" y="612" width="201" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FdQ-H1-SQH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="vuE-YC-bgN" firstAttribute="trailing" secondItem="T9P-CY-CYq" secondAttribute="trailing" id="140-hB-DOQ"/>
                             <constraint firstItem="Zc6-eO-N8l" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="FdQ-H1-SQH" secondAttribute="trailing" constant="-6" id="3zt-c4-yBG"/>
                             <constraint firstItem="xRB-hD-k7k" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="FdQ-H1-SQH" secondAttribute="leading" constant="6" id="7Ms-rt-sTp"/>
                             <constraint firstItem="Zc6-eO-N8l" firstAttribute="bottom" secondItem="T9P-CY-CYq" secondAttribute="bottom" id="998-g5-i1m"/>
+                            <constraint firstItem="xTf-hF-75a" firstAttribute="trailing" secondItem="Zc6-eO-N8l" secondAttribute="trailing" id="BzU-yb-X48"/>
+                            <constraint firstItem="vuE-YC-bgN" firstAttribute="centerX" secondItem="T9P-CY-CYq" secondAttribute="centerX" id="Cye-9I-Ixu"/>
                             <constraint firstItem="Mfb-8N-vbW" firstAttribute="top" secondItem="FdQ-H1-SQH" secondAttribute="top" id="EIH-je-mL6"/>
                             <constraint firstItem="xRB-hD-k7k" firstAttribute="centerX" secondItem="T81-gz-JI3" secondAttribute="centerX" id="ErK-9P-eoF"/>
                             <constraint firstItem="Zc6-eO-N8l" firstAttribute="top" secondItem="T9P-CY-CYq" secondAttribute="top" id="Fbp-hX-9dj"/>
                             <constraint firstItem="WgN-ye-lJb" firstAttribute="centerX" secondItem="T81-gz-JI3" secondAttribute="centerX" id="Hpw-af-YSl"/>
+                            <constraint firstItem="xTf-hF-75a" firstAttribute="top" secondItem="Zc6-eO-N8l" secondAttribute="top" id="Inb-aT-9Zd"/>
                             <constraint firstItem="T9P-CY-CYq" firstAttribute="height" secondItem="xRB-hD-k7k" secondAttribute="height" multiplier="1:1" id="Nn3-Xr-7ei"/>
+                            <constraint firstItem="xTf-hF-75a" firstAttribute="centerX" secondItem="Zc6-eO-N8l" secondAttribute="centerX" id="OLQ-lm-ST8"/>
                             <constraint firstItem="FdQ-H1-SQH" firstAttribute="bottom" secondItem="T9P-CY-CYq" secondAttribute="bottom" id="OUN-K1-IfJ"/>
+                            <constraint firstItem="vuE-YC-bgN" firstAttribute="top" secondItem="T9P-CY-CYq" secondAttribute="top" id="Py6-Z6-iAE"/>
                             <constraint firstItem="Zc6-eO-N8l" firstAttribute="width" secondItem="T9P-CY-CYq" secondAttribute="width" id="X5n-fN-xjl"/>
                             <constraint firstItem="T9P-CY-CYq" firstAttribute="top" secondItem="xRB-hD-k7k" secondAttribute="bottom" id="Xxg-8z-REE"/>
                             <constraint firstItem="Mfb-8N-vbW" firstAttribute="leading" secondItem="FdQ-H1-SQH" secondAttribute="leading" id="Y2w-Qy-mpZ"/>
                             <constraint firstItem="FdQ-H1-SQH" firstAttribute="trailing" secondItem="Mfb-8N-vbW" secondAttribute="trailing" id="dfn-gR-qFH"/>
+                            <constraint firstItem="xTf-hF-75a" firstAttribute="leading" secondItem="Zc6-eO-N8l" secondAttribute="leading" id="gbC-Yk-1Af"/>
                             <constraint firstItem="T9P-CY-CYq" firstAttribute="trailing" secondItem="xRB-hD-k7k" secondAttribute="centerX" id="grx-72-GCJ"/>
                             <constraint firstItem="xRB-hD-k7k" firstAttribute="height" secondItem="WgN-ye-lJb" secondAttribute="height" multiplier="0.7" id="hAz-sb-aU9"/>
                             <constraint firstItem="T9P-CY-CYq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="FdQ-H1-SQH" secondAttribute="leading" constant="6" id="jVL-mQ-jZT"/>
                             <constraint firstItem="xRB-hD-k7k" firstAttribute="top" secondItem="WgN-ye-lJb" secondAttribute="bottom" id="le8-rQ-lJB"/>
                             <constraint firstItem="WgN-ye-lJb" firstAttribute="top" secondItem="Mfb-8N-vbW" secondAttribute="bottom" id="n8y-k3-KlW"/>
                             <constraint firstItem="Zc6-eO-N8l" firstAttribute="leading" secondItem="T9P-CY-CYq" secondAttribute="trailing" id="oz4-Gk-zes"/>
+                            <constraint firstItem="vuE-YC-bgN" firstAttribute="leading" secondItem="T9P-CY-CYq" secondAttribute="leading" id="yD6-1Y-flR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QuI-nf-s9m">
@@ -2325,6 +2345,8 @@
                         <outlet property="speechStatusLabel" destination="Mfb-8N-vbW" id="Gtv-LB-fCT"/>
                         <outletCollection property="capturedRenderingViews" destination="T9P-CY-CYq" collectionClass="NSMutableArray" id="doO-KO-ixd"/>
                         <outletCollection property="capturedRenderingViews" destination="Zc6-eO-N8l" collectionClass="NSMutableArray" id="PoA-RD-bA0"/>
+                        <outletCollection property="capturedSimilarityLabels" destination="vuE-YC-bgN" collectionClass="NSMutableArray" id="Stw-GJ-Vpq"/>
+                        <outletCollection property="capturedSimilarityLabels" destination="xTf-hF-75a" collectionClass="NSMutableArray" id="2P2-vx-jEa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yW4-S0-13w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

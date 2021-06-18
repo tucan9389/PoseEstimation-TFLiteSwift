@@ -151,6 +151,43 @@ struct Keypoint3D {
     init(x: CGFloat, y: CGFloat, z: CGFloat) {
         position = Point3D(x: x, y: y, z: z)
     }
+    
+    static func - (lhs: Keypoint3D, rhs: Keypoint3D) -> Keypoint3D {
+        return Keypoint3D(
+            x: lhs.position.x - rhs.position.x,
+            y: lhs.position.y - rhs.position.y,
+            z: lhs.position.z - rhs.position.z
+        )
+    }
+    static func + (lhs: Keypoint3D, rhs: Keypoint3D) -> Keypoint3D {
+        return Keypoint3D(
+            x: lhs.position.x + rhs.position.x,
+            y: lhs.position.y + rhs.position.y,
+            z: lhs.position.z + rhs.position.z
+        )
+    }
+    static func * (lhs: Keypoint3D, rhs: Keypoint3D) -> Keypoint3D {
+        return Keypoint3D(
+            x: lhs.position.x * rhs.position.x,
+            y: lhs.position.y * rhs.position.y,
+            z: lhs.position.z * rhs.position.z
+        )
+    }
+    static func / (lhs: Keypoint3D, rhs: Keypoint3D) -> Keypoint3D {
+        return Keypoint3D(
+            x: lhs.position.x / rhs.position.x,
+            y: lhs.position.y / rhs.position.y,
+            z: lhs.position.z / rhs.position.z
+        )
+    }
+    var distance: CGFloat {
+        return pow(position.x*position.x + position.y*position.y + position.z*position.z, 0.5)
+    }
+    
+    func product(rhs: Keypoint3D) -> CGFloat {
+        let v = self * rhs
+        return v.position.x + v.position.y + v.position.z
+    }
 }
 
 struct PoseEstimationOutput {
