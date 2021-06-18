@@ -15,6 +15,7 @@ class Live3DRenderingViewController: UIViewController {
     @IBOutlet weak var shoulderFixingSwitch: UISwitch?
     @IBOutlet weak var previewView: UIView?
     @IBOutlet weak var outputRenderingView: Pose3DSceneView?
+    @IBOutlet var topLabels: [UILabel]!
     
     // MARK: - VideoCapture Properties
     var videoCapture = VideoCapture()
@@ -33,7 +34,11 @@ class Live3DRenderingViewController: UIViewController {
     }
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = LiteBaseline3DPoseEstimator()
+    lazy var poseEstimator: PoseEstimator = {
+        var estimator = LiteBaseline3DPoseEstimator()
+        estimator.delegate = self
+        return estimator
+    }()
     var outputHuman: PoseEstimationOutput.Human3D? {
         didSet {
             DispatchQueue.main.async {
@@ -108,6 +113,7 @@ class Live3DRenderingViewController: UIViewController {
         guard let outputRenderingView = outputRenderingView else { return }
         
         outputRenderingView.setupScene()
+        outputRenderingView.showsStatistics = false
         
         outputRenderingView.setupBackgroundNodes()
     }
@@ -140,6 +146,20 @@ extension Live3DRenderingViewController {
             outputHuman = output.humans3d.first ?? nil
         case .failure(_):
             break
+        }
+    }
+}
+
+extension Live3DRenderingViewController: PoseEstimatorDelegate {
+    func didEndInference(_ estimator: PoseEstimator, preprocessingTime: Double, inferenceTime: Double, postprocessingTime: Double) {
+        DispatchQueue.main.async {
+            let labelTexts = [
+                "preproc: \(String(format: "%.0f", preprocessingTime*1000)) ms",
+                "inference: \(String(format: "%.0f", inferenceTime*1000)) ms",
+                "postproc: \(String(format: "%.0f", postprocessingTime*1000)) ms",
+            ]
+            
+            zip(self.topLabels, labelTexts).forEach { $0.0.text = $0.1 }
         }
     }
 }

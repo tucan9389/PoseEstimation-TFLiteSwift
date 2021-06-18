@@ -23,6 +23,7 @@
 //
 
 import CoreVideo
+import UIKit
 
 class PoseNetPoseEstimator: PoseEstimator {
     typealias PoseNetResult = Result<PoseEstimationOutput, PoseEstimationError>
@@ -40,22 +41,44 @@ class PoseNetPoseEstimator: PoseEstimator {
     }()
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
+    var delegate: PoseEstimatorDelegate?
     
     func inference(_ input: PoseEstimationInput) -> PoseNetResult {
         
         // initialize
         modelOutput = nil
         
-        // preprocss
-        guard let inputData = imageInterpreter.preprocess(with: input)
-            else { return .failure(.failToCreateInputData) }
-        
-        // inference
-        guard let outputs = imageInterpreter.inference(with: inputData)
-            else { return .failure(.failToInference) }
-        
-        // postprocess
-        let result = PoseNetResult.success(postprocess(with: outputs))
+        let result: PoseNetResult
+        if let delegate = delegate {
+            // preprocss
+            var t = CACurrentMediaTime()
+            guard let inputData = imageInterpreter.preprocess(with: input)
+                else { return .failure(.failToCreateInputData) }
+            let preprocessingTime = CACurrentMediaTime() - t
+            
+            // inference
+            t = CACurrentMediaTime()
+            guard let outputs = imageInterpreter.inference(with: inputData)
+                else { return .failure(.failToInference) }
+            let inferenceTime = CACurrentMediaTime() - t
+            
+            // postprocess
+            t = CACurrentMediaTime()
+            result = PoseNetResult.success(postprocess(with: outputs))
+            let postprocessingTime = CACurrentMediaTime() - t
+            delegate.didEndInference(self, preprocessingTime: preprocessingTime, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+        } else {
+            // preprocss
+            guard let inputData = imageInterpreter.preprocess(with: input)
+                else { return .failure(.failToCreateInputData) }
+            
+            // inference
+            guard let outputs = imageInterpreter.inference(with: inputData)
+                else { return .failure(.failToInference) }
+            
+            // postprocess
+            result = PoseNetResult.success(postprocess(with: outputs))
+        }
         
         return result
     }

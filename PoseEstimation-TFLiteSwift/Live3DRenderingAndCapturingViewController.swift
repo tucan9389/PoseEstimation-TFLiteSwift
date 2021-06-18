@@ -20,6 +20,7 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
     @IBOutlet var capturedRenderingViews: [Pose3DSceneView]?
     @IBOutlet var capturedSimilarityLabels: [UILabel]?
     @IBOutlet weak var listeningButtonItem: UIBarButtonItem?
+    @IBOutlet var topLabels: [UILabel]!
     
     // capturedRenderingViews
     var capturedHumanResults: [PoseEstimationOutput.Human3D] = []
@@ -41,7 +42,11 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
     }
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = LiteBaseline3DPoseEstimator()
+    lazy var poseEstimator: PoseEstimator = {
+        var estimator = LiteBaseline3DPoseEstimator()
+        estimator.delegate = self
+        return estimator
+    }()
     var outputHuman: PoseEstimationOutput.Human3D? {
         didSet {
             DispatchQueue.main.async {
@@ -143,10 +148,12 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
         guard let outputRenderingView = outputRenderingView, let capturedRenderingViews = capturedRenderingViews else { return }
         
         outputRenderingView.setupScene()
+        outputRenderingView.showsStatistics = false
         outputRenderingView.setupBackgroundNodes()
         
         capturedRenderingViews.forEach {
             $0.setupScene()
+            $0.showsStatistics = false
             $0.setupBackgroundNodes()
         }
     }
@@ -398,6 +405,20 @@ extension Live3DRenderingAndCapturingViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension Live3DRenderingAndCapturingViewController: PoseEstimatorDelegate {
+    func didEndInference(_ estimator: PoseEstimator, preprocessingTime: Double, inferenceTime: Double, postprocessingTime: Double) {
+        DispatchQueue.main.async {
+            let labelTexts = [
+                "preproc: \(String(format: "%.0f", preprocessingTime*1000)) ms",
+                "inference: \(String(format: "%.0f", inferenceTime*1000)) ms",
+                "postproc: \(String(format: "%.0f", postprocessingTime*1000)) ms",
+            ]
+            
+            zip(self.topLabels, labelTexts).forEach { $0.0.text = $0.1 }
+        }
     }
 }
 
