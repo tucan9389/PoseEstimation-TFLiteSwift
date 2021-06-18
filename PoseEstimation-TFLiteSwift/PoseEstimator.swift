@@ -24,6 +24,7 @@
 
 import CoreVideo
 import UIKit
+import simd
 
 struct PreprocessOptions {
     let cropArea: CropArea
@@ -143,6 +144,10 @@ struct Keypoint3D {
         let x: CGFloat
         let y: CGFloat
         let z: CGFloat
+        
+        var simdVector: simd_float3 {
+            return simd_float3(x: Float(x), y: Float(y), z: Float(z))
+        }
     }
     
     let position: Point3D
@@ -202,6 +207,7 @@ struct PoseEstimationOutput {
         typealias Line3D = (from: Keypoint3D, to: Keypoint3D)
         var keypoints: [Keypoint3D?] = []
         var lines: [Line3D] = []
+        var baselineKeypointIndexes: (Int, Int)? = nil
     }
     
     enum Human {
@@ -236,4 +242,10 @@ protocol PoseEstimator {
     func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput?
     var partNames: [String] { get }
     var pairNames: [String]? { get }
+}
+
+extension simd_float3 {
+    var keypoint: Keypoint3D {
+        return Keypoint3D(x: CGFloat(x), y: CGFloat(y), z: CGFloat(z))
+    }
 }

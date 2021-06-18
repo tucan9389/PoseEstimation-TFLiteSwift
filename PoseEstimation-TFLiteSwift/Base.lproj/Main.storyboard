@@ -2200,11 +2200,27 @@
                             <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jkq-Rb-Jrj" customClass="Pose3DSceneView" customModule="Pose_TFLiteSwift" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="346" width="414" height="467"/>
                             </sceneKitView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="WJ1-Lq-ZKz">
+                                <rect key="frame" x="361" y="350" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shoulder Fixing:" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ork-gb-ut7">
+                                <rect key="frame" x="287" y="350" width="70" height="31.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="sEB-jf-fNC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="laA-uJ-4KK"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="WJ1-Lq-ZKz" firstAttribute="leading" secondItem="Ork-gb-ut7" secondAttribute="trailing" constant="4" id="2p2-yU-FiF"/>
+                            <constraint firstItem="WJ1-Lq-ZKz" firstAttribute="top" secondItem="Jkq-Rb-Jrj" secondAttribute="top" constant="4" id="FwW-Fh-bnp"/>
+                            <constraint firstItem="Ork-gb-ut7" firstAttribute="centerY" secondItem="WJ1-Lq-ZKz" secondAttribute="centerY" id="I9d-MN-rZq"/>
                             <constraint firstItem="Jkq-Rb-Jrj" firstAttribute="top" secondItem="C22-RT-EhJ" secondAttribute="bottom" id="LTv-4U-nxw"/>
+                            <constraint firstItem="WJ1-Lq-ZKz" firstAttribute="trailing" secondItem="Jkq-Rb-Jrj" secondAttribute="trailing" constant="-4" id="Oal-dV-57z"/>
                             <constraint firstItem="laA-uJ-4KK" firstAttribute="bottom" secondItem="Jkq-Rb-Jrj" secondAttribute="bottom" id="R4z-Hl-8zQ"/>
                             <constraint firstItem="Jkq-Rb-Jrj" firstAttribute="leading" secondItem="laA-uJ-4KK" secondAttribute="leading" id="Tk9-iH-9q6"/>
                             <constraint firstItem="C22-RT-EhJ" firstAttribute="centerX" secondItem="BA4-2C-qdi" secondAttribute="centerX" id="Waa-De-7YN"/>
@@ -2217,6 +2233,7 @@
                     <connections>
                         <outlet property="outputRenderingView" destination="Jkq-Rb-Jrj" id="Q13-b8-X6d"/>
                         <outlet property="previewView" destination="C22-RT-EhJ" id="2hG-tK-A65"/>
+                        <outlet property="shoulderFixingSwitch" destination="WJ1-Lq-ZKz" id="RGL-kg-0mz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sUi-Mc-DkZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2291,6 +2308,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="pld-5c-MBa">
+                                <rect key="frame" x="313.5" y="415" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shoulder Fixing:" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pmM-ul-iuW">
+                                <rect key="frame" x="239.5" y="415" width="70" height="31.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="9S4-6k-hYG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FdQ-H1-SQH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -2304,9 +2333,12 @@
                             <constraint firstItem="Mfb-8N-vbW" firstAttribute="top" secondItem="FdQ-H1-SQH" secondAttribute="top" id="EIH-je-mL6"/>
                             <constraint firstItem="xRB-hD-k7k" firstAttribute="centerX" secondItem="T81-gz-JI3" secondAttribute="centerX" id="ErK-9P-eoF"/>
                             <constraint firstItem="Zc6-eO-N8l" firstAttribute="top" secondItem="T9P-CY-CYq" secondAttribute="top" id="Fbp-hX-9dj"/>
+                            <constraint firstItem="pld-5c-MBa" firstAttribute="leading" secondItem="pmM-ul-iuW" secondAttribute="trailing" constant="4" id="GkK-GC-iv0"/>
                             <constraint firstItem="WgN-ye-lJb" firstAttribute="centerX" secondItem="T81-gz-JI3" secondAttribute="centerX" id="Hpw-af-YSl"/>
                             <constraint firstItem="xTf-hF-75a" firstAttribute="top" secondItem="Zc6-eO-N8l" secondAttribute="top" id="Inb-aT-9Zd"/>
+                            <constraint firstItem="pmM-ul-iuW" firstAttribute="centerY" secondItem="pld-5c-MBa" secondAttribute="centerY" id="LII-lM-QJJ"/>
                             <constraint firstItem="T9P-CY-CYq" firstAttribute="height" secondItem="xRB-hD-k7k" secondAttribute="height" multiplier="1:1" id="Nn3-Xr-7ei"/>
+                            <constraint firstItem="pld-5c-MBa" firstAttribute="top" secondItem="xRB-hD-k7k" secondAttribute="top" constant="4" id="OEQ-d6-I54"/>
                             <constraint firstItem="xTf-hF-75a" firstAttribute="centerX" secondItem="Zc6-eO-N8l" secondAttribute="centerX" id="OLQ-lm-ST8"/>
                             <constraint firstItem="FdQ-H1-SQH" firstAttribute="bottom" secondItem="T9P-CY-CYq" secondAttribute="bottom" id="OUN-K1-IfJ"/>
                             <constraint firstItem="vuE-YC-bgN" firstAttribute="top" secondItem="T9P-CY-CYq" secondAttribute="top" id="Py6-Z6-iAE"/>
@@ -2320,6 +2352,7 @@
                             <constraint firstItem="T9P-CY-CYq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="FdQ-H1-SQH" secondAttribute="leading" constant="6" id="jVL-mQ-jZT"/>
                             <constraint firstItem="xRB-hD-k7k" firstAttribute="top" secondItem="WgN-ye-lJb" secondAttribute="bottom" id="le8-rQ-lJB"/>
                             <constraint firstItem="WgN-ye-lJb" firstAttribute="top" secondItem="Mfb-8N-vbW" secondAttribute="bottom" id="n8y-k3-KlW"/>
+                            <constraint firstItem="pld-5c-MBa" firstAttribute="trailing" secondItem="xRB-hD-k7k" secondAttribute="trailing" constant="-4" id="oJs-uw-FOb"/>
                             <constraint firstItem="Zc6-eO-N8l" firstAttribute="leading" secondItem="T9P-CY-CYq" secondAttribute="trailing" id="oz4-Gk-zes"/>
                             <constraint firstItem="vuE-YC-bgN" firstAttribute="leading" secondItem="T9P-CY-CYq" secondAttribute="leading" id="yD6-1Y-flR"/>
                         </constraints>
@@ -2342,6 +2375,7 @@
                         <outlet property="listeningButtonItem" destination="z0A-n4-2Wg" id="ezO-7m-bb6"/>
                         <outlet property="outputRenderingView" destination="xRB-hD-k7k" id="29B-Kt-UvV"/>
                         <outlet property="previewView" destination="WgN-ye-lJb" id="e75-WS-hcv"/>
+                        <outlet property="shoulderFixingSwitch" destination="pld-5c-MBa" id="k4Q-mv-k1L"/>
                         <outlet property="speechStatusLabel" destination="Mfb-8N-vbW" id="Gtv-LB-fCT"/>
                         <outletCollection property="capturedRenderingViews" destination="T9P-CY-CYq" collectionClass="NSMutableArray" id="doO-KO-ixd"/>
                         <outletCollection property="capturedRenderingViews" destination="Zc6-eO-N8l" collectionClass="NSMutableArray" id="PoA-RD-bA0"/>

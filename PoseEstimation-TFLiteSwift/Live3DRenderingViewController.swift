@@ -12,6 +12,7 @@ import CoreMedia
 class Live3DRenderingViewController: UIViewController {
 
     // MARK: - IBOutlets
+    @IBOutlet weak var shoulderFixingSwitch: UISwitch?
     @IBOutlet weak var previewView: UIView?
     @IBOutlet weak var outputRenderingView: Pose3DSceneView?
     
@@ -36,8 +37,13 @@ class Live3DRenderingViewController: UIViewController {
     var outputHuman: PoseEstimationOutput.Human3D? {
         didSet {
             DispatchQueue.main.async {
-                self.outputRenderingView?.keypoints = self.outputHuman?.keypoints ?? []
-                self.outputRenderingView?.lines = self.outputHuman?.lines ?? []
+                if self.shoulderFixingSwitch?.isOn == true {
+                    self.outputRenderingView?.keypoints = self.outputHuman?.adjustKeypoints() ?? []
+                    self.outputRenderingView?.lines = self.outputHuman?.adjustLines() ?? []
+                } else {
+                    self.outputRenderingView?.keypoints = self.outputHuman?.keypoints ?? []
+                    self.outputRenderingView?.lines = self.outputHuman?.lines ?? []
+                }
             }
         }
     }
