@@ -45,19 +45,18 @@ class TFLiteImageInterpreter {
         
         // Specify the delegates for the `Interpreter`.
         let delegates: [CoreMLDelegate]
-        if let delegate = CoreMLDelegate() {
-            delegates = [delegate]
-        } else {
+        switch options.accelerator {
+        case .cpu:
             delegates = []
+        case .coreml:
+            if let delegate = CoreMLDelegate() {
+                delegates = [delegate]
+            } else {
+                delegates = []
+            }
         }
-//        switch options.accelerator {
-//        case .metal:
-//            delegates = [MetalDelegate()]
-//        default:
-//            delegates = nil
-//        }
         
-        guard let interpreter = try? Interpreter(modelPath: modelPath, options: interpreterOptions, delegates: []) else {
+        guard let interpreter = try? Interpreter(modelPath: modelPath, options: interpreterOptions, delegates: delegates) else {
             fatalError("Failed to craete interpreter")
         }
         
@@ -196,7 +195,7 @@ extension TFLiteImageInterpreter {
         var inputChannel: Int { return isGrayScale ? 1 : 3 }
         let normalization: NormalizationOptions // true: 0.0~1.0, false: 0.0~255.0
         
-        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .metal, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, inputRankType: RankType = .bwhc, isGrayScale: Bool = false, normalization: NormalizationOptions = .none) {
+        init(modelName: String, threadCount: Int = 1, accelerator: Accelerator = .coreml, isQuantized: Bool = false, inputWidth: Int, inputHeight: Int, inputRankType: RankType = .bwhc, isGrayScale: Bool = false, normalization: NormalizationOptions = .none) {
             self.modelName = modelName
             self.threadCount = threadCount
             #if targetEnvironment(simulator)
@@ -217,7 +216,7 @@ extension TFLiteImageInterpreter {
 extension TFLiteImageInterpreter {
     enum Accelerator {
         case cpu
-        case metal
+        case coreml
     }
 }
 

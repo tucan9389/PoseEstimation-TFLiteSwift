@@ -31,6 +31,7 @@ class LiteBaseline3DPoseEstimator: PoseEstimator {
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
             modelName: "lightweight_baseline_choi.tflite",
+            accelerator: .cpu,  // lightweight_baseline_choi.tflite model support only cpu
             inputWidth: Input.width,
             inputHeight: Input.height,
             inputRankType: Input.inputRankType,
