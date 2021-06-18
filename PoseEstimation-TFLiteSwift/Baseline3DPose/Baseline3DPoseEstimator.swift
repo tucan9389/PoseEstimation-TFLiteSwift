@@ -24,6 +24,7 @@
 
 import CoreVideo
 import Accelerate
+import UIKit
 
 class Baseline3DPoseEstimator: PoseEstimator {
     typealias Baseline3DResult = Result<PoseEstimationOutput, PoseEstimationError>
@@ -31,6 +32,7 @@ class Baseline3DPoseEstimator: PoseEstimator {
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
             modelName: "baseline_moon_noS",
+            accelerator: .coreml,
             inputWidth: Input.width,
             inputHeight: Input.height,
             inputRankType: Input.inputRankType,
@@ -41,6 +43,10 @@ class Baseline3DPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
+    let mad1 = MovingAverageDoulbe()
+    let mad2 = MovingAverageDoulbe()
+    let mad3 = MovingAverageDoulbe()
+    
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
     func inference(_ input: PoseEstimationInput) -> Baseline3DResult {
@@ -48,16 +54,37 @@ class Baseline3DPoseEstimator: PoseEstimator {
         // initialize
         modelOutput = nil
         
-        // preprocss
-        guard let inputData = imageInterpreter.preprocess(with: input)
-            else { return .failure(.failToCreateInputData) }
-        
-        // inference
-        guard let outputs = imageInterpreter.inference(with: inputData)
-            else { return .failure(.failToInference) }
-        
-        // postprocess
-        let result = Baseline3DResult.success(postprocess(with: outputs))
+        let result: Baseline3DResult
+        if let delegate = delegate {
+            // preprocss
+            var t = CACurrentMediaTime()
+            guard let inputData = imageInterpreter.preprocess(with: input)
+                else { return .failure(.failToCreateInputData) }
+            let preprocessingTime = CACurrentMediaTime() - t
+            
+            // inference
+            t = CACurrentMediaTime()
+            guard let outputs = imageInterpreter.inference(with: inputData)
+                else { return .failure(.failToInference) }
+            let inferenceTime = CACurrentMediaTime() - t
+            
+            // postprocess
+            t = CACurrentMediaTime()
+            result = Baseline3DResult.success(postprocess(with: outputs))
+            let postprocessingTime = CACurrentMediaTime() - t
+            delegate.didEndInference(self, preprocessingTime: preprocessingTime, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+        } else {
+            // preprocss
+            guard let inputData = imageInterpreter.preprocess(with: input)
+                else { return .failure(.failToCreateInputData) }
+            
+            // inference
+            guard let outputs = imageInterpreter.inference(with: inputData)
+                else { return .failure(.failToInference) }
+            
+            // postprocess
+            result = Baseline3DResult.success(postprocess(with: outputs))
+        }
         
         return result
     }

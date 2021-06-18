@@ -23,6 +23,7 @@
 //
 
 import CoreGraphics
+import UIKit
 
 class OpenPosePoseEstimator: PoseEstimator {
     typealias OpenPoseResult = Result<PoseEstimationOutput, PoseEstimationError>
@@ -46,17 +47,37 @@ class OpenPosePoseEstimator: PoseEstimator {
         // initialize
         modelOutput = nil
         
-        // preprocss
-        guard let inputData = imageInterpreter.preprocess(with: input)
-            else { return .failure(.failToCreateInputData) }
-        
-        // inference
-        modelOutput = imageInterpreter.inference(with: inputData)
-        guard let outputs = modelOutput
-            else { return .failure(.failToInference) }
-        
-        // postprocess
-        let result = OpenPoseResult.success(postprocess(outputs, options: input.postprocessOptions))
+        let result: OpenPoseResult
+        if let delegate = delegate {
+            // preprocss
+            var t = CACurrentMediaTime()
+            guard let inputData = imageInterpreter.preprocess(with: input)
+                else { return .failure(.failToCreateInputData) }
+            let preprocessingTime = CACurrentMediaTime() - t
+            
+            // inference
+            t = CACurrentMediaTime()
+            guard let outputs = imageInterpreter.inference(with: inputData)
+                else { return .failure(.failToInference) }
+            let inferenceTime = CACurrentMediaTime() - t
+            
+            // postprocess
+            t = CACurrentMediaTime()
+            result = OpenPoseResult.success(postprocess(outputs, options: input.postprocessOptions))
+            let postprocessingTime = CACurrentMediaTime() - t
+            delegate.didEndInference(self, preprocessingTime: preprocessingTime, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+        } else {
+            // preprocss
+            guard let inputData = imageInterpreter.preprocess(with: input)
+                else { return .failure(.failToCreateInputData) }
+            
+            // inference
+            guard let outputs = imageInterpreter.inference(with: inputData)
+                else { return .failure(.failToInference) }
+            
+            // postprocess
+            result = OpenPoseResult.success(postprocess(outputs, options: input.postprocessOptions))
+        }
         
         return result
     }

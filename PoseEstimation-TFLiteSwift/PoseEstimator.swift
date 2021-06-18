@@ -237,11 +237,23 @@ enum PoseEstimationError: Error {
     case failToInference
 }
 
+protocol PoseEstimatorDelegate {
+    func didEndInference(_ estimator: PoseEstimator, preprocessingTime: Double, inferenceTime: Double, postprocessingTime: Double)
+}
+
 protocol PoseEstimator {
     func inference(_ input: PoseEstimationInput) -> Result<PoseEstimationOutput, PoseEstimationError>
     func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput?
     var partNames: [String] { get }
     var pairNames: [String]? { get }
+    var delegate: PoseEstimatorDelegate? { set get }
+}
+
+extension PoseEstimator {
+    var delegate: PoseEstimatorDelegate? {
+        get { nil }
+        set { }
+    }
 }
 
 extension simd_float3 {
