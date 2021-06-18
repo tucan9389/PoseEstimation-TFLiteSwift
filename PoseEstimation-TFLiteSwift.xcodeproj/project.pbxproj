@@ -46,12 +46,9 @@
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
 		71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */; };
 		C419403425FC08A500637FAF /* Live3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */; };
+		C440682D267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite */; };
 		C44E90E5260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44E90E4260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift */; };
 		C4543D0225FC7054006528DB /* LiteBaseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */; };
-		C4543D0825FC7129006528DB /* litebaseline_3dpose_real_S.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4543D0425FC7129006528DB /* litebaseline_3dpose_real_S.tflite */; };
-		C4543D0925FC7129006528DB /* litebaseline_3dpose_extra_small.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4543D0525FC7129006528DB /* litebaseline_3dpose_extra_small.tflite */; };
-		C4543D0A25FC7129006528DB /* litebaseline_3dpose_real_L.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4543D0625FC7129006528DB /* litebaseline_3dpose_real_L.tflite */; };
-		C4543D0B25FC7129006528DB /* litebaseline_3dpose_large.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4543D0725FC7129006528DB /* litebaseline_3dpose_large.tflite */; };
 		C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */; };
 		C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */; };
 		C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */; };
@@ -63,12 +60,10 @@
 		C4A4C70525CC5AA500EDF20A /* Baseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */; };
 		C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */; };
 		C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */; };
-		D51A1EFC85F761AFD77DA2B7 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184391DD02E90170864FB5E1 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
+		C9646B3E61705A7C8FDD67A9 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C012A0754D303E47475FBA91 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		020D24DEDF99BE11C2D24825 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
-		184391DD02E90170864FB5E1 /* Pods_PoseEstimation_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C912241CE9B5001A4325 /* Pose-TFLiteSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pose-TFLiteSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C915241CE9B5001A4325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7105C91C241CE9B6001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -109,14 +104,12 @@
 		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLineHeatmapViewController.swift; sourceTree = "<group>"; };
-		8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		7B7693C3CF2A75D1E34C50DB /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
+		C012A0754D303E47475FBA91 /* Pods_PoseEstimation_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live3DRenderingViewController.swift; sourceTree = "<group>"; };
+		C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = lightweight_baseline_choi.tflite.tflite; sourceTree = "<group>"; };
 		C44E90E4260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live3DRenderingAndCapturingViewController.swift; sourceTree = "<group>"; };
 		C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteBaseline3DPoseEstimator.swift; sourceTree = "<group>"; };
-		C4543D0425FC7129006528DB /* litebaseline_3dpose_real_S.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = litebaseline_3dpose_real_S.tflite; sourceTree = "<group>"; };
-		C4543D0525FC7129006528DB /* litebaseline_3dpose_extra_small.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = litebaseline_3dpose_extra_small.tflite; sourceTree = "<group>"; };
-		C4543D0625FC7129006528DB /* litebaseline_3dpose_real_L.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = litebaseline_3dpose_real_L.tflite; sourceTree = "<group>"; };
-		C4543D0725FC7129006528DB /* litebaseline_3dpose_large.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = litebaseline_3dpose_large.tflite; sourceTree = "<group>"; };
 		C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pose3DSceneView.swift; sourceTree = "<group>"; };
 		C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
 		C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
@@ -128,6 +121,7 @@
 		C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Baseline3DPoseEstimator.swift; sourceTree = "<group>"; };
 		C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = baseline_moon_noS.tflite; sourceTree = "<group>"; };
 		C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImage3DRenderingViewController.swift; sourceTree = "<group>"; };
+		FA9F005D29ED44D0DECAFF08 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,13 +129,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D51A1EFC85F761AFD77DA2B7 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */,
+				C9646B3E61705A7C8FDD67A9 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		29FE1DC7536D3A495D1E1B9F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C012A0754D303E47475FBA91 /* Pods_PoseEstimation_TFLiteSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7105C909241CE9B5001A4325 = {
 			isa = PBXGroup;
 			children = (
@@ -150,7 +152,7 @@
 				7105C914241CE9B5001A4325 /* PoseEstimation-TFLiteSwift */,
 				7105C913241CE9B5001A4325 /* Products */,
 				C0C61619494007101B3B8411 /* Pods */,
-				7BEDCA85229068A392EF9B15 /* Frameworks */,
+				29FE1DC7536D3A495D1E1B9F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -291,19 +293,11 @@
 			path = "imgclsmob-Pose";
 			sourceTree = "<group>";
 		};
-		7BEDCA85229068A392EF9B15 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				184391DD02E90170864FB5E1 /* Pods_PoseEstimation_TFLiteSwift.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		C0C61619494007101B3B8411 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */,
-				020D24DEDF99BE11C2D24825 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */,
+				FA9F005D29ED44D0DECAFF08 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */,
+				7B7693C3CF2A75D1E34C50DB /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -311,10 +305,7 @@
 		C4543D0025FC7038006528DB /* LiteBaseline3DPose */ = {
 			isa = PBXGroup;
 			children = (
-				C4543D0525FC7129006528DB /* litebaseline_3dpose_extra_small.tflite */,
-				C4543D0725FC7129006528DB /* litebaseline_3dpose_large.tflite */,
-				C4543D0625FC7129006528DB /* litebaseline_3dpose_real_L.tflite */,
-				C4543D0425FC7129006528DB /* litebaseline_3dpose_real_S.tflite */,
+				C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite */,
 				C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */,
 			);
 			path = LiteBaseline3DPose;
@@ -336,7 +327,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7105C926241CE9B7001A4325 /* Build configuration list for PBXNativeTarget "PoseEstimation-TFLiteSwift" */;
 			buildPhases = (
-				254EACA739080881EAFC1452 /* [CP] Check Pods Manifest.lock */,
+				4B2D64521BE80BD79433CCFB /* [CP] Check Pods Manifest.lock */,
 				7105C90E241CE9B5001A4325 /* Sources */,
 				7105C90F241CE9B5001A4325 /* Frameworks */,
 				7105C910241CE9B5001A4325 /* Resources */,
@@ -396,14 +387,13 @@
 				713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */,
 				7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */,
 				712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */,
-				C4543D0925FC7129006528DB /* litebaseline_3dpose_extra_small.tflite in Resources */,
 				71A1ED43245971AC001F796C /* LICENSE in Resources */,
 				71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */,
-				C4543D0825FC7129006528DB /* litebaseline_3dpose_real_S.tflite in Resources */,
 				713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */,
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
 				C4A4C6FC25CB38F000EDF20A /* simplepose_resnet50b_coco.tflite in Resources */,
 				C4A4C6FB25CB38F000EDF20A /* simplepose_resnet101b_coco.tflite in Resources */,
+				C440682D267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite in Resources */,
 				71E8D93B243CC5330081DD6E /* README.md in Resources */,
 				713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */,
 				C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */,
@@ -413,17 +403,15 @@
 				712A7FCD242668FF00B043F9 /* pefm_hourglass_v2.tflite in Resources */,
 				C4A4C6FF25CB391600EDF20A /* simplepose_resneta50b_coco.tflite in Resources */,
 				7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */,
-				C4543D0A25FC7129006528DB /* litebaseline_3dpose_real_L.tflite in Resources */,
 				C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */,
 				C4A4C6F925CB38F000EDF20A /* simplepose_resnet152b_coco.tflite in Resources */,
-				C4543D0B25FC7129006528DB /* litebaseline_3dpose_large.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		254EACA739080881EAFC1452 /* [CP] Check Pods Manifest.lock */ = {
+		4B2D64521BE80BD79433CCFB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -620,7 +608,7 @@
 		};
 		7105C927241CE9B7001A4325 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D7F2BABAB475442864CD4D3 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */;
+			baseConfigurationReference = FA9F005D29ED44D0DECAFF08 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -642,7 +630,7 @@
 		};
 		7105C928241CE9B7001A4325 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 020D24DEDF99BE11C2D24825 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */;
+			baseConfigurationReference = 7B7693C3CF2A75D1E34C50DB /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
