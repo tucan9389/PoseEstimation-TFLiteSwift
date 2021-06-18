@@ -97,7 +97,7 @@ class StillImageLineViewController: UIViewController {
     }
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = Baseline3DPoseEstimator()
+    let poseEstimator: PoseEstimator = LiteBaseline3DPoseEstimator()
     var outputHumans: [PoseEstimationOutput.Human2D] = [] {
         didSet {
             updateOverlayView()

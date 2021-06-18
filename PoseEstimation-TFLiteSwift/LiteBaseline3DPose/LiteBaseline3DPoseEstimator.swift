@@ -24,14 +24,13 @@
 
 import CoreVideo
 import Accelerate
-import UIKit
 
 class LiteBaseline3DPoseEstimator: PoseEstimator {
-    typealias LiteBaseline3DResult = Result<PoseEstimationOutput, PoseEstimationError>
+    typealias Baseline3DResult = Result<PoseEstimationOutput, PoseEstimationError>
     
     lazy var imageInterpreter: TFLiteImageInterpreter = {
         let options = TFLiteImageInterpreter.Options(
-            modelName: "litebaseline_3dpose_large",
+            modelName: "lightweight_baseline_choi.tflite",
             inputWidth: Input.width,
             inputHeight: Input.height,
             inputRankType: Input.inputRankType,
@@ -44,29 +43,21 @@ class LiteBaseline3DPoseEstimator: PoseEstimator {
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     
-    func inference(_ input: PoseEstimationInput) -> LiteBaseline3DResult {
+    func inference(_ input: PoseEstimationInput) -> Baseline3DResult {
         
         // initialize
         modelOutput = nil
         
         // preprocss
-        // var t = CACurrentMediaTime()
         guard let inputData = imageInterpreter.preprocess(with: input)
             else { return .failure(.failToCreateInputData) }
-        // print("preprocess time :\(CACurrentMediaTime() - t)")
         
         // inference
-        // t = CACurrentMediaTime()
         guard let outputs = imageInterpreter.inference(with: inputData)
             else { return .failure(.failToInference) }
-        // print("inference time  :\(CACurrentMediaTime() - t)")
         
         // postprocess
-        // t = CACurrentMediaTime()
-        let result = LiteBaseline3DResult.success(postprocess(with: outputs))
-        // print("postprocess time:\(CACurrentMediaTime() - t)")
-        
-        print()
+        let result = Baseline3DResult.success(postprocess(with: outputs))
         
         return result
     }
@@ -93,7 +84,7 @@ private extension LiteBaseline3DPoseEstimator {
     struct Input {
         static let width = 256
         static let height = 256
-        static let inputRankType = TFLiteImageInterpreter.RankType.bwhc
+        static let inputRankType = TFLiteImageInterpreter.RankType.bchw
         static let isGrayScale = false
         static let normalization = TFLiteImageInterpreter.NormalizationOptions.pytorchNormalization
     }
@@ -104,45 +95,54 @@ private extension LiteBaseline3DPoseEstimator {
             static let depth = 32
             static let count = BodyPart.allCases.count // 18
         }
+        
         enum BodyPart: String, CaseIterable {
-            case PELVIS = "Pelvis"          // 0
-            case RIGHT_HIP = "R_Hip"        // 1
-            case RIGHT_KNEE = "R_Knee"      // 2
-            case RIGHT_ANKLE = "R_Ankle"    // 3
-            case LEFT_HIP = "L_Hip"         // 4
-            case LEFT_KNEE = "L_Knee"       // 5
-            case LEFT_ANKLE = "L_Ankle"     // 6
-            case TORSO = "Torso"            // 7
-            case NECK = "Neck"              // 8
-            case NOSE = "Nose"              // 9
-            case HEAD = "Head"              // 10
-            case LEFT_SHOULDER = "L_Shoulder"   // 11
-            case LEFT_ELBOW = "L_Elbow"         // 12
-            case LEFT_WRIST = "L_Wrist"         // 13
-            case RIGHT_SHOULDER = "R_Shoulder"  // 14
-            case RIGHT_ELBOW = "R_Elbow"        // 15
-            case RIGHT_WRIST = "R_Wrist"        // 16
-            case THORAX = "Thorax"              // 17
+            case HEAD_TOP = "Head_top"              // 0
+            case THORAX = "Thorax"                  // 1
+            case RIGHT_SHOULDER = "R_Shoulder"      // 2
+            case RIGHT_ELBOW = "R_Elbow"            // 3
+            case RIGHT_WRIST = "R_Wrist"            // 4
+            case LEFT_SHOULDER = "L_Shoulder"       // 5
+            case LEFT_ELBOW = "L_Elbow"             // 6
+            case LEFT_WRIST = "L_Wrist"             // 7
+            case RIGHT_HIP = "R_Hip"                // 8
+            case RIGHT_KNEE = "R_Knee"              // 9
+            case RIGHT_ANKLE = "R_Ankle"            // 10
+            case LEFT_HIP = "L_Hip"                 // 11
+            case LEFT_KNEE = "L_Knee"               // 12
+            case LEFT_ANKLE = "L_Ankle"             // 13
+            case PELVIS = "Pelvis"                  // 14
+            case SPINE = "Spine"                    // 15
+            case HEAD = "Head"                      // 16
+            case RIGHT_HAND = "R_Hand"              // 17
+            case LEFT_HAND = "L_Hand"               // 18
+            case RIGHT_TOE = "R_Toe"                // 19
+            case LEFT_TOE = "L_Toe"                // 20
             
-            static let baselineKeypointIndexes = (11, 14)  // L_Shoulder, R_Shoulder
+            static let baselineKeypointIndexes = (2, 5)  // R_Shoulder, L_Shoulder
 
             static let lines = [
-                (from: BodyPart.PELVIS, to: BodyPart.TORSO),
-                (from: BodyPart.TORSO, to: BodyPart.NECK),
-                (from: BodyPart.NECK, to: BodyPart.NOSE),
-                (from: BodyPart.NOSE, to: BodyPart.HEAD),
-                (from: BodyPart.NECK, to: BodyPart.LEFT_SHOULDER),
-                (from: BodyPart.LEFT_SHOULDER, to: BodyPart.LEFT_ELBOW),
-                (from: BodyPart.LEFT_ELBOW, to: BodyPart.LEFT_WRIST),
-                (from: BodyPart.NECK, to: BodyPart.RIGHT_SHOULDER),
-                (from: BodyPart.RIGHT_SHOULDER, to: BodyPart.RIGHT_ELBOW),
-                (from: BodyPart.RIGHT_ELBOW, to: BodyPart.RIGHT_WRIST),
+                (from: BodyPart.HEAD_TOP, to: BodyPart.HEAD),
+                (from: BodyPart.HEAD, to: BodyPart.THORAX),
+                (from: BodyPart.THORAX, to: BodyPart.SPINE),
+                (from: BodyPart.SPINE, to: BodyPart.PELVIS),
                 (from: BodyPart.PELVIS, to: BodyPart.RIGHT_HIP),
+                (from: BodyPart.PELVIS, to: BodyPart.LEFT_HIP),
                 (from: BodyPart.RIGHT_HIP, to: BodyPart.RIGHT_KNEE),
                 (from: BodyPart.RIGHT_KNEE, to: BodyPart.RIGHT_ANKLE),
-                (from: BodyPart.PELVIS, to: BodyPart.LEFT_HIP),
+                (from: BodyPart.RIGHT_ANKLE, to: BodyPart.RIGHT_TOE),
+                (from: BodyPart.RIGHT_ELBOW, to: BodyPart.RIGHT_WRIST),
                 (from: BodyPart.LEFT_HIP, to: BodyPart.LEFT_KNEE),
                 (from: BodyPart.LEFT_KNEE, to: BodyPart.LEFT_ANKLE),
+                (from: BodyPart.LEFT_ANKLE, to: BodyPart.LEFT_TOE),
+                (from: BodyPart.THORAX, to: BodyPart.RIGHT_SHOULDER),
+                (from: BodyPart.RIGHT_SHOULDER, to: BodyPart.RIGHT_ELBOW),
+                (from: BodyPart.RIGHT_ELBOW, to: BodyPart.RIGHT_WRIST),
+                (from: BodyPart.RIGHT_WRIST, to: BodyPart.RIGHT_HAND),
+                (from: BodyPart.THORAX, to: BodyPart.LEFT_SHOULDER),
+                (from: BodyPart.LEFT_SHOULDER, to: BodyPart.LEFT_ELBOW),
+                (from: BodyPart.LEFT_ELBOW, to: BodyPart.LEFT_WRIST),
+                (from: BodyPart.LEFT_WRIST, to: BodyPart.LEFT_HAND),
             ]
         }
     }
@@ -179,10 +179,10 @@ private extension PoseEstimationOutput {
 private extension TFLiteFlatArray where Element==Float32 {
     
     func softArgmax3d() -> [Keypoint3D] {
-        let depth = LiteBaseline3DPoseEstimator.Output.Heatmap.depth
+        let depth = 32
         let height = dimensions[2]
-        let width = dimensions[1]
-        let numberOfKeypoints = dimensions[3] / depth
+        let width = dimensions[3]
+        let numberOfKeypoints = dimensions[1] / depth
         
         // softmax per keypoints
         for keypointIndex in 0..<numberOfKeypoints {
@@ -199,13 +199,9 @@ private extension TFLiteFlatArray where Element==Float32 {
         // (1, 18, 64, 64, 64)
         // ex) (18, 64, 12)
         
-//        var xs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 3])
-//        var ys = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 4])
-//        var zs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [3, 4])
-        
-        var xs = array.sum(originalShape: [1, width, height, depth, numberOfKeypoints], targetDimension: [2, 3])
-        var ys = array.sum(originalShape: [1, width, height, depth, numberOfKeypoints], targetDimension: [1, 3])
-        var zs = array.sum(originalShape: [1, width, height, depth, numberOfKeypoints], targetDimension: [1, 2])
+        var xs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 3])
+        var ys = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [2, 4])
+        var zs = array.sum(originalShape: [1, numberOfKeypoints, depth, height, width], targetDimension: [3, 4])
         
         // print(xs)
         // print(xs.count)

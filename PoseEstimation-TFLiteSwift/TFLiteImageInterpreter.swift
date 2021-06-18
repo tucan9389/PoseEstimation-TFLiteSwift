@@ -57,7 +57,7 @@ class TFLiteImageInterpreter {
 //            delegates = nil
 //        }
         
-        guard let interpreter = try? Interpreter(modelPath: modelPath, options: interpreterOptions, delegates: delegates) else {
+        guard let interpreter = try? Interpreter(modelPath: modelPath, options: interpreterOptions, delegates: []) else {
             fatalError("Failed to craete interpreter")
         }
         
