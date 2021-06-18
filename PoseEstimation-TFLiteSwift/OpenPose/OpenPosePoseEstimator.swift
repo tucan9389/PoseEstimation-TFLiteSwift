@@ -41,6 +41,7 @@ class OpenPosePoseEstimator: PoseEstimator {
     }()
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
+    var delegate: PoseEstimatorDelegate?
     
     func inference(_ input: PoseEstimationInput) -> OpenPoseResult {
         

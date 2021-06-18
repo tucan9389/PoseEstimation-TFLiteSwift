@@ -43,11 +43,8 @@ class Baseline3DPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    let mad1 = MovingAverageDoulbe()
-    let mad2 = MovingAverageDoulbe()
-    let mad3 = MovingAverageDoulbe()
-    
     var modelOutput: [TFLiteFlatArray<Float32>]?
+    var delegate: PoseEstimatorDelegate?
     
     func inference(_ input: PoseEstimationInput) -> Baseline3DResult {
         

@@ -249,13 +249,6 @@ protocol PoseEstimator {
     var delegate: PoseEstimatorDelegate? { set get }
 }
 
-extension PoseEstimator {
-    var delegate: PoseEstimatorDelegate? {
-        get { nil }
-        set { }
-    }
-}
-
 extension simd_float3 {
     var keypoint: Keypoint3D {
         return Keypoint3D(x: CGFloat(x), y: CGFloat(y), z: CGFloat(z))
