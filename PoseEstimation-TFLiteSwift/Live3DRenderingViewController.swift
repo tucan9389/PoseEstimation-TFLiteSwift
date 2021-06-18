@@ -33,7 +33,7 @@ class Live3DRenderingViewController: UIViewController {
     }
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = Baseline3DPoseEstimator()
+    let poseEstimator: PoseEstimator = LiteBaseline3DPoseEstimator()
     var outputHuman: PoseEstimationOutput.Human3D? {
         didSet {
             DispatchQueue.main.async {
@@ -108,6 +108,7 @@ class Live3DRenderingViewController: UIViewController {
         guard let outputRenderingView = outputRenderingView else { return }
         
         outputRenderingView.setupScene()
+        outputRenderingView.showsStatistics = false
         
         outputRenderingView.setupBackgroundNodes()
     }

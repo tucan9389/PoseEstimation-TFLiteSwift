@@ -53,7 +53,7 @@ class StillImageHeatmapViewController: UIViewController {
     @IBOutlet weak var pafSegment: UISegmentedControl?
     
     // MARK: - ML Property
-    let poseEstimator: PoseEstimator = Baseline3DPoseEstimator()
+    let poseEstimator: PoseEstimator = LiteBaseline3DPoseEstimator()
     var modelOutput: TFLiteFlatArray<Float32>? {
         didSet {
             updateHeatmapOverlayView()
