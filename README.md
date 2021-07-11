@@ -90,7 +90,7 @@ OpenPose (PAF y) | - | ![pose-demo-heatmap-pafy-PEFMHourglass-0](https://user-im
 ✅ vs ☑️ | Name | Size | Inference<br>Time<br>on iPhone11Pro | Post-process<br>Time<br>on iPhone11Pro | (metric) | Model Source | Paper | tflite<br>download
 :---: | --- | --- | --- | --- | ---  | --- | --- | ---
 ✅ | **Baseline3DPose** | 137.1 MB | 347 ms | 79 ms | - | [mks0601/3DMPPE_POSENET_RELEASE](https://github.com/mks0601/3DMPPE_POSENET_RELEASE) | [Baseline3D](https://arxiv.org/abs/1907.11346) | [download](https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v2.0.0/baseline_moon_noS.tflite)
-✅ | **LiteBaseline3DPose** | **16.6 MB** | 116 ms<br>(cpu only) | 19 ms<br>(cpu only) |  | [SangbumChoi/MobileHumanPose](https://github.com/SangbumChoi/MobileHumanPose) | [MHP](https://openaccess.thecvf.com/content/CVPR2021W/MAI/papers/Choi_MobileHumanPose_Toward_Real-Time_3D_Human_Pose_Estimation_in_Mobile_Devices_CVPRW_2021_paper.pdf) | [download](https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/2.1.0/lightweight_baseline_choi.tflite)
+✅ | **LiteBaseline3DPose** | **16.6 MB** | 116 ms<br>(cpu only) | 19 ms<br>(cpu only) |  | [SangbumChoi/MobileHumanPose](https://github.com/SangbumChoi/MobileHumanPose) | [MHP](https://openaccess.thecvf.com/content/CVPR2021W/MAI/papers/Choi_MobileHumanPose_Toward_Real-Time_3D_Human_Pose_Estimation_in_Mobile_Devices_CVPRW_2021_paper.pdf) | [download](https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v2.1.0/lightweight_baseline_choi.tflite)
 
 ## Requirements
 
