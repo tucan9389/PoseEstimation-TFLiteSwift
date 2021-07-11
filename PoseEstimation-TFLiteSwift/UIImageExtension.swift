@@ -27,9 +27,16 @@ import UIKit
 extension UIImage {
     func pixelBufferFromImage() -> CVPixelBuffer {
         let ciimage = CIImage(image: self)
-        //let cgimage = convertCIImageToCGImage(inputImage: ciimage!)
         let tmpcontext = CIContext(options: nil)
         let cgimage =  tmpcontext.createCGImage(ciimage!, from: ciimage!.extent)
+        
+        return cgimage!.pixelBufferFromImage()!
+    }
+}
+
+extension CGImage {
+    func pixelBufferFromImage() -> CVPixelBuffer? {
+        let cgimage = self
         
         let cfnumPointer = UnsafeMutablePointer<UnsafeRawPointer>.allocate(capacity: 1)
         let cfnum = CFNumberCreate(kCFAllocatorDefault, .intType, cfnumPointer)
@@ -42,8 +49,8 @@ extension UIImage {
         
         let options = CFDictionaryCreate(kCFAllocatorDefault, keysPointer, valuesPointer, keys.count, nil, nil)
         
-        let width = cgimage!.width
-        let height = cgimage!.height
+        let width = cgimage.width
+        let height = cgimage.height
         
         var pxbuffer: CVPixelBuffer?
         // if pxbuffer = nil, you will get status = -6661
@@ -68,9 +75,9 @@ extension UIImage {
         //        context?.concatenate(__CGAffineTransformMake( -1.0, 0.0, 0.0, 1.0, CGFloat(width), 0.0)) //Flip Horizontal
         
         
-        context?.draw(cgimage!, in: CGRect(x:0, y:0, width:CGFloat(width), height:CGFloat(height)));
+        context?.draw(cgimage, in: CGRect(x:0, y:0, width:CGFloat(width), height:CGFloat(height)));
         _ = CVPixelBufferUnlockBaseAddress(pxbuffer!, CVPixelBufferLockFlags(rawValue: 0));
-        return pxbuffer!;
+        return pxbuffer
     }
 }
 

@@ -49,6 +49,7 @@ struct PostprocessOptions {
 enum PoseEstimationInput {
     case pixelBuffer(pixelBuffer: CVPixelBuffer, preprocessOptions: PreprocessOptions, postprocessOptions: PostprocessOptions)
     case uiImage(uiImage: UIImage, preprocessOptions: PreprocessOptions, postprocessOptions: PostprocessOptions)
+    case cgImage(cgImage: CGImage, preprocessOptions: PreprocessOptions, postprocessOptions: PostprocessOptions)
     
     var pixelBuffer: CVPixelBuffer? {
         switch self {
@@ -56,6 +57,8 @@ enum PoseEstimationInput {
             return pixelBuffer
         case .uiImage(let uiImage, _, _):
             return uiImage.pixelBufferFromImage()
+        case .cgImage(let cgImage, _, _):
+            return cgImage.pixelBufferFromImage()
         }
     }
     
@@ -64,6 +67,8 @@ enum PoseEstimationInput {
         case .pixelBuffer(_, let preprocessOptions, _):
             return preprocessOptions.cropArea
         case .uiImage(_, let preprocessOptions, _):
+            return preprocessOptions.cropArea
+        case .cgImage(_, let preprocessOptions, _):
             return preprocessOptions.cropArea
         }
     }
@@ -74,6 +79,8 @@ enum PoseEstimationInput {
             return pixelBuffer.size
         case .uiImage(let uiImage, _, _):
             return uiImage.size
+        case .cgImage(let cgImage, _, _):
+            return CGSize(width: CGFloat(cgImage.width), height: CGFloat(cgImage.height))
         }
     }
     
@@ -103,6 +110,8 @@ enum PoseEstimationInput {
         case .pixelBuffer(_, _, let options):
             return options
         case .uiImage(_, _, let options):
+            return options
+        case .cgImage(_, _, let options):
             return options
         }
     }
@@ -151,10 +160,11 @@ struct Keypoint3D {
     }
     
     let position: Point3D
-    //let score: Float
+    let score: Float
     
-    init(x: CGFloat, y: CGFloat, z: CGFloat) {
+    init(x: CGFloat, y: CGFloat, z: CGFloat, s: Float = 1.0) {
         position = Point3D(x: x, y: y, z: z)
+        score = s
     }
     
     static func - (lhs: Keypoint3D, rhs: Keypoint3D) -> Keypoint3D {

@@ -111,7 +111,7 @@ class LiteBaseline3DPoseEstimator: PoseEstimator {
     }
 }
 
-private extension LiteBaseline3DPoseEstimator {
+extension LiteBaseline3DPoseEstimator {
     struct Input {
         static let width = 256
         static let height = 256
@@ -257,7 +257,32 @@ private extension TFLiteFlatArray where Element==Float32 {
         // print("y:", ys)
         // print("z:", zs)
         
-        return (0..<xs.count).map { Keypoint3D(x: CGFloat(xs[$0]), y: CGFloat(ys[$0]), z: CGFloat(zs[$0])) }
+        let summationTargetXYZs = [-1,0,1].reduce([]) { r, xv in
+            return r + [-1,0,1].reduce([]) { r, yv in
+                return r + [-1,0,1].reduce([]) { r, zv in
+                    return r + [(x: xv, y: yv, z: zv)]
+                }
+            }
+        }
+        
+        return (0..<xs.count).map { kp in
+            let x: Int = Int(round(xs[kp] * Float(width)))
+            let y: Int = Int(round(ys[kp] * Float(height)))
+            let z: Int = Int(round(zs[kp] * Float(depth)))
+            let score: Float = summationTargetXYZs.reduce(0.0) {
+                let xyz = (x + $1.0, y + $1.1, z + $1.2)
+                guard 0 <= xyz.0, xyz.0 < width, 0 <= xyz.1, xyz.1 < height, 0 <= xyz.2, xyz.2 < depth else { return $0 }
+                let elementIndex = TensorShape.flatIndex(from: [0, kp, xyz.2, xyz.1, xyz.0], with: [1, kp, depth, height, width])
+                let score: Float = array[elementIndex]
+                let scoreSclae: Float = ($1.0==0 && $1.1 == 0 && $1.2 == 0 ? 2.0 : 1.0) * 1.5/*1.5 is magic number*/
+                return $0 + (score * scoreSclae)
+            }
+            
+            if kp == 0 {
+                print(x, y, z, "->", String(format: "%.3f", score))
+            }
+            return Keypoint3D(x: CGFloat(xs[kp]), y: CGFloat(ys[kp]), z: CGFloat(zs[kp]), s: max(min(1.0, score), 0.0))
+        }
     }
     
     /**

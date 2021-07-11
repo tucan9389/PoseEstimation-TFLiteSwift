@@ -7,5 +7,6 @@ target 'PoseEstimation-TFLiteSwift' do
 
   # Pods for PoseEstimation-TFLiteSwift
   pod 'TensorFlowLiteSwift/CoreML', '~> 2.4.0'
-
+  pod 'GoogleMLKit/PoseDetectionAccurate'
+  
 end

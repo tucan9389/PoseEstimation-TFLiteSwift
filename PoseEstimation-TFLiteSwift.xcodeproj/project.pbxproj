@@ -59,6 +59,7 @@
 		C4A4C6FF25CB391600EDF20A /* simplepose_resneta50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */; };
 		C4A4C70525CC5AA500EDF20A /* Baseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */; };
 		C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */; };
+		C4ABDCFA269AFFF900A9ED79 /* HumanKeypoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4ABDCF9269AFFF900A9ED79 /* HumanKeypoints.swift */; };
 		C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */; };
 		C9646B3E61705A7C8FDD67A9 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C012A0754D303E47475FBA91 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
@@ -120,6 +121,7 @@
 		C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta50b_coco.tflite; sourceTree = "<group>"; };
 		C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Baseline3DPoseEstimator.swift; sourceTree = "<group>"; };
 		C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = baseline_moon_noS.tflite; sourceTree = "<group>"; };
+		C4ABDCF9269AFFF900A9ED79 /* HumanKeypoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumanKeypoints.swift; sourceTree = "<group>"; };
 		C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImage3DRenderingViewController.swift; sourceTree = "<group>"; };
 		FA9F005D29ED44D0DECAFF08 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -211,6 +213,7 @@
 		7105C92B241D0150001A4325 /* MLModel */ = {
 			isa = PBXGroup;
 			children = (
+				C4ABDCF9269AFFF900A9ED79 /* HumanKeypoints.swift */,
 				7105C92E241D0235001A4325 /* PoseEstimator.swift */,
 				7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */,
 				7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */,
@@ -331,6 +334,8 @@
 				7105C90E241CE9B5001A4325 /* Sources */,
 				7105C90F241CE9B5001A4325 /* Frameworks */,
 				7105C910241CE9B5001A4325 /* Resources */,
+				0FAC1A91767F99E644C2BE32 /* [CP] Embed Pods Frameworks */,
+				8EE95C93826EABD48A966DFB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -411,6 +416,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0FAC1A91767F99E644C2BE32 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4B2D64521BE80BD79433CCFB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -431,6 +453,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8EE95C93826EABD48A966DFB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -454,6 +493,7 @@
 				71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */,
 				71E8D9192438BAD80081DD6E /* OpenPosePoseEstimator.swift in Sources */,
 				C419403425FC08A500637FAF /* Live3DRenderingViewController.swift in Sources */,
+				C4ABDCFA269AFFF900A9ED79 /* HumanKeypoints.swift in Sources */,
 				C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */,
 				71DD577F2446D7CF0024C146 /* NonMaximumnonSuppression.swift in Sources */,
 				71A1BC1624793BC5004EA5D9 /* Argmax.swift in Sources */,

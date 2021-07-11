@@ -39,16 +39,10 @@ class Live3DRenderingViewController: UIViewController {
         estimator.delegate = self
         return estimator
     }()
-    var outputHuman: PoseEstimationOutput.Human3D? {
+    var humanKeypoints: HumanKeypoints? {
         didSet {
             DispatchQueue.main.async {
-                if self.shoulderFixingSwitch?.isOn == true {
-                    self.outputRenderingView?.keypoints = self.outputHuman?.adjustKeypoints() ?? []
-                    self.outputRenderingView?.lines = self.outputHuman?.adjustLines() ?? []
-                } else {
-                    self.outputRenderingView?.keypoints = self.outputHuman?.keypoints ?? []
-                    self.outputRenderingView?.lines = self.outputHuman?.lines ?? []
-                }
+                self.outputRenderingView?.humanKeypoints = self.humanKeypoints
             }
         }
     }
@@ -92,7 +86,7 @@ class Live3DRenderingViewController: UIViewController {
         videoCapture.delegate = self
         videoCapture.fps = 30
         videoCapture.setUp(sessionPreset: .vga640x480,
-                           cameraPosition: .front,
+                           cameraPosition: .back,
                            videoGravity: .resizeAspectFill) { success in
             DispatchQueue.main.async {
                 if success {
@@ -143,7 +137,12 @@ extension Live3DRenderingViewController {
         
         switch (result) {
         case .success(let output):
-            outputHuman = output.humans3d.first ?? nil
+            if let human3d = output.humans3d.first ?? nil {
+                let adjustMode = self.shoulderFixingSwitch?.isOn == true
+                self.humanKeypoints = HumanKeypoints(human3d: human3d, adjustMode: adjustMode)
+            } else {
+                self.humanKeypoints = nil
+            }
         case .failure(_):
             break
         }

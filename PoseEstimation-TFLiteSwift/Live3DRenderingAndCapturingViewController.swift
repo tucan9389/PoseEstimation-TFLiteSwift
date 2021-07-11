@@ -50,16 +50,20 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
     var outputHuman: PoseEstimationOutput.Human3D? {
         didSet {
             DispatchQueue.main.async {
-                if self.shoulderFixingSwitch?.isOn == true {
-                    self.outputRenderingView?.keypoints = self.outputHuman?.adjustKeypoints() ?? []
-                    self.outputRenderingView?.lines = self.outputHuman?.adjustLines() ?? []
+                
+                let adjustMode = self.shoulderFixingSwitch?.isOn == true
+                let humanKeypoints: HumanKeypoints?
+                if let outputHuman = self.outputHuman {
+                    humanKeypoints = HumanKeypoints(human3d: outputHuman, adjustMode: adjustMode)
                 } else {
-                    self.outputRenderingView?.keypoints = self.outputHuman?.keypoints ?? []
-                    self.outputRenderingView?.lines = self.outputHuman?.lines ?? []
+                    humanKeypoints = nil
                 }
+                
+                self.outputRenderingView?.humanKeypoints = humanKeypoints
             }
         }
     }
+    
     var capturedOutputHumans: [PoseEstimationOutput.Human3D] = []
     
     var isInferencing = false
@@ -198,13 +202,9 @@ class Live3DRenderingAndCapturingViewController: UIViewController {
             capturedOutputHumans.removeLast()
         }
         for (capturedOutputHuman, capturedRenderingView) in zip(capturedOutputHumans, capturedRenderingViews) {
-            if self.shoulderFixingSwitch?.isOn == true {
-                capturedRenderingView.keypoints = capturedOutputHuman.adjustKeypoints()
-                capturedRenderingView.lines = capturedOutputHuman.adjustLines()
-            } else {
-                capturedRenderingView.keypoints = capturedOutputHuman.keypoints
-                capturedRenderingView.lines = capturedOutputHuman.lines
-            }
+            let adjustMode = self.shoulderFixingSwitch?.isOn == true
+            let humanKeypoints = HumanKeypoints(human3d: capturedOutputHuman, adjustMode: adjustMode)
+            capturedRenderingView.humanKeypoints = humanKeypoints
         }
         capturedHumanResults.insert(capturedHuman, at: 0)
         while capturedHumanResults.count > capturedRenderingViews.count {

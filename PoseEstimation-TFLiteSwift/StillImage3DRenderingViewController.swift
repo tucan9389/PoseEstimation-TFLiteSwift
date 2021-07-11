@@ -32,11 +32,10 @@ class StillImage3DRenderingViewController: UIViewController {
     
     // MARK: - ML Property
     let poseEstimator: PoseEstimator = LiteBaseline3DPoseEstimator()
-    var outputHuman: PoseEstimationOutput.Human3D? {
+    var humanKeypoints: HumanKeypoints? {
         didSet {
             DispatchQueue.main.async {
-                self.outputRenderingView?.keypoints = self.outputHuman?.keypoints ?? []
-                self.outputRenderingView?.lines = self.outputHuman?.lines ?? []
+                self.outputRenderingView?.humanKeypoints = self.humanKeypoints
             }
         }
     }
@@ -97,7 +96,11 @@ extension StillImage3DRenderingViewController {
         let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
         switch (result) {
         case .success(let output):
-            outputHuman = output.humans3d.first ?? nil
+            if let human3d = output.humans3d.first ?? nil {
+                self.humanKeypoints = HumanKeypoints(human3d: human3d)
+            } else {
+                self.humanKeypoints = nil
+            }
         case .failure(_):
             break
         }

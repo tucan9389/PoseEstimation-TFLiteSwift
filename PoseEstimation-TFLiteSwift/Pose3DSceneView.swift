@@ -14,12 +14,28 @@ class Pose3DSceneView: SCNView {
     let studioSize: Float = 10.0
     let studioDepth: Float = 0.5
     let lineRadius: Float = 0.05
+    let planeIndices: [HumanKeypointName] = [
+        .rightShoulder, .neck, .leftShoulder, .leftHip, .rightHip
+    ]
     
-    var lines: [PoseEstimationOutput.Human3D.Line3D] = [] { didSet { updateLines(lines: lines) } }
-    var keypoints: [Keypoint3D?] = [] { didSet { updateKeypoints(points: keypoints) } }
+    var isAdjustMode = false
+    var humanKeypoints: HumanKeypoints? {
+        didSet {
+            lines = humanKeypoints?.lines ?? []
+            keypoints = humanKeypoints?.keypoints ?? []
+        }
+    }
+    var lines: [HumanKeypoints.Line] = [] { didSet { updateLines(lines: lines) } }
+    var keypoints: [Keypoint?] = [] {
+        didSet {
+            updateKeypoints(points: keypoints)
+            updatePlane(points: planeIndices.filter { $0.rawValue < keypoints.count }.map { keypoints[$0.rawValue] }.compactMap { $0 })
+        }
+    }
     
     private var dotNodes: [SCNNode] = []
     private var lineNodes: [SCNNode] = []
+    private var planeNodes: [SCNNode] = []
     
     func setupScene() {
         let newScene = SCNScene()
@@ -137,7 +153,7 @@ class Pose3DSceneView: SCNView {
         return dotNode
     }
     
-    func updateKeypoints(points: [Keypoint3D?]) {
+    func updateKeypoints(points: [Keypoint?]) {
         
         dotNodes.forEach { $0.removeFromParentNode() }
         dotNodes.removeAll()
@@ -145,7 +161,7 @@ class Pose3DSceneView: SCNView {
         // (0<1, 0<1, 0<1) to scnvector3 (-studioSize<studioSize, -studioSize<studioSize, -studioSize<studioSize)
         let positions: [SCNVector3?] = points.map { point -> SCNVector3? in
             guard let point = point else { return nil }
-            return point.convertIntoSCNVector3(with: CGFloat(studioSize))
+            return point.yFlip.convertIntoSCNVector3(with: CGFloat(studioSize))
         }
         
         // create nodes if need
@@ -168,14 +184,18 @@ class Pose3DSceneView: SCNView {
         }
     }
     
-    func updateLines(lines :[PoseEstimationOutput.Human3D.Line3D]) {
+    func updateLines(lines :[HumanKeypoints.Line]) {
         guard let scene = scene else { return }
         
         lineNodes.forEach { $0.removeFromParentNode() }
         lineNodes.removeAll()
         
         let lines: [(SCNVector3, SCNVector3)] = lines.map { line -> (SCNVector3, SCNVector3) in
-            return (line.from.convertIntoSCNVector3(with: CGFloat(studioSize)), line.to.convertIntoSCNVector3(with: CGFloat(studioSize)))
+            guard let fromValue = line.from?.yFlip.convertIntoSCNVector3(with: CGFloat(studioSize)),
+                  let toValue = line.to?.yFlip.convertIntoSCNVector3(with: CGFloat(studioSize)) else {
+                return (SCNVector3Zero, SCNVector3Zero)
+            }
+            return (fromValue, toValue)
         }
         
         // create nodes if need and update it
@@ -209,10 +229,43 @@ class Pose3DSceneView: SCNView {
         lineNode.position = midPosition
         lineNode.look (at: positionB, up: scene.rootNode.worldUp, localFront: lineNode.worldUp)
     }
+    
+    func updatePlane(points: [Keypoint]) {
+        guard let scene = scene else { return }
+        
+        planeNodes.forEach { $0.removeFromParentNode() }
+        planeNodes = []
+        
+        // (0<1, 0<1, 0<1) to scnvector3 (-studioSize<studioSize, -studioSize<studioSize, -studioSize<studioSize)
+        let positions: [SCNVector3] = points.map { point -> SCNVector3 in
+            return point.yFlip.convertIntoSCNVector3(with: CGFloat(studioSize))
+        }
+        
+        let source = SCNGeometrySource(vertices: positions)
+        
+        let indices: [UInt16]
+        if positions.count < 3 {
+            indices = []
+        } else {
+            let uint16Indices: [UInt16] = (1..<positions.count-1).map { UInt16($0) }
+            let idxs1: [UInt16] = uint16Indices.reduce([]) { r, i -> [UInt16] in r + [0, i, i+1] }
+            let idxs2: [UInt16] = uint16Indices.reversed().reduce([]) { r, i -> [UInt16] in r + [i+1, i, 0] }
+            indices = idxs1 + idxs2
+        }
+        
+        let element = SCNGeometryElement(indices: indices, primitiveType: .triangles)
+        let geometry = SCNGeometry(sources: [source], elements: [element])
+        let node = SCNNode(geometry: geometry)
+        node.opacity = 0.8
+        
+        planeNodes.append(node)
+        scene.rootNode.addChildNode(node)
+    }
 }
 
-extension Keypoint3D {
+extension Keypoint {
     func convertIntoSCNVector3(with size: CGFloat) -> SCNVector3 {
-        return SCNVector3((position.x)*size - size/2, (1.0 - position.y)*size - size/2, (1.0 - position.z)*size - size/2)
+        guard let z = z else { return SCNVector3Zero }
+        return SCNVector3(CGFloat(x)*size - size/2, (1.0 - CGFloat(y))*size - size/2, (1.0 - CGFloat(z))*size - size/2)
     }
 }
