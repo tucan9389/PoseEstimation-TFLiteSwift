@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,12 +12,10 @@
 		7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7105C91E241CE9B7001A4325 /* Assets.xcassets */; };
 		7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7105C920241CE9B7001A4325 /* LaunchScreen.storyboard */; };
 		7105C92F241D0235001A4325 /* PoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C92E241D0235001A4325 /* PoseEstimator.swift */; };
-		7105C933241D0651001A4325 /* TFLiteImageInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */; };
 		7105C935241D0821001A4325 /* PoseNetPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */; };
 		7105C937241D29B8001A4325 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C936241D29B8001A4325 /* VideoCapture.swift */; };
 		7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */; };
 		7105C93C241E8CE3001A4325 /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C93B241E8CE3001A4325 /* CVPixelBufferExtension.swift */; };
-		7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7105C93D241E90C2001A4325 /* DataExtension.swift */; };
 		712A7FC12424BDD800B043F9 /* StillImageLineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */; };
 		712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */; };
 		712A7FC62425FD7200B043F9 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FC52425FD7200B043F9 /* UIImageExtension.swift */; };
@@ -26,7 +24,6 @@
 		712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FCE2426690A00B043F9 /* pefm_cpm.tflite */; };
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
-		7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */; };
 		713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */; };
 		713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */; };
 		713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */; };
@@ -46,7 +43,7 @@
 		71E8D93B243CC5330081DD6E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71E8D93A243CC5320081DD6E /* README.md */; };
 		71FE62A52466941400425708 /* LiveLineHeatmapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */; };
 		C419403425FC08A500637FAF /* Live3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */; };
-		C440682D267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite */; };
+		C440682D267B971700D61B4F /* lightweight_baseline_choi.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite */; };
 		C44E90E5260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44E90E4260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift */; };
 		C4543D0225FC7054006528DB /* LiteBaseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */; };
 		C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */; };
@@ -60,11 +57,27 @@
 		C4A4C70525CC5AA500EDF20A /* Baseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */; };
 		C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */; };
 		C4ABDCFA269AFFF900A9ED79 /* HumanKeypoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4ABDCF9269AFFF900A9ED79 /* HumanKeypoints.swift */; };
+		C4B3C04C26D92ACB001FE4DA /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */; };
-		C9646B3E61705A7C8FDD67A9 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C012A0754D303E47475FBA91 /* Pods_PoseEstimation_TFLiteSwift.framework */; };
+		DDEBE570BC63579E90F43361 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92AE2E8A05F34E2A8C6FC1DA /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C4B3C04D26D92ACB001FE4DA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C4B3C04C26D92ACB001FE4DA /* (null) in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		4F70870F9EE1E59A60461FC2 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
 		7105C912241CE9B5001A4325 /* Pose-TFLiteSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pose-TFLiteSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7105C915241CE9B5001A4325 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7105C91C241CE9B6001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -72,12 +85,10 @@
 		7105C921241CE9B7001A4325 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7105C923241CE9B7001A4325 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7105C92E241D0235001A4325 /* PoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseEstimator.swift; sourceTree = "<group>"; };
-		7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteImageInterpreter.swift; sourceTree = "<group>"; };
 		7105C934241D0821001A4325 /* PoseNetPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseNetPoseEstimator.swift; sourceTree = "<group>"; };
 		7105C936241D29B8001A4325 /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		7105C939241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite; sourceTree = "<group>"; };
 		7105C93B241E8CE3001A4325 /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
-		7105C93D241E90C2001A4325 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		712A7FC02424BDD800B043F9 /* StillImageLineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImageLineViewController.swift; sourceTree = "<group>"; };
 		712A7FC3242504EB00B043F9 /* PoseKeypointsDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseKeypointsDrawingView.swift; sourceTree = "<group>"; };
 		712A7FC52425FD7200B043F9 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
@@ -86,7 +97,6 @@
 		712A7FCE2426690A00B043F9 /* pefm_cpm.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_cpm.tflite; sourceTree = "<group>"; };
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
-		7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFLiteFlatArray.swift; sourceTree = "<group>"; };
 		713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet50b_coco.tflite; sourceTree = "<group>"; };
 		713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet152b_coco.tflite; sourceTree = "<group>"; };
 		713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet101b_coco.tflite; sourceTree = "<group>"; };
@@ -105,10 +115,9 @@
 		71E8D9182438BAD80081DD6E /* OpenPosePoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPosePoseEstimator.swift; sourceTree = "<group>"; };
 		71E8D93A243CC5320081DD6E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		71FE62A42466941400425708 /* LiveLineHeatmapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLineHeatmapViewController.swift; sourceTree = "<group>"; };
-		7B7693C3CF2A75D1E34C50DB /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.release.xcconfig"; sourceTree = "<group>"; };
-		C012A0754D303E47475FBA91 /* Pods_PoseEstimation_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		92AE2E8A05F34E2A8C6FC1DA /* Pods_PoseEstimation_TFLiteSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoseEstimation_TFLiteSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C419403325FC08A500637FAF /* Live3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live3DRenderingViewController.swift; sourceTree = "<group>"; };
-		C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = lightweight_baseline_choi.tflite.tflite; sourceTree = "<group>"; };
+		C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = lightweight_baseline_choi.tflite; sourceTree = "<group>"; };
 		C44E90E4260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live3DRenderingAndCapturingViewController.swift; sourceTree = "<group>"; };
 		C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteBaseline3DPoseEstimator.swift; sourceTree = "<group>"; };
 		C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pose3DSceneView.swift; sourceTree = "<group>"; };
@@ -123,7 +132,7 @@
 		C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = baseline_moon_noS.tflite; sourceTree = "<group>"; };
 		C4ABDCF9269AFFF900A9ED79 /* HumanKeypoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumanKeypoints.swift; sourceTree = "<group>"; };
 		C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StillImage3DRenderingViewController.swift; sourceTree = "<group>"; };
-		FA9F005D29ED44D0DECAFF08 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		EE24E5D6C5FF2535E008173E /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; path = "Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,21 +140,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9646B3E61705A7C8FDD67A9 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */,
+				DDEBE570BC63579E90F43361 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		29FE1DC7536D3A495D1E1B9F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C012A0754D303E47475FBA91 /* Pods_PoseEstimation_TFLiteSwift.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		7105C909241CE9B5001A4325 = {
 			isa = PBXGroup;
 			children = (
@@ -154,7 +155,7 @@
 				7105C914241CE9B5001A4325 /* PoseEstimation-TFLiteSwift */,
 				7105C913241CE9B5001A4325 /* Products */,
 				C0C61619494007101B3B8411 /* Pods */,
-				29FE1DC7536D3A495D1E1B9F /* Frameworks */,
+				7EA7C2C918A00E34D35171FA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -204,7 +205,6 @@
 			children = (
 				7105C93B241E8CE3001A4325 /* CVPixelBufferExtension.swift */,
 				712A7FC52425FD7200B043F9 /* UIImageExtension.swift */,
-				7105C93D241E90C2001A4325 /* DataExtension.swift */,
 				71B07B96245E5C6C001FD385 /* NumericExtension.swift */,
 			);
 			name = Extension;
@@ -215,8 +215,6 @@
 			children = (
 				C4ABDCF9269AFFF900A9ED79 /* HumanKeypoints.swift */,
 				7105C92E241D0235001A4325 /* PoseEstimator.swift */,
-				7105C932241D0651001A4325 /* TFLiteImageInterpreter.swift */,
-				7138DCCE242142FE0048E1D2 /* TFLiteFlatArray.swift */,
 				C4543D0025FC7038006528DB /* LiteBaseline3DPose */,
 				C4A4C70325CC5A4100EDF20A /* Baseline3DPose */,
 				71FE62A62478EFB800425708 /* imgclsmob-Pose */,
@@ -296,11 +294,19 @@
 			path = "imgclsmob-Pose";
 			sourceTree = "<group>";
 		};
+		7EA7C2C918A00E34D35171FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				92AE2E8A05F34E2A8C6FC1DA /* Pods_PoseEstimation_TFLiteSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C0C61619494007101B3B8411 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FA9F005D29ED44D0DECAFF08 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */,
-				7B7693C3CF2A75D1E34C50DB /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */,
+				EE24E5D6C5FF2535E008173E /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */,
+				4F70870F9EE1E59A60461FC2 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -308,7 +314,7 @@
 		C4543D0025FC7038006528DB /* LiteBaseline3DPose */ = {
 			isa = PBXGroup;
 			children = (
-				C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite */,
+				C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite */,
 				C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */,
 			);
 			path = LiteBaseline3DPose;
@@ -330,12 +336,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7105C926241CE9B7001A4325 /* Build configuration list for PBXNativeTarget "PoseEstimation-TFLiteSwift" */;
 			buildPhases = (
-				4B2D64521BE80BD79433CCFB /* [CP] Check Pods Manifest.lock */,
+				22E51E167A01DE22E13F8D47 /* [CP] Check Pods Manifest.lock */,
 				7105C90E241CE9B5001A4325 /* Sources */,
 				7105C90F241CE9B5001A4325 /* Frameworks */,
 				7105C910241CE9B5001A4325 /* Resources */,
-				0FAC1A91767F99E644C2BE32 /* [CP] Embed Pods Frameworks */,
-				8EE95C93826EABD48A966DFB /* [CP] Copy Pods Resources */,
+				C4B3C04D26D92ACB001FE4DA /* Embed Frameworks */,
+				295577AEA8E4FAE111F8FB69 /* [CP] Embed Pods Frameworks */,
+				E3866BA4AC22EB8F7F5FFBD7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -398,7 +405,7 @@
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
 				C4A4C6FC25CB38F000EDF20A /* simplepose_resnet50b_coco.tflite in Resources */,
 				C4A4C6FB25CB38F000EDF20A /* simplepose_resnet101b_coco.tflite in Resources */,
-				C440682D267B971700D61B4F /* lightweight_baseline_choi.tflite.tflite in Resources */,
+				C440682D267B971700D61B4F /* lightweight_baseline_choi.tflite in Resources */,
 				71E8D93B243CC5330081DD6E /* README.md in Resources */,
 				713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */,
 				C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */,
@@ -416,24 +423,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0FAC1A91767F99E644C2BE32 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4B2D64521BE80BD79433CCFB /* [CP] Check Pods Manifest.lock */ = {
+		22E51E167A01DE22E13F8D47 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -455,7 +445,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8EE95C93826EABD48A966DFB /* [CP] Copy Pods Resources */ = {
+		295577AEA8E4FAE111F8FB69 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E3866BA4AC22EB8F7F5FFBD7 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -480,7 +487,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C44E90E5260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift in Sources */,
-				7105C933241D0651001A4325 /* TFLiteImageInterpreter.swift in Sources */,
 				71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */,
 				713A04882479071D00F90C77 /* IMGCLSPoseEstimator.swift in Sources */,
 				7105C93C241E8CE3001A4325 /* CVPixelBufferExtension.swift in Sources */,
@@ -499,8 +505,6 @@
 				71A1BC1624793BC5004EA5D9 /* Argmax.swift in Sources */,
 				C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */,
 				712A7FC4242504EB00B043F9 /* PoseKeypointsDrawingView.swift in Sources */,
-				7138DCCF242142FE0048E1D2 /* TFLiteFlatArray.swift in Sources */,
-				7105C93E241E90C2001A4325 /* DataExtension.swift in Sources */,
 				712A7FC12424BDD800B043F9 /* StillImageLineViewController.swift in Sources */,
 				71A1ED4124574F2E001F796C /* StillImageHeatmapViewController.swift in Sources */,
 				7105C937241D29B8001A4325 /* VideoCapture.swift in Sources */,
@@ -639,6 +643,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -648,11 +653,12 @@
 		};
 		7105C927241CE9B7001A4325 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FA9F005D29ED44D0DECAFF08 /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */;
+			baseConfigurationReference = EE24E5D6C5FF2535E008173E /* Pods-PoseEstimation-TFLiteSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5WXJ4Z4H69;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "PoseEstimation-TFLiteSwift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -670,17 +676,19 @@
 		};
 		7105C928241CE9B7001A4325 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B7693C3CF2A75D1E34C50DB /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */;
+			baseConfigurationReference = 4F70870F9EE1E59A60461FC2 /* Pods-PoseEstimation-TFLiteSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5WXJ4Z4H69;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = "PoseEstimation-TFLiteSwift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tucan9389.PoseEstimation-TFLiteSwift";
 				PRODUCT_NAME = "Pose-TFLiteSwift";
 				SWIFT_VERSION = 5.0;

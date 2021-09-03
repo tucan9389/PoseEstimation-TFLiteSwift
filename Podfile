@@ -6,7 +6,13 @@ target 'PoseEstimation-TFLiteSwift' do
   use_frameworks!
 
   # Pods for PoseEstimation-TFLiteSwift
-  pod 'TensorFlowLiteSwift/CoreML', '~> 2.4.0'
   pod 'GoogleMLKit/PoseDetectionAccurate'
+  pod 'TFLiteSwift-Vision', :path => '../TFLiteSwift-Vision'
   
+end
+
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+  end
 end

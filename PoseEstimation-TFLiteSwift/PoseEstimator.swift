@@ -25,6 +25,7 @@
 import CoreVideo
 import UIKit
 import simd
+import TFLiteSwift_Vision
 
 struct PreprocessOptions {
     let cropArea: CropArea
@@ -245,6 +246,7 @@ struct PoseEstimationOutput {
 enum PoseEstimationError: Error {
     case failToCreateInputData
     case failToInference
+    case failToPostprocess
 }
 
 protocol PoseEstimatorDelegate {
@@ -252,7 +254,8 @@ protocol PoseEstimatorDelegate {
 }
 
 protocol PoseEstimator {
-    func inference(_ input: PoseEstimationInput) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func inference(_ uiImage: UIImage, options: PostprocessOptions?) -> Result<PoseEstimationOutput, PoseEstimationError>
+    func inference(_ pixelBuffer: CVPixelBuffer, options: PostprocessOptions?) -> Result<PoseEstimationOutput, PoseEstimationError>
     func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput?
     var partNames: [String] { get }
     var pairNames: [String]? { get }

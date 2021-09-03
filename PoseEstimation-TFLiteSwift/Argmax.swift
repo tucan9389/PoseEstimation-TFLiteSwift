@@ -23,6 +23,7 @@
 //
 
 import Foundation
+import TFLiteSwift_Vision
 
 extension TFLiteFlatArray where Element==Float32 {
     func argmax(_ heatmapIndex: Int) -> (row: Int, col: Int, val: Element) {

@@ -267,10 +267,7 @@ extension StillImageLineViewController: UINavigationControllerDelegate { }
 
 extension StillImageLineViewController {
     func inference(with uiImage: UIImage) {
-        let input: PoseEstimationInput = .uiImage(uiImage: uiImage,
-                                                  preprocessOptions: preprocessOptions,
-                                                  postprocessOptions: postprocessOptions)
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(uiImage, options: postprocessOptions)
         switch (result) {
         case .success(let output):
             outputHumans = output.humans2d.compactMap { $0 }

@@ -24,60 +24,77 @@
 
 import CoreVideo
 import UIKit
+import TFLiteSwift_Vision
 
 class PEFMHourglassPoseEstimator: PoseEstimator {
-    typealias PEFMHourglassResult = Result<PoseEstimationOutput, PoseEstimationError>
     
-    lazy var imageInterpreter: TFLiteImageInterpreter = {
-        let options = TFLiteImageInterpreter.Options(
-            modelName: "pefm_hourglass_v2", // pefm_hourglass_v1
-            inputWidth: Input.width,
-            inputHeight: Input.height,
-            isGrayScale: Input.isGrayScale,
-            normalization: Input.normalization
+    lazy var imageInterpreter: TFLiteVisionInterpreter = {
+        let interpreterOptions = TFLiteVisionInterpreter.Options(
+            modelName: "pefm_hourglass_v2",
+            normalization: .none
         )
-        let imageInterpreter = TFLiteImageInterpreter(options: options)
+        let imageInterpreter = TFLiteVisionInterpreter(options: interpreterOptions)
         return imageInterpreter
     }()
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     var delegate: PoseEstimatorDelegate?
     
-    func inference(_ input: PoseEstimationInput) -> PEFMHourglassResult {
+    func inference(_ uiImage: UIImage, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
         
         // initialize
         modelOutput = nil
         
-        let result: PEFMHourglassResult
+        let result: Result<PoseEstimationOutput, PoseEstimationError>
         if let delegate = delegate {
-            // preprocss
+            // preprocss and inference
             var t = CACurrentMediaTime()
-            guard let inputData = imageInterpreter.preprocess(with: input)
-                else { return .failure(.failToCreateInputData) }
-            let preprocessingTime = CACurrentMediaTime() - t
-            
-            // inference
-            t = CACurrentMediaTime()
-            guard let outputs = imageInterpreter.inference(with: inputData)
+            guard let outputs = imageInterpreter.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             let inferenceTime = CACurrentMediaTime() - t
             
             // postprocess
             t = CACurrentMediaTime()
-            result = PEFMHourglassResult.success(postprocess(with: outputs))
+            result = Result.success(postprocess(with: outputs))
             let postprocessingTime = CACurrentMediaTime() - t
-            delegate.didEndInference(self, preprocessingTime: preprocessingTime, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+            delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
         } else {
-            // preprocss
-            guard let inputData = imageInterpreter.preprocess(with: input)
-                else { return .failure(.failToCreateInputData) }
-            
-            // inference
-            guard let outputs = imageInterpreter.inference(with: inputData)
+            // preprocss and inference
+            guard let outputs = imageInterpreter.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             
             // postprocess
-            result = PEFMHourglassResult.success(postprocess(with: outputs))
+            result = Result.success(postprocess(with: outputs))
+        }
+        
+        return result
+    }
+    
+    func inference(_ pixelBuffer: CVPixelBuffer, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
+        
+        // initialize
+        modelOutput = nil
+        
+        let result: Result<PoseEstimationOutput, PoseEstimationError>
+        if let delegate = delegate {
+            // preprocss and inference
+            var t = CACurrentMediaTime()
+            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+                else { return .failure(.failToInference) }
+            let inferenceTime = CACurrentMediaTime() - t
+            
+            // postprocess
+            t = CACurrentMediaTime()
+            result = Result.success(postprocess(with: outputs))
+            let postprocessingTime = CACurrentMediaTime() - t
+            delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+        } else {
+            // preprocss and inference
+            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+                else { return .failure(.failToInference) }
+            
+            // postprocess
+            result = Result.success(postprocess(with: outputs))
         }
         
         return result
@@ -102,12 +119,6 @@ class PEFMHourglassPoseEstimator: PoseEstimator {
 }
 
 private extension PEFMHourglassPoseEstimator {
-    struct Input {
-        static let width = 192
-        static let height = 192
-        static let isGrayScale = false
-        static let normalization = TFLiteImageInterpreter.NormalizationOptions.none
-    }
     struct Output {
         struct Heatmap {
             static let width = 48

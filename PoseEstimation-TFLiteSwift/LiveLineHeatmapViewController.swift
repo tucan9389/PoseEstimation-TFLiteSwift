@@ -282,10 +282,7 @@ extension LiveLineHeatmapViewController: VideoCaptureDelegate {
 extension LiveLineHeatmapViewController {
     func inference(with pixelBuffer: CVPixelBuffer) {
         pixelBufferWidth = pixelBuffer.size.width
-        let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer,
-                                                      preprocessOptions: preprocessOptions,
-                                                      postprocessOptions: postprocessOptions)
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(pixelBuffer, options: postprocessOptions)
         
         switch (result) {
         case .success(let output):
