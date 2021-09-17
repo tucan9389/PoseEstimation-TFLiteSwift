@@ -130,10 +130,7 @@ extension Live3DRenderingViewController: VideoCaptureDelegate {
 
 extension Live3DRenderingViewController {
     func inference(with pixelBuffer: CVPixelBuffer) {
-        let input: PoseEstimationInput = .pixelBuffer(pixelBuffer: pixelBuffer,
-                                                      preprocessOptions: preprocessOptions,
-                                                      postprocessOptions: postprocessOptions)
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(pixelBuffer, options: postprocessOptions)
         
         switch (result) {
         case .success(let output):

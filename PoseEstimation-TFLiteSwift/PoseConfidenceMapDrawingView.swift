@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TFLiteSwift_Vision
 
 class PoseConfidenceMapDrawingView: UIView {
     typealias CGLine = (from: CGPoint, to: CGPoint)

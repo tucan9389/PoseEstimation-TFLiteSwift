@@ -24,66 +24,83 @@
 
 import CoreGraphics
 import UIKit
+import TFLiteSwift_Vision
 
 class OpenPosePoseEstimator: PoseEstimator {
-    typealias OpenPoseResult = Result<PoseEstimationOutput, PoseEstimationError>
     
-    lazy var imageInterpreter: TFLiteImageInterpreter = {
-        let options = TFLiteImageInterpreter.Options(
+    lazy var imageInterpreter: TFLiteVisionInterpreter = {
+        let interpreterOptions = TFLiteVisionInterpreter.Options(
             modelName: "openpose_ildoonet",
-            inputWidth: Input.width,
-            inputHeight: Input.height,
-            isGrayScale: Input.isGrayScale,
-            normalization: Input.normalization
+            normalization: .none
         )
-        let imageInterpreter = TFLiteImageInterpreter(options: options)
+        let imageInterpreter = TFLiteVisionInterpreter(options: interpreterOptions)
         return imageInterpreter
     }()
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     var delegate: PoseEstimatorDelegate?
     
-    func inference(_ input: PoseEstimationInput) -> OpenPoseResult {
+    func inference(_ uiImage: UIImage, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
         
         // initialize
         modelOutput = nil
         
-        let result: OpenPoseResult
+        let result: Result<PoseEstimationOutput, PoseEstimationError>
         if let delegate = delegate {
-            // preprocss
+            // preprocss and inference
             var t = CACurrentMediaTime()
-            guard let inputData = imageInterpreter.preprocess(with: input)
-                else { return .failure(.failToCreateInputData) }
-            let preprocessingTime = CACurrentMediaTime() - t
-            
-            // inference
-            t = CACurrentMediaTime()
-            guard let outputs = imageInterpreter.inference(with: inputData)
+            guard let outputs = imageInterpreter.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             let inferenceTime = CACurrentMediaTime() - t
             
             // postprocess
             t = CACurrentMediaTime()
-            result = OpenPoseResult.success(postprocess(outputs, options: input.postprocessOptions))
+            result = Result.success(postprocess(outputs, options: options))
             let postprocessingTime = CACurrentMediaTime() - t
-            delegate.didEndInference(self, preprocessingTime: preprocessingTime, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+            delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
         } else {
-            // preprocss
-            guard let inputData = imageInterpreter.preprocess(with: input)
-                else { return .failure(.failToCreateInputData) }
-            
-            // inference
-            guard let outputs = imageInterpreter.inference(with: inputData)
+            // preprocss and inference
+            guard let outputs = imageInterpreter.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             
             // postprocess
-            result = OpenPoseResult.success(postprocess(outputs, options: input.postprocessOptions))
+            result = Result.success(postprocess(outputs, options: options))
         }
         
         return result
     }
     
-    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], options: PostprocessOptions) -> PoseEstimationOutput {
+    func inference(_ pixelBuffer: CVPixelBuffer, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
+        
+        // initialize
+        modelOutput = nil
+        
+        let result: Result<PoseEstimationOutput, PoseEstimationError>
+        if let delegate = delegate {
+            // preprocss and inference
+            var t = CACurrentMediaTime()
+            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+                else { return .failure(.failToInference) }
+            let inferenceTime = CACurrentMediaTime() - t
+            
+            // postprocess
+            t = CACurrentMediaTime()
+            result = Result.success(postprocess(outputs, options: options))
+            let postprocessingTime = CACurrentMediaTime() - t
+            delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+        } else {
+            // preprocss and inference
+            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+                else { return .failure(.failToInference) }
+            
+            // postprocess
+            result = Result.success(postprocess(outputs, options: options))
+        }
+        
+        return result
+    }
+    
+    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], options: PostprocessOptions?) -> PoseEstimationOutput {
         // if you want to postprocess with only single person, use .singlePerson on humanType
         // in .multiPerson, if the bodyPart is nil, parse all part
         return PoseEstimationOutput(outputs: outputs, postprocessOptions: options)
@@ -106,12 +123,6 @@ class OpenPosePoseEstimator: PoseEstimator {
 }
 
 private extension OpenPosePoseEstimator {
-    struct Input {
-        static let width = 432
-        static let height = 368
-        static let isGrayScale = false
-        static let normalization = TFLiteImageInterpreter.NormalizationOptions.none
-    }
     struct Output {
         struct ConfidenceMap { // similar to Heatmap
             static let width = 54
@@ -247,22 +258,24 @@ private extension OpenPosePoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>], postprocessOptions: PostprocessOptions) {
+    init(outputs: [TFLiteFlatArray<Float32>], postprocessOptions: PostprocessOptions?) {
         self.outputs = outputs
         
-        switch postprocessOptions.humanType {
+        switch postprocessOptions?.humanType {
         case .singlePerson:
             let human = parseSinglePerson(outputs,
-                                          partIndex: postprocessOptions.bodyPart,
-                                          partThreshold: postprocessOptions.partThreshold)
+                                          partIndex: postprocessOptions?.bodyPart,
+                                          partThreshold: postprocessOptions?.partThreshold)
             humans = [.human2d(human: human)]
         case .multiPerson(let pairThreshold, let nmsFilterSize, let maxHumanNumber):
             humans = parseMultiHuman(outputs,
-                                     partIndex: postprocessOptions.bodyPart,
-                                     partThreshold: postprocessOptions.partThreshold,
+                                     partIndex: postprocessOptions?.bodyPart,
+                                     partThreshold: postprocessOptions?.partThreshold,
                                      pairThreshold: pairThreshold,
                                      nmsFilterSize: nmsFilterSize,
                                      maxHumanNumber: maxHumanNumber).map { .human2d(human: $0) }
+        case .none:
+            humans = []
         }
     }
     
@@ -491,12 +504,12 @@ private extension PoseEstimationOutput {
 
 extension TFLiteFlatArray where Element == Float32 {
     // part confidence maps
-    subscript(heatmap heatmap: Int...) -> Element {
+    public subscript(heatmap heatmap: Int...) -> Element {
         get { return self.element(at: heatmap) }
     }
     
     // part affinity fields
-    subscript(paf pafIndexes: Int...) -> (x: Element, y: Element) {
+    public subscript(paf pafIndexes: Int...) -> (x: Element, y: Element) {
         get {
             let pafYOffset = (pafIndexes[3]*2) + 1 + OpenPosePoseEstimator.Output.BodyPart.allCases.count
             let pafXOffset = (pafIndexes[3]*2) + 0 + OpenPosePoseEstimator.Output.BodyPart.allCases.count

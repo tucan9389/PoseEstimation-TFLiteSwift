@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import TFLiteSwift_Vision
 
 class StillImageHeatmapViewController: UIViewController {
 
@@ -54,7 +55,7 @@ class StillImageHeatmapViewController: UIViewController {
     
     // MARK: - ML Property
     let poseEstimator: PoseEstimator = LiteBaseline3DPoseEstimator()
-    var modelOutput: TFLiteFlatArray<Float32>? {
+    var modelOutput: [TFLiteFlatArray<Float32>]? {
         didSet {
             updateHeatmapOverlayView()
         }
@@ -196,7 +197,7 @@ class StillImageHeatmapViewController: UIViewController {
                     }
                 }
             }
-            self.overlayHeatmapView?.output = self.modelOutput
+            self.overlayHeatmapView?.output = self.modelOutput?.first
         }
     }
     
@@ -244,20 +245,17 @@ extension StillImageHeatmapViewController: UINavigationControllerDelegate { }
 
 extension StillImageHeatmapViewController {
     func inference(with uiImage: UIImage) {
-        let preprocessOptions = PreprocessOptions(cropArea: .squareAspectFill)
+        // let preprocessOptions = PreprocessOptions(cropArea: .squareAspectFill)
         let humanType: PostprocessOptions.HumanType = .multiPerson(pairThreshold: 0.2,
                                                                    nmsFilterSize: 5,
                                                                    maxHumanNumber: nil)
         let postprocessOptions = PostprocessOptions(partThreshold: 0.14,
                                                     bodyPart: nil,
                                                     humanType: humanType)
-        let input: PoseEstimationInput = .uiImage(uiImage: uiImage,
-                                                  preprocessOptions: preprocessOptions,
-                                                  postprocessOptions: postprocessOptions)
-        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(input)
+        let result: Result<PoseEstimationOutput, PoseEstimationError> = poseEstimator.inference(uiImage, options: postprocessOptions)
         switch (result) {
         case .success(let output):
-            modelOutput = output.outputs.first
+            modelOutput = output.outputs
         case .failure(_):
             break
         }

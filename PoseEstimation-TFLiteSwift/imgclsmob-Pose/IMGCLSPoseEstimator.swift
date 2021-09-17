@@ -24,67 +24,83 @@
 
 import CoreVideo
 import UIKit
+import TFLiteSwift_Vision
 
 class IMGCLSPoseEstimator: PoseEstimator {
-    typealias IMGCLSResult = Result<PoseEstimationOutput, PoseEstimationError>
     
-    lazy var imageInterpreter: TFLiteImageInterpreter = {
-        let options = TFLiteImageInterpreter.Options(
+    lazy var imageInterpreter: TFLiteVisionInterpreter = {
+        let interpreterOptions = TFLiteVisionInterpreter.Options(
             modelName: MLModelName.simplePoseResnet18.rawValue,
-            inputWidth: Input.width,
-            inputHeight: Input.height,
-            isGrayScale: Input.isGrayScale,
-            normalization: Input.normalization
+            normalization: .scaled(from: 0.0, to: 1.0)
         )
-        let imageInterpreter = TFLiteImageInterpreter(options: options)
+        let imageInterpreter = TFLiteVisionInterpreter(options: interpreterOptions)
         return imageInterpreter
     }()
     
     var modelOutput: [TFLiteFlatArray<Float32>]?
     var delegate: PoseEstimatorDelegate?
     
-    func inference(_ input: PoseEstimationInput) -> IMGCLSResult {
+    func inference(_ uiImage: UIImage, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
         
         // initialize
         modelOutput = nil
         
-        let result: IMGCLSResult
+        let result: Result<PoseEstimationOutput, PoseEstimationError>
         if let delegate = delegate {
-            // preprocss
+            // preprocss and inference
             var t = CACurrentMediaTime()
-            guard let inputData = imageInterpreter.preprocess(with: input)
-                else { return .failure(.failToCreateInputData) }
-            let preprocessingTime = CACurrentMediaTime() - t
-            
-            // inference
-            t = CACurrentMediaTime()
-            guard let outputs = imageInterpreter.inference(with: inputData)
+            guard let outputs = imageInterpreter.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             let inferenceTime = CACurrentMediaTime() - t
             
             // postprocess
             t = CACurrentMediaTime()
-            result = IMGCLSResult.success(postprocess(outputs, with: input.postprocessOptions))
+            result = Result.success(postprocess(outputs, with: options))
             let postprocessingTime = CACurrentMediaTime() - t
-            delegate.didEndInference(self, preprocessingTime: preprocessingTime, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+            delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
         } else {
-            // preprocss
-            guard let inputData = imageInterpreter.preprocess(with: input)
-                else { return .failure(.failToCreateInputData) }
-            
-            // inference
-            guard let outputs = imageInterpreter.inference(with: inputData)
+            // preprocss and inference
+            guard let outputs = imageInterpreter.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             
             // postprocess
-            result = IMGCLSResult.success(postprocess(outputs, with: input.postprocessOptions))
+            result = Result.success(postprocess(outputs, with: options))
         }
-        
         
         return result
     }
     
-    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], with options: PostprocessOptions) -> PoseEstimationOutput {
+    func inference(_ pixelBuffer: CVPixelBuffer, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
+        
+        // initialize
+        modelOutput = nil
+        
+        let result: Result<PoseEstimationOutput, PoseEstimationError>
+        if let delegate = delegate {
+            // preprocss and inference
+            var t = CACurrentMediaTime()
+            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+                else { return .failure(.failToInference) }
+            let inferenceTime = CACurrentMediaTime() - t
+            
+            // postprocess
+            t = CACurrentMediaTime()
+            result = Result.success(postprocess(outputs, with: options))
+            let postprocessingTime = CACurrentMediaTime() - t
+            delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
+        } else {
+            // preprocss and inference
+            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+                else { return .failure(.failToInference) }
+            
+            // postprocess
+            result = Result.success(postprocess(outputs, with: options))
+        }
+        
+        return result
+    }
+    
+    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], with options: PostprocessOptions?) -> PoseEstimationOutput {
         return PoseEstimationOutput(outputs: outputs, postprocessOptions: options)
     }
     
@@ -121,12 +137,6 @@ extension IMGCLSPoseEstimator {
 }
 
 private extension IMGCLSPoseEstimator {
-    struct Input {
-        static let width = 224
-        static let height = 224
-        static let isGrayScale = false
-        static let normalization = TFLiteImageInterpreter.NormalizationOptions.scaledNormalization
-    }
     struct Output {
         struct Heatmap {
             static let width = 56
@@ -171,12 +181,12 @@ private extension IMGCLSPoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>], postprocessOptions: PostprocessOptions) {
+    init(outputs: [TFLiteFlatArray<Float32>], postprocessOptions: PostprocessOptions?) {
         self.outputs = outputs
         
         let human = parseSinglePerson(outputs,
-                                      partIndex: postprocessOptions.bodyPart,
-                                      partThreshold: postprocessOptions.partThreshold)
+                                      partIndex: postprocessOptions?.bodyPart,
+                                      partThreshold: postprocessOptions?.partThreshold)
         humans = [.human2d(human: human)]
     }
     

@@ -23,6 +23,7 @@
 //
 
 import Foundation
+import TFLiteSwift_Vision
 
 class NonMaximumnonSuppression {
     typealias MaximumPoint = (col: Int, row: Int, val: Float32)
