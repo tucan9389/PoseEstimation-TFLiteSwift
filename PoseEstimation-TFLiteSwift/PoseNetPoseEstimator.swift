@@ -28,12 +28,12 @@ import TFLiteSwift_Vision
 
 class PoseNetPoseEstimator: PoseEstimator {
     
-    lazy var imageInterpreter: TFLiteVisionInterpreter = {
+    lazy var imageInterpreter: TFLiteVisionInterpreter? = {
         let interpreterOptions = TFLiteVisionInterpreter.Options(
             modelName: "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped",
             normalization: .scaled(from: 0.0, to: 1.0)
         )
-        let imageInterpreter = TFLiteVisionInterpreter(options: interpreterOptions)
+        let imageInterpreter = try? TFLiteVisionInterpreter(options: interpreterOptions)
         return imageInterpreter
     }()
     
@@ -49,24 +49,24 @@ class PoseNetPoseEstimator: PoseEstimator {
         if let delegate = delegate {
             // preprocss and inference
             var t = CACurrentMediaTime()
-            guard let outputs = imageInterpreter.inference(with: uiImage)
+            guard let outputs = try? imageInterpreter?.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             let inferenceTime = CACurrentMediaTime() - t
             
             // postprocess
             t = CACurrentMediaTime()
-            guard let inputWidth = imageInterpreter.inputWidth, let inputHeight = imageInterpreter.inputHeight
+            guard let inputWidth = imageInterpreter?.inputWidth, let inputHeight = imageInterpreter?.inputHeight
                 else { return .failure(.failToPostprocess) }
             result = Result.success(postprocess(with: outputs, inputWidth: inputWidth, inputHeight: inputHeight))
             let postprocessingTime = CACurrentMediaTime() - t
             delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
         } else {
             // preprocss and inference
-            guard let outputs = imageInterpreter.inference(with: uiImage)
+            guard let outputs = try? imageInterpreter?.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             
             // postprocess
-            guard let inputWidth = imageInterpreter.inputWidth, let inputHeight = imageInterpreter.inputHeight
+            guard let inputWidth = imageInterpreter?.inputWidth, let inputHeight = imageInterpreter?.inputHeight
                 else { return .failure(.failToPostprocess) }
             result = Result.success(postprocess(with: outputs, inputWidth: inputWidth, inputHeight: inputHeight))
         }
@@ -83,24 +83,24 @@ class PoseNetPoseEstimator: PoseEstimator {
         if let delegate = delegate {
             // preprocss and inference
             var t = CACurrentMediaTime()
-            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+            guard let outputs = try? imageInterpreter?.inference(with: pixelBuffer)
                 else { return .failure(.failToInference) }
             let inferenceTime = CACurrentMediaTime() - t
             
             // postprocess
             t = CACurrentMediaTime()
-            guard let inputWidth = imageInterpreter.inputWidth, let inputHeight = imageInterpreter.inputHeight
+            guard let inputWidth = imageInterpreter?.inputWidth, let inputHeight = imageInterpreter?.inputHeight
                 else { return .failure(.failToPostprocess) }
             result = Result.success(postprocess(with: outputs, inputWidth: inputWidth, inputHeight: inputHeight))
             let postprocessingTime = CACurrentMediaTime() - t
             delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
         } else {
             // preprocss and inference
-            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+            guard let outputs = try? imageInterpreter?.inference(with: pixelBuffer)
                 else { return .failure(.failToInference) }
             
             // postprocess
-            guard let inputWidth = imageInterpreter.inputWidth, let inputHeight = imageInterpreter.inputHeight
+            guard let inputWidth = imageInterpreter?.inputWidth, let inputHeight = imageInterpreter?.inputHeight
                 else { return .failure(.failToPostprocess) }
             result = Result.success(postprocess(with: outputs, inputWidth: inputWidth, inputHeight: inputHeight))
         }
@@ -114,7 +114,7 @@ class PoseNetPoseEstimator: PoseEstimator {
     
     func postprocessOnLastOutput(options: PostprocessOptions) -> PoseEstimationOutput? {
         guard let outputs = modelOutput else { return nil }
-        guard let inputWidth = imageInterpreter.inputWidth, let inputHeight = imageInterpreter.inputHeight
+        guard let inputWidth = imageInterpreter?.inputWidth, let inputHeight = imageInterpreter?.inputHeight
             else { return nil }
         return postprocess(with: outputs, inputWidth: inputWidth, inputHeight: inputHeight)
     }

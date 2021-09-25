@@ -30,13 +30,13 @@ import TFLiteSwift_Vision
 class Baseline3DPoseEstimator: PoseEstimator {
     typealias Baseline3DResult = Result<PoseEstimationOutput, PoseEstimationError>
     
-    lazy var imageInterpreter: TFLiteVisionInterpreter = {
+    lazy var imageInterpreter: TFLiteVisionInterpreter? = {
         let interpreterOptions = TFLiteVisionInterpreter.Options(
             modelName: "baseline_moon_noS",
             inputRankType: .bchw,
             normalization: .pytorchNormalization
         )
-        let imageInterpreter = TFLiteVisionInterpreter(options: interpreterOptions)
+        let imageInterpreter = try? TFLiteVisionInterpreter(options: interpreterOptions)
         return imageInterpreter
     }()
     
@@ -52,7 +52,7 @@ class Baseline3DPoseEstimator: PoseEstimator {
         if let delegate = delegate {
             // preprocss and inference
             var t = CACurrentMediaTime()
-            guard let outputs = imageInterpreter.inference(with: uiImage)
+            guard let outputs = try? imageInterpreter?.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             let inferenceTime = CACurrentMediaTime() - t
             
@@ -63,7 +63,7 @@ class Baseline3DPoseEstimator: PoseEstimator {
             delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
         } else {
             // preprocss and inference
-            guard let outputs = imageInterpreter.inference(with: uiImage)
+            guard let outputs = try? imageInterpreter?.inference(with: uiImage)
                 else { return .failure(.failToInference) }
             
             // postprocess
@@ -82,7 +82,7 @@ class Baseline3DPoseEstimator: PoseEstimator {
         if let delegate = delegate {
             // preprocss and inference
             var t = CACurrentMediaTime()
-            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+            guard let outputs = try? imageInterpreter?.inference(with: pixelBuffer)
                 else { return .failure(.failToInference) }
             let inferenceTime = CACurrentMediaTime() - t
             
@@ -93,7 +93,7 @@ class Baseline3DPoseEstimator: PoseEstimator {
             delegate.didEndInference(self, preprocessingTime: -1, inferenceTime: inferenceTime, postprocessingTime: postprocessingTime)
         } else {
             // preprocss and inference
-            guard let outputs = imageInterpreter.inference(with: pixelBuffer)
+            guard let outputs = try? imageInterpreter?.inference(with: pixelBuffer)
                 else { return .failure(.failToInference) }
             
             // postprocess
