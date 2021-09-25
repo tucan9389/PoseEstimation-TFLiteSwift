@@ -7,7 +7,7 @@ target 'PoseEstimation-TFLiteSwift' do
 
   # Pods for PoseEstimation-TFLiteSwift
   pod 'GoogleMLKit/PoseDetectionAccurate'
-  pod 'TFLiteSwift-Vision'
+  pod 'TFLiteSwift-Vision', '~> 0.2.6'
   
 end
 
