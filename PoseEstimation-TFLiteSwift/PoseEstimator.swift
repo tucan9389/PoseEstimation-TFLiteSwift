@@ -237,7 +237,7 @@ struct PoseEstimationOutput {
         }
     }
     
-    var outputs: [TFLiteFlatArray<Float32>]
+    var outputs: [TFLiteFlatArray]
     var humans: [Human] = []
     var humans2d: [Human2D?] { return humans.map { $0.human2d } }
     var humans3d: [Human3D?] { return humans.map { $0.human3d } }

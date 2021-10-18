@@ -25,8 +25,8 @@
 import Foundation
 import TFLiteSwift_Vision
 
-extension TFLiteFlatArray where Element==Float32 {
-    func argmax(_ heatmapIndex: Int) -> (row: Int, col: Int, val: Element) {
+extension TFLiteFlatArray {
+    func argmax(_ heatmapIndex: Int) -> (row: Int, col: Int, val: Float32) {
         var maxInfo = (row: 0, col: 0, val: self[heatmap: 0, 0, 0, heatmapIndex])
         let height = dimensions[1]
         let width = dimensions[2]

@@ -37,7 +37,7 @@ class OpenPosePoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    var modelOutput: [TFLiteFlatArray<Float32>]?
+    var modelOutput: [TFLiteFlatArray]?
     var delegate: PoseEstimatorDelegate?
     
     func inference(_ uiImage: UIImage, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
@@ -100,7 +100,7 @@ class OpenPosePoseEstimator: PoseEstimator {
         return result
     }
     
-    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], options: PostprocessOptions?) -> PoseEstimationOutput {
+    private func postprocess(_ outputs: [TFLiteFlatArray], options: PostprocessOptions?) -> PoseEstimationOutput {
         // if you want to postprocess with only single person, use .singlePerson on humanType
         // in .multiPerson, if the bodyPart is nil, parse all part
         return PoseEstimationOutput(outputs: outputs, postprocessOptions: options)
@@ -258,7 +258,7 @@ private extension OpenPosePoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>], postprocessOptions: PostprocessOptions?) {
+    init(outputs: [TFLiteFlatArray], postprocessOptions: PostprocessOptions?) {
         self.outputs = outputs
         
         switch postprocessOptions?.humanType {
@@ -279,7 +279,7 @@ private extension PoseEstimationOutput {
         }
     }
     
-    func parseSinglePerson(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?) -> Human2D {
+    func parseSinglePerson(_ outputs: [TFLiteFlatArray], partIndex: Int?, partThreshold: Float?) -> Human2D {
         // openpose_ildoonet.tflite only use the first output
         let output = outputs[0]
         
@@ -319,7 +319,7 @@ private extension PoseEstimationOutput {
         return Human2D(keypoints: keypoints, lines: lines)
     }
     
-    func parseMultiHuman(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human2D] {
+    func parseMultiHuman(_ outputs: [TFLiteFlatArray], partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human2D] {
         // openpose_ildoonet.tflite only use the first output
         let output = outputs[0]
         
@@ -338,7 +338,7 @@ private extension PoseEstimationOutput {
         }
     }
     
-    func parseSinglePartOnMultiHuman(_ output: TFLiteFlatArray<Float32>, partIndex: Int, partThreshold: Float?, nmsFilterSize: Int = 3) -> [Human2D] {
+    func parseSinglePartOnMultiHuman(_ output: TFLiteFlatArray, partIndex: Int, partThreshold: Float?, nmsFilterSize: Int = 3) -> [Human2D] {
         // process NMS
         let keypointIndexes = output.keypoints(partIndex: partIndex,
                                                filterSize: nmsFilterSize,
@@ -362,7 +362,7 @@ private extension PoseEstimationOutput {
         }
     }
     
-    func parseAllPartOnMultiHuman(_ output: TFLiteFlatArray<Float32>, partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human2D] {
+    func parseAllPartOnMultiHuman(_ output: TFLiteFlatArray, partIndex: Int?, partThreshold: Float?, pairThreshold: Float?, nmsFilterSize: Int, maxHumanNumber: Int?) -> [Human2D] {
         
         let parts = OpenPosePoseEstimator.Output.BodyPart.allCases
         var verticesForEachPart: [[KeypointElement]?] = parts.map { _ in nil }
@@ -502,14 +502,14 @@ private extension PoseEstimationOutput {
     }
 }
 
-extension TFLiteFlatArray where Element == Float32 {
+extension TFLiteFlatArray {
     // part confidence maps
-    public subscript(heatmap heatmap: Int...) -> Element {
+    public subscript(heatmap heatmap: Int...) -> Float32 {
         get { return self.element(at: heatmap) }
     }
     
     // part affinity fields
-    public subscript(paf pafIndexes: Int...) -> (x: Element, y: Element) {
+    public subscript(paf pafIndexes: Int...) -> (x: Float32, y: Float32) {
         get {
             let pafYOffset = (pafIndexes[3]*2) + 1 + OpenPosePoseEstimator.Output.BodyPart.allCases.count
             let pafXOffset = (pafIndexes[3]*2) + 0 + OpenPosePoseEstimator.Output.BodyPart.allCases.count
@@ -521,8 +521,8 @@ extension TFLiteFlatArray where Element == Float32 {
 }
 
 // NMS
-private extension TFLiteFlatArray where Element == Float32 {
-    func keypoints(partIndex: Int, filterSize: Int, threshold: Float?) -> [(col: Int, row: Int, val: Element)] {
+private extension TFLiteFlatArray {
+    func keypoints(partIndex: Int, filterSize: Int, threshold: Float?) -> [(col: Int, row: Int, val: Float32)] {
         let hWidth = OpenPosePoseEstimator.Output.ConfidenceMap.width
         let hHeight = OpenPosePoseEstimator.Output.ConfidenceMap.height
         let results = NonMaximumnonSuppression.process(self, partIndex: partIndex, width: hWidth, height: hHeight)

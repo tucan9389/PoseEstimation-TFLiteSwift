@@ -37,7 +37,7 @@ class PoseNetPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    var modelOutput: [TFLiteFlatArray<Float32>]?
+    var modelOutput: [TFLiteFlatArray]?
     var delegate: PoseEstimatorDelegate?
     
     func inference(_ uiImage: UIImage, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
@@ -108,7 +108,7 @@ class PoseNetPoseEstimator: PoseEstimator {
         return result
     }
     
-    private func postprocess(with outputs: [TFLiteFlatArray<Float32>], inputWidth: Int, inputHeight: Int) -> PoseEstimationOutput {
+    private func postprocess(with outputs: [TFLiteFlatArray], inputWidth: Int, inputHeight: Int) -> PoseEstimationOutput {
         return PoseEstimationOutput(outputs: outputs, inputWidth: inputWidth, inputHeight: inputHeight)
     }
     
@@ -178,7 +178,7 @@ private extension PoseNetPoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>], inputWidth: Int, inputHeight: Int) {
+    init(outputs: [TFLiteFlatArray], inputWidth: Int, inputHeight: Int) {
         self.outputs = outputs
         
         let keypoints = convertToKeypoints(from: outputs, inputWidth: inputWidth, inputHeight: inputHeight)
@@ -187,7 +187,7 @@ private extension PoseEstimationOutput {
         humans = [Human.human2d(human: Human2D(keypoints: keypoints, lines: lines))]
     }
     
-    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>], inputWidth: Int, inputHeight: Int) -> [Keypoint2D] {
+    func convertToKeypoints(from outputs: [TFLiteFlatArray], inputWidth: Int, inputHeight: Int) -> [Keypoint2D] {
         let heatmaps = outputs[0]
         let offsets = outputs[1]
         
