@@ -28,15 +28,3 @@ do
       echo "INFO: Downloaded TensorFlow Lite model to ${TFLITE_FILE}."
   fi
 done < <(tail -n +2 'RunScripts/tflite_models.csv')
-
-#TFLITE_MODEL="posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite"
-#TFLITE_FILE="PoseNet/Model/${TFLITE_MODEL}"
-#MODEL_SRC="https://storage.googleapis.com/download.tensorflow.org/models/tflite/${TFLITE_MODEL}"
-#
-#if test -f "${TFLITE_FILE}"; then
-#    echo "INFO: TF Lite model already exists. Skip downloading and use the local model."
-#else
-#    curl --create-dirs -o "${TFLITE_FILE}" "${MODEL_SRC}"
-#    echo "INFO: Downloaded TensorFlow Lite model to ${TFLITE_FILE}."
-#fi
-
