@@ -12,7 +12,7 @@ import TFLiteSwift_Vision
 class PoseConfidenceMapDrawingView: UIView {
     typealias CGLine = (from: CGPoint, to: CGPoint)
     var outputChannelIndexes: [Int] = [0]
-    var output: TFLiteFlatArray<Float32>? {
+    var output: TFLiteFlatArray? {
         didSet {
             self.setNeedsDisplay()
         }

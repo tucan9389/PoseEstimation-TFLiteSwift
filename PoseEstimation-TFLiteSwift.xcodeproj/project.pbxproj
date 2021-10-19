@@ -53,7 +53,7 @@
 		C4A4C70525CC5AA500EDF20A /* Baseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4C70425CC5AA500EDF20A /* Baseline3DPoseEstimator.swift */; };
 		C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C70725CC5AD100EDF20A /* baseline_moon_noS.tflite */; };
 		C4ABDCFA269AFFF900A9ED79 /* HumanKeypoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4ABDCF9269AFFF900A9ED79 /* HumanKeypoints.swift */; };
-		C4B3C04C26D92ACB001FE4DA /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4B3C04C26D92ACB001FE4DA /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4DDEF7D25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DDEF7C25FBE907000CF6A5 /* StillImage3DRenderingViewController.swift */; };
 		DDEBE570BC63579E90F43361 /* Pods_PoseEstimation_TFLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92AE2E8A05F34E2A8C6FC1DA /* Pods_PoseEstimation_TFLiteSwift.framework */; };
 /* End PBXBuildFile section */
@@ -65,7 +65,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C4B3C04C26D92ACB001FE4DA /* (null) in Embed Frameworks */,
+				C4B3C04C26D92ACB001FE4DA /* BuildFile in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,8 +338,6 @@
 				7105C90F241CE9B5001A4325 /* Frameworks */,
 				7105C910241CE9B5001A4325 /* Resources */,
 				C4B3C04D26D92ACB001FE4DA /* Embed Frameworks */,
-				295577AEA8E4FAE111F8FB69 /* [CP] Embed Pods Frameworks */,
-				E3866BA4AC22EB8F7F5FFBD7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -672,7 +670,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "PoseEstimation-TFLiteSwift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -694,7 +692,7 @@
 				DEVELOPMENT_TEAM = 5WXJ4Z4H69;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = "PoseEstimation-TFLiteSwift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

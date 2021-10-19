@@ -7,8 +7,8 @@
 //
 
 import CoreGraphics
-import MLKitPoseDetectionAccurate
-import MLKitVision
+// import MLKitPoseDetectionAccurate
+// import MLKitVision
 
 class Keypoint {
     
@@ -115,6 +115,7 @@ class HumanKeypoints {
         }
     }
     
+  /*
     init(mlkitPose: Pose, imageSize: CGSize) {
         let jointParts: [PoseLandmarkType] = [
             .nose,
@@ -166,6 +167,7 @@ class HumanKeypoints {
             }
         }
     }
+   */
     
     init(vision2DPoseKeypoints: HumanKeypoints, mlkit3DPoseKeypoints: HumanKeypoints) {
         self.keypoints = zip(vision2DPoseKeypoints.keypoints, mlkit3DPoseKeypoints.keypoints).enumerated().map {

@@ -48,7 +48,7 @@ class LiteBaseline3DPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    var modelOutput: [TFLiteFlatArray<Float32>]?
+    var modelOutput: [TFLiteFlatArray]?
     var delegate: PoseEstimatorDelegate?
     
     func inference(_ uiImage: UIImage, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
@@ -111,7 +111,7 @@ class LiteBaseline3DPoseEstimator: PoseEstimator {
         return result
     }
         
-    private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> PoseEstimationOutput {
+    private func postprocess(with outputs: [TFLiteFlatArray]) -> PoseEstimationOutput {
         return PoseEstimationOutput(outputs: outputs)
     }
     
@@ -191,7 +191,7 @@ extension LiteBaseline3DPoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>]) {
+    init(outputs: [TFLiteFlatArray]) {
         self.outputs = outputs
         
         let keypoints = convertToKeypoints(from: outputs)
@@ -200,7 +200,7 @@ private extension PoseEstimationOutput {
         humans = [.human3d(human: Human3D(keypoints: keypoints, lines: lines, baselineKeypointIndexes: LiteBaseline3DPoseEstimator.Output.BodyPart.baselineKeypointIndexes))]
     }
     
-    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint3D] {
+    func convertToKeypoints(from outputs: [TFLiteFlatArray]) -> [Keypoint3D] {
         let heatmaps = outputs[0]
         return heatmaps.softArgmax3d().map { Keypoint3D(x: $0.position.x, y: $0.position.y, z: $0.position.z) }
     }
@@ -218,7 +218,7 @@ private extension PoseEstimationOutput {
     }
 }
 
-private extension TFLiteFlatArray where Element==Float32 {
+private extension TFLiteFlatArray {
     
     func softArgmax3d() -> [Keypoint3D] {
         let depth = 32

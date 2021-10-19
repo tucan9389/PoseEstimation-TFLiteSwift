@@ -37,7 +37,7 @@ class IMGCLSPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    var modelOutput: [TFLiteFlatArray<Float32>]?
+    var modelOutput: [TFLiteFlatArray]?
     var delegate: PoseEstimatorDelegate?
     
     func inference(_ uiImage: UIImage, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
@@ -100,7 +100,7 @@ class IMGCLSPoseEstimator: PoseEstimator {
         return result
     }
     
-    private func postprocess(_ outputs: [TFLiteFlatArray<Float32>], with options: PostprocessOptions?) -> PoseEstimationOutput {
+    private func postprocess(_ outputs: [TFLiteFlatArray], with options: PostprocessOptions?) -> PoseEstimationOutput {
         return PoseEstimationOutput(outputs: outputs, postprocessOptions: options)
     }
     
@@ -181,7 +181,7 @@ private extension IMGCLSPoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>], postprocessOptions: PostprocessOptions?) {
+    init(outputs: [TFLiteFlatArray], postprocessOptions: PostprocessOptions?) {
         self.outputs = outputs
         
         let human = parseSinglePerson(outputs,
@@ -190,7 +190,7 @@ private extension PoseEstimationOutput {
         humans = [.human2d(human: human)]
     }
     
-    func parseSinglePerson(_ outputs: [TFLiteFlatArray<Float32>], partIndex: Int?, partThreshold: Float?) -> Human2D {
+    func parseSinglePerson(_ outputs: [TFLiteFlatArray], partIndex: Int?, partThreshold: Float?) -> Human2D {
         let output = outputs[0]
         
         // get (col, row)s from heatmaps

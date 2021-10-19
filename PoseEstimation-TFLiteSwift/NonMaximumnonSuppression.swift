@@ -28,7 +28,7 @@ import TFLiteSwift_Vision
 class NonMaximumnonSuppression {
     typealias MaximumPoint = (col: Int, row: Int, val: Float32)
     
-    static func process(_ heatmap: TFLiteFlatArray<Float32>, partIndex: Int, width: Int, height: Int) -> [MaximumPoint] {
+    static func process(_ heatmap: TFLiteFlatArray, partIndex: Int, width: Int, height: Int) -> [MaximumPoint] {
         let filterSize = 3
         var lastMaximumColumns: [MaximumPoint?] = (0..<width).map { _ in nil }
         var results: [MaximumPoint] = []

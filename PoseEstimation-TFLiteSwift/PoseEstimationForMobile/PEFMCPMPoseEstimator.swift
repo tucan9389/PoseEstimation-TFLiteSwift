@@ -37,7 +37,7 @@ class PEFMCPMPoseEstimator: PoseEstimator {
         return imageInterpreter
     }()
     
-    var modelOutput: [TFLiteFlatArray<Float32>]?
+    var modelOutput: [TFLiteFlatArray]?
     var delegate: PoseEstimatorDelegate?
     
     func inference(_ uiImage: UIImage, options: PostprocessOptions? = nil) -> Result<PoseEstimationOutput, PoseEstimationError> {
@@ -98,7 +98,7 @@ class PEFMCPMPoseEstimator: PoseEstimator {
         return result
     }
         
-    private func postprocess(with outputs: [TFLiteFlatArray<Float32>]) -> PoseEstimationOutput {
+    private func postprocess(with outputs: [TFLiteFlatArray]) -> PoseEstimationOutput {
         return PoseEstimationOutput(outputs: outputs)
     }
     
@@ -161,7 +161,7 @@ private extension PEFMCPMPoseEstimator {
 }
 
 private extension PoseEstimationOutput {
-    init(outputs: [TFLiteFlatArray<Float32>]) {
+    init(outputs: [TFLiteFlatArray]) {
         self.outputs = outputs
         
         let keypoints = convertToKeypoints(from: outputs)
@@ -170,7 +170,7 @@ private extension PoseEstimationOutput {
         humans = [Human.human2d(human: Human2D(keypoints: keypoints, lines: lines))]
     }
     
-    func convertToKeypoints(from outputs: [TFLiteFlatArray<Float32>]) -> [Keypoint2D] {
+    func convertToKeypoints(from outputs: [TFLiteFlatArray]) -> [Keypoint2D] {
         let heatmaps = outputs[0]
         
         // get (col, row)s from heatmaps
