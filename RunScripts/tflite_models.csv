@@ -1,0 +1,10 @@
+download_path,model_download_url
+LiteBaseline3DPose/lightweight_baseline_choi.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v2.1.0/lightweight_baseline_choi.tflite
+Baseline3DPose/baseline_moon_noS.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v2.0.0/baseline_moon_noS.tflite
+imgclsmob-Pose/simplepose_resnet18_coco.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v1.1.0/simplepose_resnet18_coco.tflite
+imgclsmob-Pose/simplepose_resnet50b_coco.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v1.1.0/simplepose_resnet50b_coco.tflite
+imgclsmob-Pose/simplepose_resnet101b_coco.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v1.1.0/simplepose_resnet101b_coco.tflite
+imgclsmob-Pose/simplepose_resnet152b_coco.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v1.1.0/simplepose_resnet152b_coco.tflite
+imgclsmob-Pose/simplepose_resneta101b_coco.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v1.1.0/simplepose_resneta101b_coco.tflite
+imgclsmob-Pose/simplepose_resneta152b_coco.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v1.1.0/simplepose_resneta152b_coco.tflite
+imgclsmob-Pose/simplepose_resneta50b_coco.tflite,https://github.com/tucan9389/PoseEstimation-TFLiteSwift/releases/download/v1.1.0/simplepose_resneta50b_coco.tflite

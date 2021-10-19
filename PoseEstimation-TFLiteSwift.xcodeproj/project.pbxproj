@@ -24,13 +24,6 @@
 		712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FCE2426690A00B043F9 /* pefm_cpm.tflite */; };
 		712A7FD12426691B00B043F9 /* PEFMCPMPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */; };
 		712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */; };
-		713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */; };
-		713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */; };
-		713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */; };
-		713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */; };
-		713A0481247905AC00F90C77 /* simplepose_resneta50b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */; };
-		713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */; };
-		713A0485247905AC00F90C77 /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */; };
 		713A04882479071D00F90C77 /* IMGCLSPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */; };
 		71A1BC1624793BC5004EA5D9 /* Argmax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1BC1524793BC5004EA5D9 /* Argmax.swift */; };
 		71A1ED1F24527D55001F796C /* PoseConfidenceMapDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */; };
@@ -46,6 +39,9 @@
 		C440682D267B971700D61B4F /* lightweight_baseline_choi.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite */; };
 		C44E90E5260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44E90E4260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift */; };
 		C4543D0225FC7054006528DB /* LiteBaseline3DPoseEstimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */; };
+		C4563E53271E450A00607237 /* download_models.sh in Resources */ = {isa = PBXBuildFile; fileRef = C4563E52271E450A00607237 /* download_models.sh */; };
+		C4563E56271E4A1C00607237 /* tflite_models.csv in Resources */ = {isa = PBXBuildFile; fileRef = C4563E55271E4A1C00607237 /* tflite_models.csv */; };
+		C4563E58271E4D6200607237 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C4563E57271E4D6100607237 /* .gitignore */; };
 		C47905D125FBEB5700DE206E /* Pose3DSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */; };
 		C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */; };
 		C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */ = {isa = PBXBuildFile; fileRef = C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */; };
@@ -97,13 +93,6 @@
 		712A7FCE2426690A00B043F9 /* pefm_cpm.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_cpm.tflite; sourceTree = "<group>"; };
 		712A7FD02426691B00B043F9 /* PEFMCPMPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEFMCPMPoseEstimator.swift; sourceTree = "<group>"; };
 		712A7FD224266EC700B043F9 /* pefm_hourglass_v1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = pefm_hourglass_v1.tflite; sourceTree = "<group>"; };
-		713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet50b_coco.tflite; sourceTree = "<group>"; };
-		713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet152b_coco.tflite; sourceTree = "<group>"; };
-		713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet101b_coco.tflite; sourceTree = "<group>"; };
-		713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
-		713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta50b_coco.tflite; sourceTree = "<group>"; };
-		713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta101b_coco.tflite; sourceTree = "<group>"; };
-		713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
 		713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMGCLSPoseEstimator.swift; sourceTree = "<group>"; };
 		71A1BC1524793BC5004EA5D9 /* Argmax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Argmax.swift; sourceTree = "<group>"; };
 		71A1ED1E24527D55001F796C /* PoseConfidenceMapDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoseConfidenceMapDrawingView.swift; sourceTree = "<group>"; };
@@ -120,6 +109,9 @@
 		C440682C267B971700D61B4F /* lightweight_baseline_choi.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = lightweight_baseline_choi.tflite; sourceTree = "<group>"; };
 		C44E90E4260D32F500B843AB /* Live3DRenderingAndCapturingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live3DRenderingAndCapturingViewController.swift; sourceTree = "<group>"; };
 		C4543D0125FC7054006528DB /* LiteBaseline3DPoseEstimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiteBaseline3DPoseEstimator.swift; sourceTree = "<group>"; };
+		C4563E52271E450A00607237 /* download_models.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = download_models.sh; sourceTree = "<group>"; };
+		C4563E55271E4A1C00607237 /* tflite_models.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = tflite_models.csv; sourceTree = "<group>"; };
+		C4563E57271E4D6100607237 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		C47905D025FBEB5700DE206E /* Pose3DSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pose3DSceneView.swift; sourceTree = "<group>"; };
 		C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resneta152b_coco.tflite; sourceTree = "<group>"; };
 		C4A4C6F225CB38F000EDF20A /* simplepose_resnet18_coco.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = simplepose_resnet18_coco.tflite; sourceTree = "<group>"; };
@@ -150,8 +142,10 @@
 		7105C909241CE9B5001A4325 = {
 			isa = PBXGroup;
 			children = (
+				C4563E57271E4D6100607237 /* .gitignore */,
 				71A1ED42245971AC001F796C /* LICENSE */,
 				71E8D93A243CC5320081DD6E /* README.md */,
+				C4563E51271E44F200607237 /* RunScripts */,
 				7105C914241CE9B5001A4325 /* PoseEstimation-TFLiteSwift */,
 				7105C913241CE9B5001A4325 /* Products */,
 				C0C61619494007101B3B8411 /* Pods */,
@@ -282,13 +276,6 @@
 				C4A4C6F425CB38F000EDF20A /* simplepose_resneta101b_coco.tflite */,
 				C4A4C6F125CB38F000EDF20A /* simplepose_resneta152b_coco.tflite */,
 				C4A4C6FE25CB391600EDF20A /* simplepose_resneta50b_coco.tflite */,
-				713A0477247905AB00F90C77 /* simplepose_resnet18_coco.tflite */,
-				713A046C2479057300F90C77 /* simplepose_resnet50b_coco.tflite */,
-				713A04712479059200F90C77 /* simplepose_resnet101b_coco.tflite */,
-				713A046F2479058600F90C77 /* simplepose_resnet152b_coco.tflite */,
-				713A0473247905A000F90C77 /* simplepose_resneta50b_coco.tflite */,
-				713A0474247905A700F90C77 /* simplepose_resneta101b_coco.tflite */,
-				713A04722479059B00F90C77 /* simplepose_resneta152b_coco.tflite */,
 				713A04872479071D00F90C77 /* IMGCLSPoseEstimator.swift */,
 			);
 			path = "imgclsmob-Pose";
@@ -320,6 +307,15 @@
 			path = LiteBaseline3DPose;
 			sourceTree = "<group>";
 		};
+		C4563E51271E44F200607237 /* RunScripts */ = {
+			isa = PBXGroup;
+			children = (
+				C4563E52271E450A00607237 /* download_models.sh */,
+				C4563E55271E4A1C00607237 /* tflite_models.csv */,
+			);
+			path = RunScripts;
+			sourceTree = "<group>";
+		};
 		C4A4C70325CC5A4100EDF20A /* Baseline3DPose */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +333,7 @@
 			buildConfigurationList = 7105C926241CE9B7001A4325 /* Build configuration list for PBXNativeTarget "PoseEstimation-TFLiteSwift" */;
 			buildPhases = (
 				22E51E167A01DE22E13F8D47 /* [CP] Check Pods Manifest.lock */,
+				C4563E54271E452500607237 /* Download TFLite Models */,
 				7105C90E241CE9B5001A4325 /* Sources */,
 				7105C90F241CE9B5001A4325 /* Frameworks */,
 				7105C910241CE9B5001A4325 /* Resources */,
@@ -392,30 +389,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				712A7FD324266EC700B043F9 /* pefm_hourglass_v1.tflite in Resources */,
-				713A047D247905AC00F90C77 /* simplepose_resnet152b_coco.tflite in Resources */,
-				713A0481247905AC00F90C77 /* simplepose_resneta50b_coco.tflite in Resources */,
 				C4A4C70825CC5AD100EDF20A /* baseline_moon_noS.tflite in Resources */,
 				7105C922241CE9B7001A4325 /* LaunchScreen.storyboard in Resources */,
-				713A047A247905AC00F90C77 /* simplepose_resnet50b_coco.tflite in Resources */,
 				7105C91F241CE9B7001A4325 /* Assets.xcassets in Resources */,
+				C4563E58271E4D6200607237 /* .gitignore in Resources */,
 				712A7FCF2426690A00B043F9 /* pefm_cpm.tflite in Resources */,
 				71A1ED43245971AC001F796C /* LICENSE in Resources */,
 				71E8D9172438BAC10081DD6E /* openpose_ildoonet.tflite in Resources */,
-				713A0480247905AC00F90C77 /* simplepose_resneta152b_coco.tflite in Resources */,
 				7105C91D241CE9B6001A4325 /* Main.storyboard in Resources */,
 				C4A4C6FC25CB38F000EDF20A /* simplepose_resnet50b_coco.tflite in Resources */,
 				C4A4C6FB25CB38F000EDF20A /* simplepose_resnet101b_coco.tflite in Resources */,
 				C440682D267B971700D61B4F /* lightweight_baseline_choi.tflite in Resources */,
 				71E8D93B243CC5330081DD6E /* README.md in Resources */,
-				713A0482247905AC00F90C77 /* simplepose_resneta101b_coco.tflite in Resources */,
 				C4A4C6F725CB38F000EDF20A /* simplepose_resneta152b_coco.tflite in Resources */,
 				C4A4C6FA25CB38F000EDF20A /* simplepose_resneta101b_coco.tflite in Resources */,
-				713A0485247905AC00F90C77 /* simplepose_resnet18_coco.tflite in Resources */,
-				713A047F247905AC00F90C77 /* simplepose_resnet101b_coco.tflite in Resources */,
 				712A7FCD242668FF00B043F9 /* pefm_hourglass_v2.tflite in Resources */,
 				C4A4C6FF25CB391600EDF20A /* simplepose_resneta50b_coco.tflite in Resources */,
 				7105C93A241E7624001A4325 /* posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite in Resources */,
 				C4A4C6F825CB38F000EDF20A /* simplepose_resnet18_coco.tflite in Resources */,
+				C4563E53271E450A00607237 /* download_models.sh in Resources */,
+				C4563E56271E4A1C00607237 /* tflite_models.csv in Resources */,
 				C4A4C6F925CB38F000EDF20A /* simplepose_resnet152b_coco.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,6 +454,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoseEstimation-TFLiteSwift/Pods-PoseEstimation-TFLiteSwift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C4563E54271E452500607237 /* Download TFLite Models */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Download TFLite Models";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/RunScripts/download_models.sh\"\n";
 		};
 		E3866BA4AC22EB8F7F5FFBD7 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
