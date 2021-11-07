@@ -24,7 +24,7 @@ do
   if test -f "PoseEstimation-TFLiteSwift/${TFLITE_FILE}"; then
       echo "INFO: TF Lite model already exists. Skip downloading and use the local model."
   else
-      curl --create-dirs -o "PoseEstimation-TFLiteSwift/${TFLITE_FILE}" "${MODEL_SRC}"
+      echo curl --create-dirs -o "PoseEstimation-TFLiteSwift/${TFLITE_FILE}" -L --max-redirs 5 "${MODEL_SRC}"
       echo "INFO: Downloaded TensorFlow Lite model to ${TFLITE_FILE}."
   fi
 done < <(tail -n +2 'RunScripts/tflite_models.csv')
